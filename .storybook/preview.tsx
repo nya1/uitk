@@ -1,12 +1,13 @@
-import { ToolkitProvider } from "@brandname/core";
-import type { DecoratorFn, Parameters } from "@storybook/react";
+import type { Parameters } from "@storybook/react";
 import type { GlobalTypes } from "@storybook/csf";
 import "@brandname/theme/index.css";
 // TODO: Discuss what shall we do with global css, which we currently offer a little bit in TK1
 import "@brandname/theme/global.css";
 
 import { withThemeBackground } from "./theme-switch/helpers";
-import { ResponsiveContainer } from "../stories/components/ResponsiveContainer";
+import { withResponsiveWrapper } from "docs/decorators/withResponsiveWrapper";
+import { withTestIdWrapper } from "docs/decorators/withTestIdWrapper";
+import { withToolkitProvider } from "docs/decorators/withToolkitProvider";
 
 const densities = ["touch", "low", "medium", "high"];
 const DEFAULT_DENSITY = "medium";
@@ -53,47 +54,13 @@ export const parameters: Parameters = {
       method: "alphabetical",
       order: [
         "Documentation",
-        [
-          "Introduction",
-          "*",
-          "Styles and Theming",
-          ["Introduction", "Foundation", "*"],
-        ],
-        "Released",
-        "Unreleased",
+        ["Introduction", "Foundation", "*"],
+        "Core",
+        "Icons",
+        "Lab",
       ],
     },
   },
-};
-
-const withToolkitProvider: DecoratorFn = (Story, context) => {
-  const { density, theme } = context.globals;
-  return (
-    <ToolkitProvider density={density} theme={theme}>
-      <Story {...context} />
-    </ToolkitProvider>
-  );
-};
-
-const withTestIdWrapper: DecoratorFn = (Story, context) => {
-  return (
-    // `display: inline-block` here to 'fix' the difference generated between TK1 and TK2 margin collapsed elements, e.g. h3
-    <div data-testid="preview-area" style={{ display: "inline-block" }}>
-      <Story {...context} />
-    </div>
-  );
-};
-
-const withResponsiveWrapper: DecoratorFn = (Story, context) => {
-  const { responsive } = context.globals;
-
-  return responsive === "wrap" ? (
-    <ResponsiveContainer>
-      <Story {...context} />
-    </ResponsiveContainer>
-  ) : (
-    <Story {...context} />
-  );
 };
 
 // Bottom most is outermost

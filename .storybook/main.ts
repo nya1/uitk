@@ -19,8 +19,8 @@ interface ExtendedConfig extends Omit<StorybookConfig, "core"> {
 
 const config: ExtendedConfig = {
   framework: "@storybook/react",
-  stories: ["../stories/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
-  staticDirs: ["../stories/public"],
+  stories: ["../packages/*/stories/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+  staticDirs: ["../docs/public"],
   addons: [
     "@storybook/addon-links",
     {
