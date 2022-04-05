@@ -25,6 +25,8 @@
   --uitk-animation-fade-in-back: fade-in-back var(--uitk-animation-duration) var(--uitk-animation-timing-function);
   --uitk-animation-fade-in-forward: fade-in-forward var(--uitk-animation-duration) var(--uitk-animation-timing-function);
   --uitk-animation-fade-in-center: fade-in-center var(--uitk-animation-duration) var(--uitk-animation-timing-function);
+  /* Fade out Animations */
+  --uitk-animation-fade-out-back: fade-out-back var(--uitk-animation-duration) ease-out both;
 }
 
 /*Slide keyframes */
@@ -140,5 +142,14 @@
 
   100% {
     opacity: var(--uitk-animation-opacity-end);
+  }
+}
+
+@keyframes fade-out-back {
+  0% {
+    opacity: var(--uitk-animation-opacity-end);
+  }
+  100% {
+    opacity: var(--uitk-animation-opacity-start);
   }
 }

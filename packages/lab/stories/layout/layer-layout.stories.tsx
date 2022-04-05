@@ -14,6 +14,8 @@ import {
   useIsStacked,
   StackedViewElement,
   Viewport,
+  useDelayedUnmounting,
+  State,
 } from "@brandname/lab";
 import { Button, Icon } from "@brandname/core";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
@@ -343,14 +345,13 @@ const headingStyles = {
 const stackedAtBreakpoint = Viewport.MEDIUM;
 
 const PreferencesDialog: ComponentStory<typeof LayerLayout> = (args) => {
-  const [open, setOpen] = useState(false);
-
   const [currentView, setCurrentView] = useState<StackedViewElement>("child");
 
   const [selectedTab, handleTabSelection] = useTabSelection();
 
+  const [state, show, hide] = useDelayedUnmounting();
+
   const isStacked = useIsStacked(stackedAtBreakpoint);
-  const handleClose = () => setOpen(false);
 
   const handleParent = () => {
     setCurrentView("parent");
@@ -394,8 +395,8 @@ const PreferencesDialog: ComponentStory<typeof LayerLayout> = (args) => {
     </ParentChildItem>
   );
 
-  return open ? (
-    <LayerLayout {...args} style={{ maxWidth: 640 }}>
+  return state !== State.UNMOUNTED ? (
+    <LayerLayout state={state} {...args} style={{ maxWidth: 640 }}>
       <FlexLayout alignItems="center" justifyContent="space-between">
         <FlexItem>
           {stackedChild && (
@@ -414,7 +415,7 @@ const PreferencesDialog: ComponentStory<typeof LayerLayout> = (args) => {
           )}
         </FlexItem>
         <FlexItem>
-          <Button onClick={handleClose}>
+          <Button onClick={hide}>
             <Icon size={12}>
               <CloseIcon />
             </Icon>
@@ -433,11 +434,11 @@ const PreferencesDialog: ComponentStory<typeof LayerLayout> = (args) => {
       />
 
       <FlexLayout justifyContent="flex-end" style={{ paddingTop: 16 }}>
-        <Button onClick={handleClose}>Close</Button>
+        <Button onClick={hide}>Close</Button>
       </FlexLayout>
     </LayerLayout>
   ) : (
-    <Button onClick={() => setOpen((open) => !open)}>Open Preferences</Button>
+    <Button onClick={show}>Open Preferences</Button>
   );
 };
 

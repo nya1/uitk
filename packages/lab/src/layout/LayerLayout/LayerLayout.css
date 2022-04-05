@@ -52,6 +52,10 @@
   animation: var(--uitk-animation-fade-in-center);
 }
 
+.uitkLayerLayout-center.uitkLayerLayout-exit-animation {
+  animation: var(--uitk-animation-fade-out-back);
+}
+
 .uitkLayerLayout-anchor {
   position: fixed;
   height: auto;

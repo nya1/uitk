@@ -5,6 +5,7 @@ import { makePrefixer } from "@brandname/core";
 
 import "./LayerLayout.css";
 import { Scrim, ScrimProps } from "../../scrim";
+import { State } from "./useDelayedUnmounting";
 
 export const LAYER_POSITION = [
   "center",
@@ -45,6 +46,7 @@ export interface LayerLayoutProps extends HTMLAttributes<HTMLDivElement> {
    * Props to be passed to the Scrim component.
    */
   scrimProps?: ScrimProps;
+  state?: State;
 }
 
 const withBaseName = makePrefixer("uitkLayerLayout");
@@ -62,6 +64,7 @@ export const LayerLayout = forwardRef<HTMLDivElement, LayerLayoutProps>(
       disableAnimations = false,
       scrimProps,
       style,
+      state,
       ...rest
     } = props;
 
@@ -91,6 +94,7 @@ export const LayerLayout = forwardRef<HTMLDivElement, LayerLayoutProps>(
           [withBaseName("fullScreen")]: fullScreen,
           [withBaseName(position)]: !fullScreen,
           [withBaseName("animate")]: !disableAnimations,
+          [withBaseName("exit-animation")]: state === State.UNMOUNTING,
         })}
         style={layerStyles}
         {...rest}
