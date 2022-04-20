@@ -19,6 +19,8 @@ export default {
   },
 };
 
+const data = transactions.slice(0, 500);
+
 const TextComponent: Story = (props) => {
   const { wrapperWidth, wrapperHeight } = props;
 
@@ -69,7 +71,7 @@ const TextComponent: Story = (props) => {
           </div>
         </div>
 
-        {transactions.slice(0, 500).map((item) => {
+        {data.map((item) => {
           const {
             activity_name,
             amount_paid,
@@ -83,25 +85,25 @@ const TextComponent: Story = (props) => {
           return (
             <div className="row" key={id}>
               <div className="table-cell">
-                <div>{date}</div>
+                <Text>{date}</Text>
               </div>
               <div className="table-cell">
-                <div>{amount_paid}</div>
+                <Text>{amount_paid}</Text>
               </div>
               <div className="table-cell">
-                <div>{activity_name}</div>
+                <Text>{activity_name}</Text>
               </div>
               <div className="table-cell">
-                <div>{status}</div>
+                <Text>{status}</Text>
               </div>
               <div className="table-cell">
-                <div>{reference}</div>
+                <Text>{reference}</Text>
               </div>
               <div className="table-cell">
-                <div>{name}</div>
+                <Text>{name}</Text>
               </div>
               <div className="table-cell">
-                <div>{payment_type}</div>
+                <Text>{payment_type}</Text>
               </div>
             </div>
           );
