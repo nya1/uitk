@@ -11,6 +11,7 @@ import {
   MultiSelectDropdown,
   Tooltip,
   useListItem,
+  useTooltip,
 } from "@brandname/lab";
 import { useState, FC, ChangeEvent } from "react";
 
@@ -118,12 +119,13 @@ export const CustomRowRenderer: ComponentStory<typeof Dropdown> = () => (
 
 const ListItemWithTooltip: FC<IndexedListItemProps<string>> = (props) => {
   const { item, itemProps } = useListItem<string>(props);
-
+  const { getTriggerProps, getTooltipProps } = useTooltip({
+    placement: "right",
+  });
   return (
-    <ListItemBase {...itemProps}>
-      <Tooltip placement="right" title={`I am a tooltip for ${item}`}>
-        <label style={{ width: "100%" }}>{item}</label>
-      </Tooltip>
+    <ListItemBase {...getTriggerProps<typeof ListItemBase>(itemProps)}>
+      <Tooltip {...getTooltipProps({ title: `I am a tooltip for ${item}` })} />
+      <label style={{ width: "100%" }}>{item}</label>
     </ListItemBase>
   );
 };
