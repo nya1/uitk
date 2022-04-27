@@ -91,7 +91,7 @@
   --uitkIcon-color: var(--uitk-actionable-secondary-foreground);
 }
 
-.uitkButton-secondary:hover:not(:active) {
+.uitkButton-secondary:hover:not(:active):not(.uitkButton-disabled) {
   --uitkIcon-color: var(--uitkButton-icon-color, var(--uitk-actionable-secondary-foreground-hover));
 }
 .uitkButton-secondary:active,
