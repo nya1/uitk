@@ -1,2 +1,2 @@
 # Ignore github action cache:
-.cache
+**/.cache
