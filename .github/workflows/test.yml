@@ -16,8 +16,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            $CYPRESS_CACHE_FOLDER
-          key: cypress-binary-${{ steps.cypress-ver.outputs.cypress_version }}
+            ./.cache/cypress
+          key: cypress-binary-v2-${{ steps.cypress-ver.outputs.cypress_version }}
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
