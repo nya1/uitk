@@ -6,6 +6,7 @@ import {
   CSSProperties,
   forwardRef,
   useCallback,
+  useRef,
 } from "react";
 import cx from "classnames";
 import {
@@ -13,7 +14,7 @@ import {
   useIsomorphicLayoutEffect,
   debounce,
 } from "@brandname/core";
-import { Tooltip, TooltipProps } from "@brandname/lab";
+import { Tooltip, TooltipProps, useTooltip } from "@brandname/lab";
 
 import { useForkRef } from "../utils";
 import { getComputedStyles } from "./getComputedStyles";
@@ -63,7 +64,7 @@ export interface TextProps extends HTMLAttributes<HTMLElement> {
    * Callback function triggered when overflow state changes.
    * @params [boolean] isOverflowed
    */
-  onOverflow?: (isOverflowed: boolean) => unknown;
+  onOverflowChange?: (isOverflowed: boolean) => unknown;
   /**
    * Override style for margin-top
    */
@@ -85,7 +86,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
     showTooltip = true,
     truncate = true,
     expanded,
-    onOverflow,
+    onOverflowChange,
     tooltipProps,
     style,
     marginTop,
@@ -97,6 +98,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   const [element, setElement] = useState<HTMLElement>();
   const setContainerRef = useForkRef(ref, setElement);
   const [rows, setRows] = useState<number | undefined>();
+  const isOverflowedRef = useRef(false);
 
   // Overflow
   const getRows = useCallback(() => {
@@ -134,12 +136,14 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
         const rowsHeight = textRows * lineHeight;
         const isOverflowed =
           rowsHeight < offsetHeight || rowsHeight < scrollHeight;
-
-        onOverflow && onOverflow(isOverflowed);
+        if (isOverflowedRef.current !== isOverflowed) {
+          onOverflowChange && onOverflowChange(isOverflowed);
+          isOverflowedRef.current = isOverflowed;
+        }
       }
     }
     return textRows;
-  }, [element, expanded, truncate, maxRows, onOverflow]);
+  }, [element, expanded, truncate, maxRows, onOverflowChange]);
 
   // Observers
   useIsomorphicLayoutEffect(() => {
@@ -182,41 +186,43 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   const hasTooltip =
     element && rows && truncate && showTooltip && expanded === undefined;
 
-  // Rendering
-  const Component: ElementType = elementType;
-  const content = (
-    <Component
-      className={cx(withBaseName(), className, {
-        [withBaseName("lineClamp")]: rows && !expanded,
-        [withBaseName("overflow")]: !truncate,
-      })}
-      {...restProps}
-      tabIndex={hasTooltip ? 0 : -1}
-      ref={setContainerRef}
-      style={{
-        marginTop,
-        marginBottom,
-        ...style,
-        "--text-max-rows": rows,
-      }}
-    >
-      {children}
-    </Component>
-  );
+  const { getTooltipProps, getTriggerProps } = useTooltip({
+    enterDelay: TOOLTIP_DELAY,
+    placement: "top",
+    disableFocusListener: !hasTooltip,
+    disableHoverListener: !hasTooltip,
+  });
 
+  const { ref: triggerRef, ...triggerProps } = getTriggerProps({
+    className: cx(withBaseName(), className, {
+      [withBaseName("lineClamp")]: rows && !expanded,
+      [withBaseName("overflow")]: !truncate,
+    }),
+    // @ts-ignore
+    "aria-disabled": hasTooltip,
+    tabIndex: hasTooltip ? 0 : -1,
+    style: {
+      marginTop,
+      marginBottom,
+      ...style,
+      // @ts-ignore
+      "--text-max-rows": rows,
+    },
+    ...restProps,
+  });
+
+  const handleRef = useForkRef(triggerRef, setContainerRef);
   const tooltipTitle =
     typeof children === "string" ? children : element?.textContent || "";
 
-  return hasTooltip ? (
-    <Tooltip
-      enterNextDelay={TOOLTIP_DELAY}
-      placement="top"
-      title={tooltipTitle}
-      {...tooltipProps}
-    >
-      {content}
-    </Tooltip>
-  ) : (
-    content
+  const Component: ElementType = elementType;
+
+  return (
+    <>
+      <Tooltip {...getTooltipProps({ title: tooltipTitle, ...tooltipProps })} />
+      <Component ref={handleRef} {...triggerProps}>
+        {children}
+      </Component>
+    </>
   );
 });
