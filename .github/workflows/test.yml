@@ -1,5 +1,7 @@
 name: "Test"
 on: push
+env:
+  CYPRESS_CACHE_FOLDER: cache/cypress
 
 jobs:
   lint:
@@ -7,11 +9,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cache built node dependencies
-        uses: actions/cache@v3
+      - name: Get current Cypress version
+        id: cypress-ver
+        run: echo ::set-output name=cypress_version::$(yarn info cypress -A --name-only)
+      - name: Cache Cypress
+        uses: actions/cache@v2
         with:
-          path: ~/.cache
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+          path: cache/cypress
+          key: cypress-${{ steps.cypress-ver.outputs.cypress_version }}
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
