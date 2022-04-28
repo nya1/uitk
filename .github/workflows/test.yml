@@ -1,7 +1,7 @@
 name: "Test"
 on: push
 env:
-  CYPRESS_CACHE_FOLDER: cache/cypress
+  CYPRESS_CACHE_FOLDER: .cache/cypress
 
 jobs:
   lint:
