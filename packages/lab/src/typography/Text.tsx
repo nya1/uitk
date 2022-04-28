@@ -189,8 +189,7 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   const { getTooltipProps, getTriggerProps } = useTooltip({
     enterDelay: TOOLTIP_DELAY,
     placement: "top",
-    disableFocusListener: !hasTooltip,
-    disableHoverListener: !hasTooltip,
+    disabled: !hasTooltip,
   });
 
   const { ref: triggerRef, ...triggerProps } = getTriggerProps({
