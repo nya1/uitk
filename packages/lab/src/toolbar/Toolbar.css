@@ -5,7 +5,7 @@
 }
 
 .uitkToolbar [data-activation-indicator] {
-  --uitkFormActivationIndicator-size: 1px;
+  --uitkFormActivationIndicator-width: 1px;
 }
 
 .uitkToolbar {
