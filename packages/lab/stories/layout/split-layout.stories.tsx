@@ -8,38 +8,33 @@ export default {
   title: "Layout/SplitLayout",
   component: SplitLayout,
 } as ComponentMeta<typeof SplitLayout>;
+const leftItem = (
+  <>
+    {Array.from({ length: 3 }, (_, index) => (
+      <FlexContent key={index}>{`item ${index + 1}`}</FlexContent>
+    ))}
+  </>
+);
+
+const rightItem = (
+  <>
+    <FlexContent>item 4</FlexContent>
+    <FlexContent>
+      Item
+      <br />5
+    </FlexContent>
+  </>
+);
 
 const Template: ComponentStory<typeof SplitLayout> = (args) => {
-  const LeftItem = () => {
-    return (
-      <>
-        {Array.from({ length: 3 }, (_, index) => (
-          <FlexContent key={index}>{`item ${index + 1}`}</FlexContent>
-        ))}
-      </>
-    );
-  };
-  const RightItem = () => {
-    return (
-      <>
-        <FlexContent>item 4</FlexContent>
-        <FlexContent>
-          Item
-          <br />5
-        </FlexContent>
-      </>
-    );
-  };
-
-  return (
-    <SplitLayout
-      {...args}
-      leftSplitItem={<LeftItem />}
-      rightSplitItem={<RightItem />}
-    />
-  );
+  return <SplitLayout {...args} />;
 };
 export const ToolkitSplitLayout = Template.bind({});
+
+ToolkitSplitLayout.args = {
+  leftSplitItem: leftItem,
+  rightSplitItem: rightItem,
+};
 
 ToolkitSplitLayout.argTypes = {
   align: {
