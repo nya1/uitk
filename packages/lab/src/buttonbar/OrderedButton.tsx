@@ -1,12 +1,17 @@
 import { forwardRef, useContext } from "react";
 import cn from "classnames";
 
-import { Button, ButtonProps, makePrefixer } from "@jpmorganchase/uitk-core";
+import {
+  Button,
+  ButtonProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import { ButtonBarContext } from "./internal/ButtonBarContext";
 import { useDescendant } from "./internal/useDescendant";
 import { capitalize } from "../utils";
 
-import "./OrderedButton.css";
+import style from "./OrderedButton.css";
 
 export interface OrderedButtonProps extends ButtonProps {
   /**
@@ -62,6 +67,8 @@ export const OrderedButton = forwardRef<HTMLButtonElement, OrderedButtonProps>(
 
     const alignFromParent = index === alignedIndex ? alignContext : undefined;
     const align = alignProp || alignFromParent;
+
+    useStyleInject(style);
 
     return (
       <Button

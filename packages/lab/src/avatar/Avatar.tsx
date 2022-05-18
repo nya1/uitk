@@ -1,12 +1,12 @@
 import { forwardRef, HTMLAttributes, ImgHTMLAttributes } from "react";
 import cn from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { useId } from "../utils";
 import { useLoaded } from "./internal/useLoaded";
 import { DefaultAvatar } from "./internal/DefaultAvatar";
 import { classBase } from "./internal/constants";
 
-import "./Avatar.css";
+import style from "./Avatar.css";
 
 export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   alt?: string;
@@ -62,6 +62,8 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
   } else {
     children = <DefaultAvatar id={id} title={title} {...rest} />;
   }
+
+  useStyleInject(style);
 
   return (
     <div

@@ -1,23 +1,29 @@
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import cn from "classnames";
 import { Overlay, useOverlay } from "../overlay";
-import { Button, ButtonProps, makePrefixer } from "@jpmorganchase/uitk-core";
+import {
+  Button,
+  ButtonProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import { RefreshIcon } from "@jpmorganchase/uitk-icons";
 import { Color } from "./Color";
 import { isTransparent } from "./color-utils";
 
 import {
-  hexValueWithoutAlpha,
-  getColorNameByHexValue,
   convertColorMapValueToHex,
+  getColorNameByHexValue,
   getHexValue,
+  hexValueWithoutAlpha,
 } from "./ColorHelpers";
 import { uitkColorMap } from "./colorMap";
 import { ColorChooserTabs, DictTabs } from "./DictTabs";
 import { getColorPalettes } from "./GetColorPalettes";
 import { createTabsMapping } from "./createTabsMapping";
 
-import "./ColorChooser.css";
+import style from "./ColorChooser.css";
+import { StyleInsertion } from "../window/StyleInsertion";
 
 const withBaseName = makePrefixer("uitkColorChooser");
 
@@ -134,6 +140,8 @@ export const ColorChooser = ({
     onOpenChange: handleOpenChange,
   });
 
+  useStyleInject(style);
+
   return (
     <>
       <Button
@@ -177,6 +185,7 @@ export const ColorChooser = ({
           className: cn(withBaseName("overlayButtonClose")),
         })}
       >
+        <StyleInsertion style={style as string} />
         <div
           className={cn(withBaseName("overlayContent"))}
           data-testid="overlay-content"

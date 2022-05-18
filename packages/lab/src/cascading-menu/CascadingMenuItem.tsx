@@ -1,20 +1,20 @@
 import {
   forwardRef,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
   useRef,
   useState,
-  useEffect,
-  MouseEvent,
-  KeyboardEvent,
 } from "react";
 import classnames from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { ChevronRightIcon } from "@jpmorganchase/uitk-icons";
 
 import { MenuDescriptor } from "./CascadingMenuProps";
 import { ListItem, ListItemProps } from "../list";
 import { Tooltip, useTooltip } from "../tooltip";
 
-import "./CascadingMenuItem.css";
+import style from "./CascadingMenuItem.css";
 import { useForkRef } from "../utils";
 
 const noop = () => undefined;
@@ -146,6 +146,8 @@ export const DefaultMenuItem = forwardRef<HTMLDivElement, MenuItemProps>(
     });
 
     const handleRef = useForkRef<HTMLDivElement>(triggerRef, ref);
+
+    useStyleInject(style);
 
     return (
       <>

@@ -37,8 +37,8 @@ function moveWindowRelativeToParent(
       }
       return;
     }
-    const targetX = parseInt(left + mainBounds.x);
-    const targetY = parseInt(top + mainBounds.y);
+    const targetX = parseInt(left) + mainBounds.x;
+    const targetY = parseInt(top) + mainBounds.y;
     try {
       targetWindow.setPosition(targetX, targetY);
       // @ts-ignore
@@ -55,7 +55,7 @@ function resizeWindow(
 ) {
   if (targetWindow) {
     targetWindow.setContentSize(width, height);
-    targetWindow.setMaximumSize(width, height);
+    // targetWindow.setMaximumSize(width, height);
   }
 }
 
@@ -106,7 +106,7 @@ const createWindow = (): void => {
           frame: false,
           parent: mainWindow,
           roundedCorners: false,
-          focusable: false,
+          focusable: true,
           transparent: true,
         },
 

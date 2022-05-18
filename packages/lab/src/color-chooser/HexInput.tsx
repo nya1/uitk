@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import cn from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { Input } from "../input";
 import { isValidHex } from "./ColorHelpers";
 
-import "./HexInput.css";
+import style from "./HexInput.css";
 
 const withBaseName = makePrefixer("uitkColorChooserHexInput");
 
@@ -48,6 +48,8 @@ export const HexInput = ({
   const handleOnBlurHex = (e: React.FocusEvent<HTMLInputElement>): void => {
     isValidHex(hexInputValue) && onSubmit(hexInputValue, e);
   };
+
+  useStyleInject(style);
 
   return (
     <div className={cn(withBaseName())}>

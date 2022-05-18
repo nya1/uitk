@@ -7,10 +7,10 @@ import {
   ReactText,
 } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { MessageIcon } from "@jpmorganchase/uitk-icons";
 
-import "./Badge.css";
+import style from "./Badge.css";
 import { useId } from "../utils";
 
 /**
@@ -71,6 +71,8 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
   if (badgeContentValue > max) {
     badgeContentValue = `${max}+`;
   }
+
+  useStyleInject(style);
 
   return (
     <span

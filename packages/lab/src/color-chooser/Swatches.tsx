@@ -1,9 +1,9 @@
 import cn from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { AlphaInput } from "./AlphaInputField";
 import { Color } from "./Color";
 import { SwatchesPicker } from "./SwatchesPicker";
-import "./Swatches.css";
+import style from "./Swatches.css";
 
 const withBaseName = makePrefixer("uitkColorChooserSwatches");
 
@@ -29,33 +29,36 @@ export const Swatches = ({
   displayColorName,
   placeholder,
   onDialogClosed,
-}: SwatchesTabProps): JSX.Element => (
-  <div data-testid="swatches" className={cn(withBaseName("pickerDiv"))}>
-    <SwatchesPicker
-      allColors={allColors}
-      color={color}
-      onChange={handleColorChange}
-      alpha={alpha}
-      onDialogClosed={onDialogClosed}
-    />
-    <div className={cn(withBaseName("textDiv"))}>
-      <div>
-        <span className={cn(withBaseName("colorTextDiv"))}>Color:</span>
-        <span className={cn(withBaseName("colorNameTextDiv"))}>
-          {displayColorName ?? placeholder}
-        </span>
-      </div>
-      <div>
-        <span className={cn(withBaseName("alphaTextDiv"))}>Opacity:</span>
-        <AlphaInput
-          alphaValue={color?.rgba.a === 0 ? 0 : alpha}
-          showAsOpacity={true}
-          onSubmit={(alpha: number, e?: React.ChangeEvent): void => {
-            const newColor = color?.setAlpha(alpha);
-            handleColorChange(newColor, false, e);
-          }}
-        />
+}: SwatchesTabProps): JSX.Element => {
+  useStyleInject(style);
+  return (
+    <div data-testid="swatches" className={cn(withBaseName("pickerDiv"))}>
+      <SwatchesPicker
+        allColors={allColors}
+        color={color}
+        onChange={handleColorChange}
+        alpha={alpha}
+        onDialogClosed={onDialogClosed}
+      />
+      <div className={cn(withBaseName("textDiv"))}>
+        <div>
+          <span className={cn(withBaseName("colorTextDiv"))}>Color:</span>
+          <span className={cn(withBaseName("colorNameTextDiv"))}>
+            {displayColorName ?? placeholder}
+          </span>
+        </div>
+        <div>
+          <span className={cn(withBaseName("alphaTextDiv"))}>Opacity:</span>
+          <AlphaInput
+            alphaValue={color?.rgba.a === 0 ? 0 : alpha}
+            showAsOpacity={true}
+            onSubmit={(alpha: number, e?: React.ChangeEvent): void => {
+              const newColor = color?.setAlpha(alpha);
+              handleColorChange(newColor, false, e);
+            }}
+          />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

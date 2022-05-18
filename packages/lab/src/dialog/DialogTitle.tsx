@@ -1,12 +1,12 @@
 import { forwardRef, HTMLAttributes, SyntheticEvent, useContext } from "react";
 import classnames from "classnames";
-import { Button, makePrefixer } from "@jpmorganchase/uitk-core";
+import { Button, makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { CloseIcon } from "@jpmorganchase/uitk-icons";
 
 import { StateIcon } from "./internal/StateIcon";
 import { DialogContext } from "./internal/DialogContext";
 
-import "./DialogTitle.css";
+import style from "./DialogTitle.css";
 
 export interface DialogTitleProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -22,6 +22,8 @@ export const DialogTitle = forwardRef<HTMLDivElement, DialogTitleProps>(
   function DialogTitle(props, ref) {
     const { children, className, onClose, ...rest } = props;
     const { state, dialogId } = useContext(DialogContext);
+
+    useStyleInject(style);
 
     return (
       <div

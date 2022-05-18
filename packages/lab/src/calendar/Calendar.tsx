@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import classnames from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import {
   CalendarNavigation,
   CalendarNavigationProps,
@@ -13,7 +13,7 @@ import {
 import { CalendarContext } from "./internal/CalendarContext";
 import { useCalendar, useCalendarProps } from "./useCalendar";
 
-import "./Calendar.css";
+import style from "./Calendar.css";
 
 export type CalendarProps = useCalendarProps & {
   className?: string;
@@ -36,6 +36,8 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     } = props;
 
     const { state, helpers } = useCalendar({ ...rest });
+
+    useStyleInject(style);
 
     return (
       <CalendarContext.Provider

@@ -1,12 +1,12 @@
-import { SketchPicker, ColorResult } from "react-color";
+import { ColorResult, SketchPicker } from "react-color";
 import cn from "classnames";
-import { Button, makePrefixer } from "@jpmorganchase/uitk-core";
+import { Button, makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { Color, RGBAValue } from "./Color";
 import { hexValueWithoutAlpha } from "./ColorHelpers";
 import { HexInput } from "./HexInput";
 import { RGBAInput } from "./RGBAInput";
 
-import "./ColorPicker.css";
+import style from "./ColorPicker.css";
 
 const withBaseName = makePrefixer("uitkColorChooserPicker");
 
@@ -73,6 +73,8 @@ export const ColorPicker = ({
     onChange(color, true);
     onDialogClosed();
   };
+
+  useStyleInject(style);
 
   return (
     <div

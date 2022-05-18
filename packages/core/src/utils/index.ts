@@ -4,3 +4,5 @@ export * from "./makePrefixer";
 export * from "./polymorphicRef";
 export * from "./useIsomorphicLayoutEffect";
 export * from "./createIcon";
+export * from "./useStyleInject";
+export * from "./styleInjectWithContext";

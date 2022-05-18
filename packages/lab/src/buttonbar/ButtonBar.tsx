@@ -1,18 +1,22 @@
 import {
-  forwardRef,
   Children,
-  useMemo,
+  forwardRef,
   HTMLAttributes,
   ReactNode,
+  useMemo,
 } from "react";
 import cn from "classnames";
 
 import { ButtonBarContext } from "./internal/ButtonBarContext";
 import { DescendantProvider } from "./internal/DescendantContext";
 import { useDescendants } from "./internal/useDescendants";
-import { makePrefixer, ButtonVariant } from "@jpmorganchase/uitk-core";
+import {
+  ButtonVariant,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 
-import "./ButtonBar.css";
+import style from "./ButtonBar.css";
 
 export type PartialRecord<K extends keyof any, T> = Partial<Record<K, T>>;
 
@@ -250,6 +254,8 @@ export const ButtonBar = forwardRef<HTMLDivElement, ButtonBarProps>(
       }),
       [matches, secondaryChildAlignment.align, secondaryChildAlignment.index]
     );
+
+    useStyleInject(style);
 
     return (
       <ButtonBarContext.Provider value={buttonBarContextValue}>

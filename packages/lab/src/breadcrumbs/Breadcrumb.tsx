@@ -1,12 +1,16 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from "react";
 import classnames from "classnames";
-import { makePrefixer, IconProps } from "@jpmorganchase/uitk-core";
+import {
+  IconProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import { Tooltip, TooltipProps, useTooltip } from "../tooltip";
 import { DefaultCurrentBreadcrumb } from "./internal/DefaultCurrentBreadcrumb";
 import { useForkRef, useOverflowDetection } from "../utils";
 import { Link } from "../link";
 import { useBreadcrumbsContext } from "./internal/BreadcrumbsContext";
-import "./Breadcrumb.css";
+import style from "./Breadcrumb.css";
 
 const withBaseName = makePrefixer("uitkBreadcrumb");
 
@@ -107,6 +111,8 @@ export const Breadcrumb = forwardRef<HTMLLIElement, BreadcrumbProps>(
     });
 
     const handleRef = useForkRef(triggerRef, ref);
+
+    useStyleInject(style);
 
     return (
       <>

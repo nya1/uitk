@@ -34,6 +34,11 @@ export interface ToolkitContextProps {
   breakpoints: Breakpoints;
 }
 
+export interface DocumentContextProps {
+  currentDocument?: Document;
+}
+
+
 const DEFAULT_THEME_NAME = "light";
 
 declare global {
@@ -47,6 +52,10 @@ declare global {
     }
   }
 }
+
+export const DocumentContext = createContext<DocumentContextProps>({
+  currentDocument: undefined,
+});
 
 export const ToolkitContext = createContext<ToolkitContextProps>({
   density: undefined,
@@ -98,6 +107,7 @@ interface ToolkitProviderThatAppliesClassesToChild {
   theme?: ThemeNameType;
   applyClassesToChild?: true;
   breakpoints?: Breakpoints;
+  currentDocument?: Document;
 }
 
 type ThemeNameType = string | Array<string>;
@@ -107,6 +117,7 @@ interface ToolkitProviderThatInjectsThemeElement {
   theme?: ThemeNameType;
   applyClassesToChild?: false;
   breakpoints?: Breakpoints;
+  currentDocument?: Document;
 }
 
 type toolkitProvider =
@@ -132,9 +143,12 @@ export const ToolkitProvider: FC<toolkitProvider> = ({
   density: densityProp,
   theme: themesProp,
   breakpoints: breakpointsProp,
+  currentDocument: currentDocumentProp
 }) => {
   const { themes: inheritedThemes, density: inheritedDensity } =
     useContext(ToolkitContext);
+
+  const { currentDocument: inheritedDocument } = useContext(DocumentContext);
 
   const isRoot =
     inheritedThemes === undefined ||
@@ -143,6 +157,7 @@ export const ToolkitProvider: FC<toolkitProvider> = ({
   const themeName = getThemeName(themesProp, inheritedThemes);
   const themes: Theme[] = getTheme(themeName);
   const breakpoints = breakpointsProp ?? DEFAULT_BREAKPOINTS;
+  const currentDocument = currentDocumentProp || inheritedDocument;
 
   const themedChildren = createThemedChildren(
     children,
@@ -153,7 +168,9 @@ export const ToolkitProvider: FC<toolkitProvider> = ({
 
   const toolkitProvider = (
     <ToolkitContext.Provider value={{ density, themes, breakpoints }}>
-      <ViewportProvider>{themedChildren}</ViewportProvider>
+      <DocumentContext.Provider value={{ currentDocument }}>
+        {themedChildren}
+      </DocumentContext.Provider>
     </ToolkitContext.Provider>
   );
 
@@ -181,6 +198,11 @@ export const useBreakpoints = () => {
   const { breakpoints } = useContext(ToolkitContext);
   return breakpoints;
 };
+
+export function useCurrentDocument(): Document | undefined {
+  const { currentDocument } = useContext(DocumentContext);
+  return currentDocument;
+}
 
 type HTMLElementRef = RefObject<HTMLElement>;
 // We might want to cache values in a local WeakMap ?

@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, forwardRef } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import "./Card.css";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
+import style from "./Card.css";
 
 const withBaseName = makePrefixer("uitkCard");
 
@@ -26,6 +26,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   ref
 ) {
   const { className, disabled, interactable, children, ...rest } = props;
+
+  useStyleInject(style);
 
   return (
     <div

@@ -1,9 +1,9 @@
 import cx from "classnames";
 import { Toolbar } from "../toolbar";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { MenuIcon } from "@jpmorganchase/uitk-icons";
 
-import "./AppHeader.css";
+import style from "./AppHeader.css";
 import { forwardRef, HTMLAttributes } from "react";
 
 const withBaseName = makePrefixer("uitkAppHeader");
@@ -16,6 +16,8 @@ export const AppHeader = forwardRef<HTMLDivElement, AppHeaderProps>(
     //   "horizontal",
     //   null
     // );
+
+    useStyleInject(style);
 
     return (
       <Toolbar

@@ -1,14 +1,14 @@
 import {
+  cloneElement,
   forwardRef,
   HTMLAttributes,
-  cloneElement,
   isValidElement,
   SVGAttributes,
 } from "react";
 import cx from "classnames";
-import { makePrefixer } from "../utils";
+import { makePrefixer, useStyleInject } from "../utils";
 
-import "./Icon.css";
+import baseStyle from "./Icon.css";
 
 const ICON_NAMED_SIZES = ["small", "medium", "large"] as const;
 
@@ -46,6 +46,8 @@ export const Icon = forwardRef<HTMLSpanElement, IconProps>(function Icon(
         ...styleProp,
         "--uitkIcon-size": `${sizeProp}px`,
       };
+
+  useStyleInject(baseStyle);
 
   return (
     <span

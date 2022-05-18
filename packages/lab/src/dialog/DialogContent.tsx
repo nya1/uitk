@@ -1,9 +1,9 @@
 import { forwardRef, HTMLAttributes, useContext } from "react";
 import classnames from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { DialogContext } from "./internal/DialogContext";
 import { useForkRef } from "../utils";
-import "./DialogContent.css";
+import style from "./DialogContent.css";
 
 export interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -15,6 +15,8 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
     const { state, dialogId, setContentElement } = useContext(DialogContext);
 
     const handleRef = useForkRef(ref, setContentElement);
+
+    useStyleInject(style);
 
     return (
       <div

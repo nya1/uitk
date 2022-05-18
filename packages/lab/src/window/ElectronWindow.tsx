@@ -8,13 +8,17 @@ import {
 } from "react";
 import ReactDOM from "react-dom";
 
-import { ToolkitProvider } from "@jpmorganchase/uitk-core";
-import { windowType, Window as ToolkitWindow } from "./WindowContext";
+import {
+  injectStyleIntoGivenDocument,
+  ToolkitProvider,
+  useTheme,
+} from "@jpmorganchase/uitk-core";
+import { Window as ToolkitWindow, windowType } from "./WindowContext";
 import { useForkRef } from "../utils";
-import { isDesktop } from "./electron-utils";
 
-import "./ElectronWindow.css";
+import styleBase from "./ElectronWindow.css";
 import { useWindowParentContext, WindowParentContext } from "./desktop-utils";
+import { isDesktop } from "./electron-utils";
 
 const Window: windowType = forwardRef(function ElectronWindow(
   { className, children, id = "dialog", open = true, style = {}, ...rest },
@@ -28,6 +32,12 @@ const Window: windowType = forwardRef(function ElectronWindow(
 
   const forkedRef = useForkRef(forwardedRef, windowRoot);
 
+  const themes = new Set();
+
+  for (const theme of useTheme()) {
+    themes.add(theme.id);
+  }
+
   if (!mountNode) {
     const win = window.open("", id);
     (win as Window).document.write(
@@ -35,12 +45,20 @@ const Window: windowType = forwardRef(function ElectronWindow(
       `<html lang="en"><head><title>${id}</title><base href="${location.origin}"><style>body {margin: 0;}</style></head><body></body></html>`
     );
     document.head.querySelectorAll("style").forEach((htmlElement) => {
-      (win as Window).document.head.appendChild(htmlElement.cloneNode(true));
+      if (
+        Array.from(themes).some((v) =>
+          // @ts-ignore
+          htmlElement.textContent.includes(v)
+        )
+      )
+        (win as Window).document.head.appendChild(htmlElement.cloneNode(true));
     });
     const bodyElement = (win as Window).document.body;
     setMountNode(bodyElement);
     setWindowRef(win);
   }
+
+  injectStyleIntoGivenDocument(styleBase, windowRef?.document);
 
   const parentWindow = useWindowParentContext();
 
@@ -70,7 +88,7 @@ const Window: windowType = forwardRef(function ElectronWindow(
           });
         }
       }
-    }, 80);
+    }, 70);
   });
 
   useEffect(() => {
@@ -101,12 +119,12 @@ const Window: windowType = forwardRef(function ElectronWindow(
           top: style.top,
         });
       }
-    }, 90);
+    }, 80);
   }, [style]);
 
   return mountNode
     ? ReactDOM.createPortal(
-        <ToolkitProvider>
+        <ToolkitProvider currentDocument={windowRef?.document}>
           <WindowParentContext.Provider
             value={{
               top: (style.top as number) + parentWindow.top,

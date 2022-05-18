@@ -6,12 +6,16 @@ import React, {
 } from "react";
 import warning from "warning";
 import classnames from "classnames";
-import { makePrefixer, IconProps } from "@jpmorganchase/uitk-core";
+import {
+  IconProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import { BreadcrumbsSeparator } from "./internal/BreadcrumbsSeparator";
 import { BreadcrumbsCollapsed } from "./internal/BreadcrumbsCollapsed";
 import { BreadcrumbsContext } from "./internal/BreadcrumbsContext";
 import { BreadcrumbProps } from "./Breadcrumb";
-import "./Breadcrumbs.css";
+import style from "./Breadcrumbs.css";
 
 const iconWidth = 12;
 
@@ -146,6 +150,9 @@ export const Breadcrumbs = React.forwardRef<HTMLElement, BreadcrumbsProps>(
     const itemsToRender = shouldRenderAllItems
       ? allItems
       : renderItemsBeforeAndAfter();
+
+    useStyleInject(style);
+
     return (
       <BreadcrumbsContext.Provider value={breadcrumbsContext}>
         <nav

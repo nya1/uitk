@@ -6,9 +6,9 @@ import {
   useMemo,
   useState,
 } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { useControlled } from "../utils";
-import "./Accordion.css";
+import style from "./Accordion.css";
 import cn from "classnames";
 import { AccordionContext } from "./AccordionContext";
 
@@ -156,6 +156,8 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
         disabled,
       };
     }, [registerSection, unregisterSection, onChange, isExpanded, disabled]);
+
+    useStyleInject(style);
 
     return (
       <div className={cn(withBaseName(), className)} {...restProps} ref={ref}>

@@ -1,18 +1,19 @@
 import cn from "classnames";
 import {
+  ComponentProps,
   forwardRef,
   HTMLAttributes,
   ReactNode,
   useCallback,
-  ComponentProps,
 } from "react";
-import { makePrefixer, IconProps } from "@jpmorganchase/uitk-core";
+import { IconProps, makePrefixer } from "@jpmorganchase/uitk-core";
 
 import { getIconForState } from "./getIconForState";
 import { Portal, PortalProps } from "../portal";
 import { useWindow } from "../window";
 
-import "./Tooltip.css";
+import style from "./Tooltip.css";
+import { StyleInsertion } from "../window/StyleInsertion";
 
 // Keep in order of preference. First items are used as default
 
@@ -102,6 +103,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
           ref={ref}
           {...rest}
         >
+          <StyleInsertion style={style as string} />
           <div className={withBaseName("content")}>
             {render ? (
               render({

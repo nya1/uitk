@@ -1,11 +1,11 @@
 import { ChangeEvent } from "react";
 import cn from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { AlphaInput } from "./AlphaInputField";
 import { RGBAValue } from "./Color";
 import { RGBInput } from "./RGBAInputField";
 
-import "./RGBAInput.css";
+import style from "./RGBAInput.css";
 
 const withBaseName = makePrefixer("uitkColorChooser");
 
@@ -27,6 +27,8 @@ export const RGBAInput = ({
   onSubmitAlpha,
   onSubmitRgb,
 }: RGBAInputProps): JSX.Element => {
+  useStyleInject(style);
+
   return (
     <>
       <span className={cn(withBaseName("textDivOverrides"))}>{rgbaText}</span>

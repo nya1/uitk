@@ -1,25 +1,26 @@
 import {
-  ElementType,
-  HTMLAttributes,
-  useState,
-  ReactNode,
   CSSProperties,
+  ElementType,
   forwardRef,
+  HTMLAttributes,
+  ReactNode,
   useCallback,
   useRef,
+  useState,
 } from "react";
 import cx from "classnames";
 import {
+  debounce,
   makePrefixer,
   useIsomorphicLayoutEffect,
-  debounce,
+  useStyleInject,
 } from "@jpmorganchase/uitk-core";
 import { Tooltip, TooltipProps, useTooltip } from "../tooltip";
 
 import { useForkRef } from "../utils";
 import { getComputedStyles } from "./getComputedStyles";
 
-import "./Text.css";
+import baseStyle from "./Text.css";
 
 const withBaseName = makePrefixer("uitkText");
 
@@ -216,6 +217,8 @@ export const Text = forwardRef<HTMLElement, TextProps>(function Text(
   });
 
   const handleRef = useForkRef(triggerRef, setContainerRef);
+
+  useStyleInject(baseStyle);
 
   return (
     <>

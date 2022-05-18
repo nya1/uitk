@@ -10,9 +10,14 @@ import {
   useState,
 } from "react";
 import cx from "classnames";
-import { inferElementType, makePrefixer, polymorphicRef } from "../utils";
+import {
+  inferElementType,
+  makePrefixer,
+  polymorphicRef,
+  useStyleInject,
+} from "../utils";
 
-import "./Button.css";
+import style from "./Button.css";
 
 const withBaseName = makePrefixer("uitkButton");
 
@@ -146,6 +151,8 @@ export const Button = forwardRef(function Button<
       : Component === "button" || Component === "a"
       ? undefined
       : "button";
+
+  useStyleInject(style);
 
   return (
     <Component

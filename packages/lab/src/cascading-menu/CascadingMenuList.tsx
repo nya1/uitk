@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useState, useMemo } from "react";
+import { forwardRef, useCallback, useEffect, useMemo, useState } from "react";
 import classnames from "classnames";
 import {
   useCharacteristic,
@@ -12,18 +12,19 @@ import { refsManager } from "./internal/useRefsManager";
 import { DefaultMenuItem, MenuItemProps } from "./CascadingMenuItem";
 import { CascadingMenuAction } from "./internal/CascadingMenuAction";
 import {
-  getMaxHeight,
   getHeight,
+  getMaxHeight,
   screenBounds,
 } from "./internal/menuPositioning";
 import { stateChangeTypes } from "./stateChangeTypes";
-import { hasSubMenu, hasIcon, menuState } from "./internal/stateUtils";
+import { hasIcon, hasSubMenu, menuState } from "./internal/stateUtils";
 import { getKeyDownHandlers } from "./internal/keydownHandlers";
 import { useMouseHandlers } from "./internal/useMouseHandlers";
 
-import "./CascadingMenuList.css";
+import style from "./CascadingMenuList.css";
 import { Portal } from "../portal";
 import { useWindow } from "../window";
+import { StyleInsertion } from "../window/StyleInsertion";
 
 export interface CascadingMenuListProps {
   className?: string;
@@ -169,6 +170,7 @@ export const CascadingMenuList = forwardRef<
   const { reference, floating, x, y, strategy } = useFloatingUI({
     placement: isRoot ? rootPlacement : "right-start",
   });
+
   useIsomorphicLayoutEffect(() => {
     if (parentElement) {
       reference(
@@ -199,6 +201,7 @@ export const CascadingMenuList = forwardRef<
         }}
         ref={floating}
       >
+        <StyleInsertion style={style as string} />
         <List
           className={classnames(baseClass, className)}
           height={menuContainerHeight}

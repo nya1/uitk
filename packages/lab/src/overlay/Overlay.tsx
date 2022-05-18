@@ -1,13 +1,14 @@
 import cx from "classnames";
 import { ComponentProps, ComponentPropsWithoutRef, forwardRef } from "react";
-import { makePrefixer, Button } from "@jpmorganchase/uitk-core";
+import { Button, makePrefixer } from "@jpmorganchase/uitk-core";
 import { CloseIcon } from "@jpmorganchase/uitk-icons";
 import { UseFloatingUIProps } from "../popper";
 import { useId } from "../utils";
 
-import "./Overlay.css";
+import style from "./Overlay.css";
 import { useWindow } from "../window";
 import { Portal } from "../portal";
+import { StyleInsertion } from "../window/StyleInsertion";
 
 interface ADAExceptions {
   showClose?: boolean;
@@ -61,6 +62,7 @@ export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
           ref={ref}
           {...rest}
         >
+          <StyleInsertion style={style as string} />
           <div
             className={cx(withBaseName("content"))}
             data-testid="overlay-content"
