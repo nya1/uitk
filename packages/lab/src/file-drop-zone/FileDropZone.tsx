@@ -1,20 +1,20 @@
 import {
-  forwardRef,
-  HTMLAttributes,
-  ReactNode,
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  SyntheticEvent,
-  DragEventHandler,
   ChangeEventHandler,
   DragEvent,
+  DragEventHandler,
   FocusEvent,
+  forwardRef,
+  HTMLAttributes,
   KeyboardEvent,
+  ReactNode,
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 import cx from "classnames";
-import { makePrefixer, Button } from "@jpmorganchase/uitk-core";
+import { Button, makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { ErrorIcon, UploadIcon } from "@jpmorganchase/uitk-icons";
 
 import { useId } from "../utils";
@@ -22,7 +22,7 @@ import { useId } from "../utils";
 import { FilesValidator } from "./validators";
 import { containsFiles, extractFiles, validateFiles } from "./internal/utils";
 
-import "./FileDropZone.css";
+import style from "./FileDropZone.css";
 
 // Recommended button label by ADA review
 const buttonLabel = "Browse files";
@@ -237,6 +237,8 @@ export const FileDropZone = forwardRef<HTMLDivElement, FileDropZoneProps>(
     const buttonLabelledBy = (
       isRejected ? [buttonId, iconId, descriptionId] : [buttonId, descriptionId]
     ).join(" ");
+
+    useStyleInject(style);
 
     return (
       <div

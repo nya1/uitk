@@ -4,7 +4,8 @@ import { Portal } from "../../portal";
 import { Rect } from "./dragDropTypes";
 import { useForkRef } from "../../utils";
 
-import "./Draggable.css";
+import style from "./Draggable.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 const makeClassNames = (classNames: string) =>
   classNames.split(" ").map((className) => `uitkDraggable-${className}`);
@@ -24,6 +25,7 @@ export const Draggable = forwardRef<
   const forkedRef = useForkRef<HTMLDivElement>(forwardedRef, callbackRef);
 
   const { left, top, width, height } = rect;
+  useStyleInject(style);
 
   return (
     <Portal>

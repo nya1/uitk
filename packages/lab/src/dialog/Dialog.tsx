@@ -16,7 +16,7 @@ import { DialogContext } from "./internal/DialogContext";
 import { useId } from "../utils";
 import { State } from "./State";
 
-import styleBase from "./Dialog.css";
+import baseStyle from "./Dialog.css";
 import { StyleInsertion } from "../window/StyleInsertion";
 
 export interface DialogProps extends HTMLAttributes<HTMLDivElement> {
@@ -99,7 +99,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(function Dialog(
           aria-describedby={`${dialogId}-body`}
         >
           <Window id={id}>
-            <StyleInsertion style={styleBase} />
+            <StyleInsertion style={baseStyle as string} />
             <div
               {...rest}
               className={classnames(withBaseName(), className, {

@@ -12,13 +12,14 @@ import {
 import classnames from "classnames";
 import { useControlled } from "../utils";
 
-import "./CheckboxBase.css";
+import style from "./CheckboxBase.css";
 
 import {
-  CheckboxIcon,
   CheckboxCheckedIcon,
+  CheckboxIcon,
   CheckboxIndeterminateIcon,
 } from "./assets";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export interface CheckboxBaseProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
@@ -112,6 +113,9 @@ export const CheckboxBase = forwardRef<HTMLDivElement, CheckboxBaseProps>(
       [`${classBase}-focusVisible`]: focusVisible,
       [`${classBase}-indeterminate`]: indeterminate,
     });
+
+    useStyleInject(style);
+
     return (
       <span {...rest} className={className} ref={ref}>
         <span className={`${classBase}-label`}>

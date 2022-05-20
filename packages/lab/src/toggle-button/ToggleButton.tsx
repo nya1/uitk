@@ -4,18 +4,23 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useState,
   useRef,
+  useState,
 } from "react";
 import cx from "classnames";
-import { makePrefixer, Button, ButtonProps } from "@jpmorganchase/uitk-core";
+import {
+  Button,
+  ButtonProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 
 import { useForkRef } from "../utils";
 import { Tooltip, useTooltip } from "../tooltip";
 
 import { ToggleButtonGroupContext } from "./internal/ToggleButtonGroupContext";
 
-import "./ToggleButton.css";
+import style from "./ToggleButton.css";
 
 const withBaseName = makePrefixer("uitkToggleButton");
 
@@ -134,6 +139,8 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
       handleButtonRef
     );
     const handleRef = useForkRef(triggerRef, handleIconOnlyButtonRef);
+
+    useStyleInject(style);
 
     return (
       <>

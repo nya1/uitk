@@ -6,8 +6,8 @@ import {
   ReactNode,
 } from "react";
 import classnames from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import "./LinearProgress.css";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
+import style from "./LinearProgress.css";
 
 import { Info as DefaultInfo } from "./Info";
 
@@ -142,6 +142,8 @@ export const LinearProgress = forwardRef<HTMLDivElement, LinearProgressProps>(
       rootProps["aria-valuemax"] = 100;
       barStyle.transform = `translateX(${value - 100}%)`;
     }
+
+    useStyleInject(style);
 
     return (
       <div

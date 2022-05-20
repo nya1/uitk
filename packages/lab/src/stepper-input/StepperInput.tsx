@@ -1,6 +1,11 @@
 import React, { forwardRef, ReactNode, useRef } from "react";
 import classnames from "classnames";
-import { makePrefixer, Button, ButtonProps } from "@jpmorganchase/uitk-core";
+import {
+  Button,
+  ButtonProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import {
   RefreshIcon,
   TriangleDownIcon,
@@ -9,7 +14,7 @@ import {
 
 import { Input, InputProps } from "../input";
 import { useStepperInput } from "./useStepperInput";
-import "./StepperInput.css";
+import style from "./StepperInput.css";
 
 import { useActivationIndicatorPosition } from "./internal/useActivationIndicatorPosition";
 
@@ -117,6 +122,8 @@ export const StepperInput = forwardRef<HTMLDivElement, StepperInputProps>(
         </div>
       </div>
     );
+
+    useStyleInject(style);
 
     return (
       <div

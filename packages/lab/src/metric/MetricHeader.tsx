@@ -1,12 +1,12 @@
 import { forwardRef, HTMLAttributes } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import warning from "warning";
 
-import { useMetricContext, capitalise } from "./internal";
+import { capitalise, useMetricContext } from "./internal";
 import { Link, LinkProps } from "../link";
 
-import "./MetricHeader.css";
+import style from "./MetricHeader.css";
 
 export interface MetricHeaderProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -81,6 +81,8 @@ export const MetricHeader = forwardRef<HTMLDivElement, MetricHeaderProps>(
       }
       return <div {...props}>{subtitle}</div>;
     };
+
+    useStyleInject(style);
 
     return (
       <div

@@ -1,9 +1,9 @@
-import { ComponentType, forwardRef, ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, ComponentType, forwardRef } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 
 import { LogoTitle, LogoTitleProps } from "./internal/LogoTitle";
-import "./Logo.css";
+import style from "./Logo.css";
 
 export interface LogoProps extends ComponentPropsWithoutRef<"span"> {
   /**
@@ -50,6 +50,8 @@ export const Logo = forwardRef<HTMLSpanElement, LogoProps>(function Logo(
     TitleProps,
     ...rest
   } = props;
+
+  useStyleInject(style);
 
   // TODO check if we need ImageProps and TitleProps classNames interface.
   return (

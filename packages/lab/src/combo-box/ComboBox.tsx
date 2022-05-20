@@ -2,7 +2,7 @@ import { ComponentType, forwardRef, Ref, useRef } from "react";
 
 import classnames from "classnames";
 import warning from "warning";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 
 import {
   DefaultComboBox,
@@ -15,7 +15,7 @@ import {
 import { useFormFieldProps } from "../form-field-context";
 import { useForkRef, useId } from "../utils";
 import { useWidth } from "../list/internal/useWidth";
-import "./ComboBox.css";
+import style from "./ComboBox.css";
 
 const withBaseName = makePrefixer("uitkComboBox");
 
@@ -96,6 +96,8 @@ export const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(
     const ComboBoxComponent = (
       isMultiSelect ? MultiSelectComboBox : DefaultComboBox
     ) as ComponentType<ComboBoxProps>;
+
+    useStyleInject(style);
 
     return (
       <div

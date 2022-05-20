@@ -9,15 +9,15 @@ import {
 } from "react";
 import classnames from "classnames";
 import noScroll from "no-scroll";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import { useForkRef, ownerDocument, useId } from "../utils";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
+import { ownerDocument, useForkRef, useId } from "../utils";
 
 import { hideOthers } from "aria-hidden";
 import { FocusManager, FocusManagerProps } from "../focus-manager";
 import { ScrimContext } from "./ScrimContext";
 import { preventFocusOthers } from "./internal/PreventFocus";
 
-import "./Scrim.css";
+import style from "./Scrim.css";
 
 const scrims = new Set();
 
@@ -154,6 +154,8 @@ export const Scrim = forwardRef<HTMLDivElement, ScrimProps>(function Scrim(
   const undoSelection = useRef(noop);
   const undoTabIndex = useRef(noop);
   const scrimId = useId();
+
+  useStyleInject(style);
 
   useEffect(() => {
     if (open && !containerFix) {

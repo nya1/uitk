@@ -1,13 +1,14 @@
 import {
-  forwardRef,
   AnchorHTMLAttributes,
+  forwardRef,
   ReactNode,
   useCallback,
 } from "react";
 import cx from "classnames";
 import { TearOutIcon } from "@jpmorganchase/uitk-icons";
 
-import "./Link.css";
+import style from "./Link.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 /**
  * Links are a fundamental navigation element. When clicked, they take the user to an entirely different page.
@@ -46,6 +47,9 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
 ) {
   const stopPropagation = useCallback((evt) => evt.stopPropagation(), []);
   const clxPrefix = "uitk";
+
+  useStyleInject(style);
+
   return (
     <a
       className={cx(className, clxPrefix + "Link", {

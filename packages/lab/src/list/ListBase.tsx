@@ -1,23 +1,26 @@
 import {
-  forwardRef,
+  Children,
+  ComponentType,
   createContext,
+  ForwardedRef,
+  forwardRef,
+  HTMLAttributes,
   memo,
-  useRef,
+  ReactElement,
+  Ref,
   useContext,
   useImperativeHandle,
   useMemo,
-  ComponentType,
-  ForwardedRef,
-  HTMLAttributes,
-  // ReactNode,
-  Ref,
-  Children,
-  ReactElement,
+  useRef,
 } from "react";
 import classnames from "classnames";
-import { FixedSizeList, VariableSizeList, areEqual } from "react-window";
-import { makePrefixer, useCharacteristic } from "@jpmorganchase/uitk-core";
-import { useIsomorphicLayoutEffect } from "@jpmorganchase/uitk-core";
+import { areEqual, FixedSizeList, VariableSizeList } from "react-window";
+import {
+  makePrefixer,
+  useCharacteristic,
+  useIsomorphicLayoutEffect,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import { useForkRef, useId } from "../utils";
 import { ListItemBase } from "./ListItemBase";
 import { ListBaseProps } from "./ListProps";
@@ -30,7 +33,7 @@ import { scrollIntoView } from "./internal/scrollIntoView";
 import { calcPreferredListHeight } from "./internal/calcPreferredListHeight";
 import { itemToString as defaultItemToString } from "./itemToString";
 
-import "./List.css";
+import style from "./List.css";
 
 const withBaseName = makePrefixer("uitkList");
 
@@ -355,6 +358,8 @@ export const ListBase = forwardRef(function ListBase<Item>(
       </Listbox>
     );
   };
+
+  useStyleInject(style);
 
   // TODO It's weird that List itself isn't the root element, ListWrapper is
   // THat means if client passes style, with margin, for example, it will break;

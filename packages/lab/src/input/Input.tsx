@@ -14,12 +14,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { useControlled, useForkRef } from "../utils";
 import { useFormFieldProps } from "../form-field-context";
 import { useCursorOnFocus } from "./useCursorOnFocus";
 
-import "./Input.css";
+import baseStyle from "./Input.css";
 
 const withBaseName = makePrefixer("uitkInput");
 
@@ -219,6 +219,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 
     onMouseDown?.(event);
   };
+
+  useStyleInject(baseStyle);
 
   return (
     <div

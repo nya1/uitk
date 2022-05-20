@@ -1,19 +1,19 @@
 import {
   ChangeEvent,
+  ComponentType,
   forwardRef,
-  useRef,
   KeyboardEvent,
   SyntheticEvent,
-  ComponentType,
+  useRef,
 } from "react";
 import cx from "classnames";
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button, useStyleInject } from "@jpmorganchase/uitk-core";
 import { CloseIcon, SearchIcon } from "@jpmorganchase/uitk-icons";
 import { Input, InputProps, StaticInputAdornment } from "../input";
 
 import { useControlled, useForkRef } from "../utils";
 
-import "./SearchInput.css";
+import style from "./SearchInput.css";
 
 const baseName = "uitkSearchInput";
 
@@ -89,6 +89,8 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
       onKeyUp?.(event);
     };
+
+    useStyleInject(style);
 
     return (
       <Input

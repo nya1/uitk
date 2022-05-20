@@ -5,7 +5,8 @@ import { createChainedFunction } from "../utils";
 import { CheckboxBase, CheckboxBaseProps } from "./CheckboxBase";
 import { CheckboxGroupContext } from "./internal/CheckboxGroupContext";
 
-import "./Checkbox.css";
+import style from "./Checkbox.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export interface CheckboxProps extends CheckboxBaseProps {
   label?: ControlLabelProps["label"];
@@ -47,6 +48,8 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
 
       defaultChecked = undefined;
     }
+
+    useStyleInject(style);
 
     return (
       <div

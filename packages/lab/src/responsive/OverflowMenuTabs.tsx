@@ -1,12 +1,12 @@
 import { forwardRef } from "react";
 import cx from "classnames";
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button, useStyleInject } from "@jpmorganchase/uitk-core";
 import { OverflowMenuIcon } from "@jpmorganchase/uitk-icons";
 import { ListSingleSelectionVariant } from "../list";
 import { Dropdown, DropdownProps } from "../dropdown";
 import { ManagedItem } from "./overflowTypes";
 
-import "./OverflowMenuTabs.css";
+import style from "./OverflowMenuTabs.css";
 
 const classBase = "uitkOverflowMenu";
 
@@ -30,6 +30,7 @@ export const OverflowMenuTabs = forwardRef<
   },
   ref
 ) {
+  useStyleInject(style);
   return source.length > 0 ? (
     <Dropdown<ManagedItem, ListSingleSelectionVariant>
       {...rest}

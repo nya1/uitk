@@ -10,7 +10,8 @@ import { useControlled } from "../utils";
 import { FormGroup, FormGroupProps } from "../form-group";
 import { CheckboxGroupContext } from "./internal/CheckboxGroupContext";
 
-import "./CheckboxGroup.css";
+import style from "./CheckboxGroup.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export interface CheckboxGroupProps extends FormGroupProps {
   /**
@@ -82,6 +83,8 @@ export const CheckboxGroup = forwardRef<
 
     onChange?.(event);
   };
+
+  useStyleInject(style);
 
   return (
     <CheckboxGroupContext.Provider

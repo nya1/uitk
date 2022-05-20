@@ -1,6 +1,6 @@
-import "./QueryInput.css";
+import style from "./QueryInput.css";
 import { forwardRef, HTMLAttributes } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import cn from "classnames";
 
 import {
@@ -61,6 +61,8 @@ export const QueryInput = forwardRef<HTMLDivElement, QueryInputProps>(
       queryInputBodyProps,
       valueSelectorProps,
     } = useQueryInput(props, externalRef);
+
+    useStyleInject(style);
 
     return (
       <div

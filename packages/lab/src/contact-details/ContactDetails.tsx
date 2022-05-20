@@ -1,9 +1,9 @@
 import { forwardRef, HTMLAttributes, useState } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { useForkRef } from "../utils";
 import { ContactDetailsContext, useComponentSize } from "./internal";
 import cn from "classnames";
-import "./ContactDetails.css";
+import style from "./ContactDetails.css";
 
 const withBaseName = makePrefixer("uitkContactDetails");
 
@@ -65,6 +65,8 @@ export const ContactDetails = forwardRef<HTMLDivElement, ContactDetailsProps>(
     };
 
     const showNoAvatar = !hasAvatar && !embedded && variant !== "mini";
+
+    useStyleInject(style);
 
     return (
       <ContactDetailsContext.Provider value={contextValue}>

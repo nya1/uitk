@@ -2,7 +2,8 @@
 import React, { forwardRef, LabelHTMLAttributes, ReactNode } from "react";
 import classnames from "classnames";
 
-import "./ControlLabel.css";
+import style from "./ControlLabel.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export interface ControlLabelProps
   extends LabelHTMLAttributes<HTMLLabelElement> {
@@ -18,6 +19,7 @@ export const ControlLabel = forwardRef<HTMLLabelElement, ControlLabelProps>(
     { children, className, disabled, label, labelPlacement = "left", ...other },
     ref
   ) => {
+    useStyleInject(style);
     return (
       <label
         className={classnames(

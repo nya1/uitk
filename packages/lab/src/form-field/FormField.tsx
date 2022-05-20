@@ -11,7 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 
 import { FormFieldContext } from "../form-field-context";
 import { Tooltip, useTooltip } from "../tooltip";
@@ -25,7 +25,7 @@ import { FormLabel, FormLabelProps } from "./FormLabel";
 import { NecessityIndicatorOptions } from "./NecessityIndicator";
 import { StatusIndicatorProps } from "./StatusIndicator";
 
-import "./FormField.css";
+import style from "./FormField.css";
 import { classBase } from "./constant";
 
 export type FormFieldLabelPlacement = "top" | "left";
@@ -280,6 +280,8 @@ export const FormField = forwardRef(
 
     const handleTriggerRef = useForkRef(triggerRef, rootRef);
     const handleRef = useForkRef(handleTriggerRef, ref);
+
+    useStyleInject(style);
 
     return (
       <>

@@ -1,6 +1,6 @@
-import React, { KeyboardEvent, ReactChildren, ReactElement, Ref } from "react";
+import React, { KeyboardEvent, ReactElement, Ref } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { FormField } from "../../form-field";
 import {
   isCollapsedOrCollapsing,
@@ -9,15 +9,11 @@ import {
   orientationType,
   useOverflowLayout,
 } from "..";
-import {
-  OverflowButtonProps,
-  // OverflowMenu,
-  OverflowMenuProps,
-} from "../overflow-menu";
+import { OverflowButtonProps, OverflowMenuProps } from "../overflow-menu";
 
 import { OverflowDropdown } from "./OverflowDropdown";
 
-import "./OverflowLayoutContainer.css";
+import style from "./OverflowLayoutContainer.css";
 
 const withBaseName = makePrefixer("uitkOverflowLayoutContainer");
 
@@ -86,6 +82,8 @@ export const OverflowLayoutContainer: React.FC<
   const handleKeyDown = (evt: KeyboardEvent<HTMLElement>) => {
     console.log(`[OverflowLayoutContainer] handleKeyDown`);
   };
+
+  useStyleInject(style);
 
   return (
     <div

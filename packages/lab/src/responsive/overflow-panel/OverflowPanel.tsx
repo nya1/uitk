@@ -1,11 +1,11 @@
 import React, {
   cloneElement,
   forwardRef,
-  useState,
+  ReactChild,
   useCallback,
   useEffect,
   useRef,
-  ReactChild,
+  useState,
 } from "react";
 import { ownerWindow, useEventCallback, useForkRef } from "../../utils";
 
@@ -19,7 +19,8 @@ import {
 } from "./menuPositioning";
 import { MenuState, OverflowPanelProps } from "./OverflowPanelProps";
 
-import "./OverflowPanel.css";
+import style from "./OverflowPanel.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 const noop = () => undefined;
 
@@ -187,6 +188,8 @@ const OverflowPanel = forwardRef<HTMLDivElement, OverflowPanelProps>(
         setIsNavigatingWithKeyboard(false);
       }
     }, [openProp, rootPlacementOffset]);
+
+    useStyleInject(style);
 
     return (
       <>

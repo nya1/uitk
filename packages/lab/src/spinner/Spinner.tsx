@@ -1,11 +1,11 @@
 import { forwardRef, HTMLAttributes, useEffect } from "react";
 import cx from "classnames";
-import { useAriaAnnouncer } from "@jpmorganchase/uitk-core";
+import { useAriaAnnouncer, useStyleInject } from "@jpmorganchase/uitk-core";
 
 import { getSvgSpinner } from "./svgSpinners";
 import { useId } from "../utils";
 
-import "./Spinner.css";
+import style from "./Spinner.css";
 
 /**
  * Spinner component, provides an indeterminate loading indicator
@@ -115,6 +115,8 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
       completionAnnouncement,
       disableAnnouncer,
     ]);
+
+    useStyleInject(style);
 
     return (
       <div

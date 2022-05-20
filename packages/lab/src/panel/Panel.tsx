@@ -1,8 +1,8 @@
 import { forwardRef, HTMLAttributes } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 
-import "./Panel.css";
+import style from "./Panel.css";
 
 /**
  * Panel component that acts as wrapper around a node
@@ -29,6 +29,8 @@ export const Panel = forwardRef<HTMLDivElement, PanelProps>(function Panel(
   { className, children, emphasis = "medium", ...restProps },
   ref
 ) {
+  useStyleInject(style);
+
   return (
     <div
       className={cx(

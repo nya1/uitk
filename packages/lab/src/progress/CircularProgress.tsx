@@ -7,11 +7,11 @@ import {
   useEffect,
 } from "react";
 import classnames from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { Info as DefaultInfo } from "./Info";
 import { Circle, LinearGradient, SIZE, ViewBox } from "./CircularProgressParts";
 import { InfoRendererProps } from "./LinearProgress";
-import "./CircularProgress.css";
+import style from "./CircularProgress.css";
 
 const MAX = 100;
 const MIN = 0;
@@ -174,6 +174,8 @@ export const CircularProgress = forwardRef<
       />
     );
   }
+
+  useStyleInject(style);
 
   return (
     <div

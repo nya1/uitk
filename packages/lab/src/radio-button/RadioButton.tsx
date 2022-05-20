@@ -1,10 +1,10 @@
 import { ChangeEventHandler, FC, forwardRef, HTMLAttributes } from "react";
 import classnames from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { Radio } from "./Radio";
 import { RadioIconProps } from "./RadioIcon";
 import { ControlLabel, ControlLabelProps } from "../control-label";
-import "./RadioButton.css";
+import style from "./RadioButton.css";
 
 const withBaseName = makePrefixer("uitkRadioButton");
 
@@ -40,6 +40,8 @@ export const RadioButton = forwardRef<HTMLLabelElement, RadioButtonProps>(
       onChange,
       ...rest
     } = props;
+
+    useStyleInject(style);
 
     return (
       <div className={classnames(withBaseName())}>

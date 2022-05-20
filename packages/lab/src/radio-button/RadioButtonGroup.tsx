@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import classnames from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { useFormFieldProps } from "../form-field-context";
 import { useId } from "../utils";
 import { FormLabel } from "../form-field";
@@ -17,7 +17,7 @@ import { FormGroup } from "../form-group";
 import { RadioButton } from "./RadioButton";
 import { RadioIconProps } from "./RadioIcon";
 
-import "./RadioButtonGroup.css";
+import style from "./RadioButtonGroup.css";
 
 const withBaseName = makePrefixer("uitkRadioButtonGroup");
 
@@ -98,6 +98,8 @@ export const RadioButtonGroup = forwardRef<
   );
 
   const name = useId(nameProp);
+
+  useStyleInject(style);
 
   return (
     <fieldset

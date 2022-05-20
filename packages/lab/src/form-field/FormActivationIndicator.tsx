@@ -1,8 +1,8 @@
 import { SVGAttributes } from "react";
 import { FormFieldProps } from "./FormField";
-import { classBase } from "./constant";
 
-import "./FormActivationIndicator.css";
+import style from "./FormActivationIndicator.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 const ErrorIndicatorIcon = (props: SVGAttributes<SVGSVGElement>) => {
   return (
@@ -53,6 +53,8 @@ export const FormActivationIndicator: React.FC<
   FormActivationIndicatorProps
 > = ({ hasIcon, validationState }: FormActivationIndicatorProps) => {
   const rootClass = "uitkFormActivationIndicator";
+
+  useStyleInject(style);
 
   return (
     <>

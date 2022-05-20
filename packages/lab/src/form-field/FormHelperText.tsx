@@ -1,7 +1,8 @@
 import { ComponentPropsWithoutRef } from "react";
 import { FormFieldProps } from "./FormField";
 
-import "./FormHelperText.css";
+import style from "./FormHelperText.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export type FormHelperTextProps<E extends React.ElementType = "p"> =
   ComponentPropsWithoutRef<E> & {
@@ -14,6 +15,8 @@ export const FormHelperText = <E extends React.ElementType = "p">({
   helperTextPlacement,
   ...restProps
 }: FormHelperTextProps<E>) => {
+  useStyleInject(style);
+
   if (helperText) {
     if (helperTextPlacement === "bottom") {
       return (

@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { useEffect, useState } from "react";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { Input } from "../input";
 import { RGBAValue } from "./Color";
 
-import "./RGBAInput.css";
+import style from "./RGBAInput.css";
 
 const withBaseName = makePrefixer("uitkColorChooser");
 interface RGBInputProps {
@@ -65,6 +65,8 @@ export const RGBInput = ({
 
     onSubmit(validatedRgb, e);
   };
+
+  useStyleInject(style);
 
   return (
     <Input

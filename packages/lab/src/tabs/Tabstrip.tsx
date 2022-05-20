@@ -1,12 +1,12 @@
 import React, {
-  forwardRef,
   ForwardedRef,
+  forwardRef,
   KeyboardEvent,
   RefObject,
   useCallback,
+  useEffect,
   useRef,
   useState,
-  useEffect,
 } from "react";
 import cx from "classnames";
 import {
@@ -14,6 +14,7 @@ import {
   ButtonProps,
   makePrefixer,
   useIsomorphicLayoutEffect,
+  useStyleInject,
 } from "@jpmorganchase/uitk-core";
 import { AddIcon } from "@jpmorganchase/uitk-icons";
 import { Tab } from "./Tab";
@@ -21,9 +22,9 @@ import {
   responsiveDataAttributes,
   TabDescriptor,
   TabElement,
-  TabstripProps,
   TabProps,
   TabsSource,
+  TabstripProps,
 } from "./TabstripProps";
 import { ListProps, ListSingleSelectionVariant } from "../list";
 import { useTabstrip } from "./useTabstrip";
@@ -35,8 +36,8 @@ import {
   useOverflowLayout,
 } from "../responsive";
 
-import "./ThemeTabstrip.css";
-import "./Tabstrip.css";
+import themeStyle from "./ThemeTabstrip.css";
+import style from "./Tabstrip.css";
 
 const withBaseName = makePrefixer("uitkTabstrip");
 
@@ -415,6 +416,9 @@ export const Tabstrip = forwardRef(function Tabstrip(
         tabsHook.isDragging && allowDragDrop === "drop-indicator",
     }
   );
+
+  useStyleInject(themeStyle);
+  useStyleInject(style);
 
   return (
     <div {...rootProps} className={className} ref={setForkRef} role="tablist">

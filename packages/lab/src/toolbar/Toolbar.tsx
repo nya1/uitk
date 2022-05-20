@@ -1,10 +1,10 @@
 import React, {
   forwardRef,
-  useRef,
+  ReactElement,
   useCallback,
   useEffect,
   useMemo,
-  ReactElement,
+  useRef,
 } from "react";
 import cx from "classnames";
 import { useForkRef, useId } from "../utils";
@@ -23,7 +23,8 @@ import {
   useOverflowLayout,
 } from "../responsive";
 
-import "./Toolbar.css";
+import style from "./Toolbar.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 const classBase = "uitkToolbar";
 
@@ -198,6 +199,8 @@ const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
   const handleKeyDown = useKeyboardNavigation(visibleItems);
 
   console.log({ collapseItems });
+
+  useStyleInject(style);
 
   // const densityClass: DensityClassKey = classes?.[`${density}Density`];
   return (

@@ -1,7 +1,7 @@
 import { FC, ReactElement } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import classnames from "classnames";
-import "./RadioIcon.css";
+import style from "./RadioIcon.css";
 
 const withBaseName = makePrefixer("uitkRadioIcon");
 
@@ -13,6 +13,7 @@ export interface RadioIconProps {
  * Default radio icon
  */
 export const RadioIcon: FC<RadioIconProps> = ({ checked }) => {
+  useStyleInject(style);
   return (
     <svg
       className={classnames(withBaseName(), {

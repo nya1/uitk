@@ -1,16 +1,17 @@
 import classnames from "classnames";
 import { AriaAttributes, ComponentType, ForwardedRef, forwardRef } from "react";
 import {
-  makePrefixer,
   Button,
   ButtonProps,
   IconProps,
+  makePrefixer,
+  useStyleInject,
 } from "@jpmorganchase/uitk-core";
 import { ChevronDownIcon } from "@jpmorganchase/uitk-icons";
 
 import { useFormFieldProps } from "../form-field-context";
 
-import "./DropdownButton.css";
+import style from "./DropdownButton.css";
 
 export interface DropdownButtonProps extends ButtonProps<"div"> {
   /**
@@ -79,6 +80,8 @@ export const DropdownButton = forwardRef(function DropdownButton(
   ref: ForwardedRef<HTMLDivElement>
 ) {
   const { inFormField } = useFormFieldProps();
+
+  useStyleInject(style);
 
   return (
     <Button

@@ -7,7 +7,8 @@ import {
 import { UseTooltipProps } from "../tooltip";
 import { useTokenizedInput } from "./useTokenizedInput";
 
-import "./TokenizedInput.css";
+import style from "./TokenizedInput.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export type StringToItem<Item> = (
   selectedItems: Array<Item>,
@@ -45,6 +46,8 @@ export const TokenizedInput = forwardRef(function TokenizedInput<Item>(
   const { inputRef: inputRefProp, ...restProps } = props;
 
   const { inputRef, helpers, inputProps } = useTokenizedInput(restProps);
+
+  useStyleInject(style);
 
   return (
     <TokenizedInputBase

@@ -16,7 +16,7 @@ import {
 import { Window as ToolkitWindow, windowType } from "./WindowContext";
 import { useForkRef } from "../utils";
 
-import styleBase from "./ElectronWindow.css";
+import baseStyle from "./ElectronWindow.css";
 import { useWindowParentContext, WindowParentContext } from "./desktop-utils";
 import { isDesktop } from "./electron-utils";
 
@@ -58,7 +58,7 @@ const Window: windowType = forwardRef(function ElectronWindow(
     setWindowRef(win);
   }
 
-  injectStyleIntoGivenDocument(styleBase, windowRef?.document);
+  injectStyleIntoGivenDocument(baseStyle, windowRef?.document);
 
   const parentWindow = useWindowParentContext();
 

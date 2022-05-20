@@ -2,7 +2,8 @@ import React, { RefObject, useRef } from "react";
 import classnames from "classnames";
 import { useActivationIndicator } from "./useActivationIndicator";
 
-import "./TabActivationIndicator.css";
+import baseStyle from "./TabActivationIndicator.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 interface TabActivationIndicatorProps {
   hideBackground?: boolean;
@@ -21,6 +22,8 @@ export const TabActivationIndicator: React.FC<TabActivationIndicatorProps> = ({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const rootClass = "uitkTabActivationIndicator";
   const style = useActivationIndicator(rootRef, tabRef, orientation);
+
+  useStyleInject(baseStyle);
 
   return (
     <div

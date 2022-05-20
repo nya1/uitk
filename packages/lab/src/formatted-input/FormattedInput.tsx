@@ -3,13 +3,14 @@ import cx from "classnames";
 import { Input, InputProps } from "../input";
 import { useControlled } from "../utils";
 
-import "./FormattedInput.css";
+import style from "./FormattedInput.css";
 import { useRifm } from "rifm";
 import {
+  baseName,
   InputWithMask,
   InputWithMaskProps,
-  baseName,
 } from "./internal/InputWithMask";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export type MaskFunction = (value: string | undefined) => boolean;
 
@@ -76,6 +77,8 @@ export const FormattedInput = forwardRef<HTMLInputElement, FormattedInputProps>(
       value: valueState || "",
       onChange: handleChange,
     });
+
+    useStyleInject(style);
 
     return (
       <Input

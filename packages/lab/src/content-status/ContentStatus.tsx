@@ -1,16 +1,17 @@
 import {
-  forwardRef,
   ForwardedRef,
+  forwardRef,
   HTMLAttributes,
-  useEffect,
   MouseEvent,
   Ref,
+  useEffect,
 } from "react";
 import cx from "classnames";
 import {
   Button,
   makePrefixer,
   useAriaAnnouncer,
+  useStyleInject,
 } from "@jpmorganchase/uitk-core";
 import {
   CircularProgressProps,
@@ -19,7 +20,7 @@ import {
 } from "@jpmorganchase/uitk-lab";
 import { renderStatusIndicator } from "./internal/renderStatusIndicator";
 
-import "./ContentStatus.css";
+import style from "./ContentStatus.css";
 
 const withBaseName = makePrefixer("uitkContentStatus");
 
@@ -106,6 +107,8 @@ export const ContentStatus = forwardRef(function ContentStatus(
       announce(toBeAnnounced.join(" "));
     }
   }, [announce, children, disableAnnouncer, message, status, title]);
+
+  useStyleInject(style);
 
   return (
     <div className={cx(withBaseName(), className)} ref={ref} {...rest}>

@@ -1,9 +1,9 @@
 import React, {
-  useEffect,
-  useCallback,
-  useRef,
-  useMemo,
   ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
 } from "react";
 import cx from "classnames";
 import { FormField } from "../form-field";
@@ -15,7 +15,8 @@ import { OverflowMenu, useOverflowLayout } from "../responsive";
 import { renderTrayTools } from "./internal/renderTrayTools";
 import { ensureChildrenHaveIds } from "./internal/toolUtils";
 
-import "./Tooltray.css";
+import style from "./Tooltray.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 const Tooltray: React.FC<TooltrayProps> = (props) => {
   const {
@@ -145,6 +146,8 @@ const Tooltray: React.FC<TooltrayProps> = (props) => {
     "data-collapsed": collapsed,
     "data-collapsible": collapse,
   };
+
+  useStyleInject(style);
 
   return (
     <div {...rest} {...tooltrayProps}>

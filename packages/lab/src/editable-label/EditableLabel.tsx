@@ -2,9 +2,12 @@ import React, { ChangeEvent, KeyboardEvent, useCallback, useRef } from "react";
 import classnames from "classnames";
 import { useControlled } from "../utils";
 import { Input } from "../input";
-import { useIsomorphicLayoutEffect } from "@jpmorganchase/uitk-core";
+import {
+  useIsomorphicLayoutEffect,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 
-import "./EditableLabel.css";
+import style from "./EditableLabel.css";
 
 const classBase = "uitkEditableLabel";
 
@@ -115,6 +118,9 @@ export const EditableLabel: React.FC<EditableLabelProps> = ({
   const className = classnames(classBase, classNameProp, {
     [`${classBase}-editing`]: editing,
   });
+
+  useStyleInject(style);
+
   return (
     <div
       className={className}

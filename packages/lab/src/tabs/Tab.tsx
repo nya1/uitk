@@ -1,23 +1,28 @@
 // TODO close button needs to be a button. Hence tab needs to include 2 buttons
 import React, {
-  forwardRef,
   ForwardedRef,
+  forwardRef,
+  KeyboardEvent,
+  MouseEvent,
+  ReactElement,
+  SyntheticEvent,
   useCallback,
   useRef,
   useState,
-  MouseEvent,
-  KeyboardEvent,
-  ReactElement,
-  SyntheticEvent,
 } from "react";
 import cx from "classnames";
-import { makePrefixer, Button, ButtonProps } from "@jpmorganchase/uitk-core";
+import {
+  Button,
+  ButtonProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import { CloseIcon, CloseSmallIcon } from "@jpmorganchase/uitk-icons";
 import { TabProps } from "./TabstripProps";
 import { useForkRef } from "../utils";
 import { EditableLabel, EditableLabelProps } from "../editable-label";
 
-import "./Tab.css";
+import style from "./Tab.css";
 
 const noop = () => undefined;
 
@@ -146,6 +151,8 @@ export const Tab = forwardRef(function Tab(
       return label;
     }
   };
+
+  useStyleInject(style);
 
   return (
     <div

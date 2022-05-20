@@ -1,20 +1,20 @@
 import {
-  memo,
+  ForwardedRef,
   forwardRef,
+  HTMLAttributes,
+  memo,
   useEffect,
   useRef,
   useState,
-  ForwardedRef,
-  HTMLAttributes,
 } from "react";
 import cn from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { useForkRef, useOverflowDetection } from "../utils";
 import { Highlighter } from "./internal/Highlighter";
 
 import { useTooltip, useTooltipContext } from "../tooltip";
 
-import "./ListItem.css";
+import style from "./ListItem.css";
 
 //TODO does this need to be generic <Item?
 export interface ListItemBaseProps extends HTMLAttributes<HTMLDivElement> {
@@ -95,6 +95,8 @@ export const ListItemBase = memo(
       triggerRef,
       detectTruncation ? ref : setItemRef
     );
+
+    useStyleInject(style);
 
     return (
       <>

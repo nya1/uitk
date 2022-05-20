@@ -1,12 +1,12 @@
 import {
+  Children,
+  cloneElement,
   forwardRef,
   HTMLAttributes,
   useMemo,
-  Children,
-  cloneElement,
 } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { MetricHeader } from "./MetricHeader";
 import { MetricContent } from "./MetricContent";
 
@@ -17,7 +17,7 @@ import {
 } from "./internal";
 import { useId } from "../utils";
 
-import "./Metric.css";
+import style from "./Metric.css";
 
 export interface MetricProps
   extends MetricContextValue,
@@ -98,6 +98,8 @@ export const Metric = forwardRef<HTMLDivElement, MetricProps>(function Metric(
       : [valueId, titleId]
     ).join(" "),
   });
+
+  useStyleInject(style);
 
   return (
     <MetricContextProvider value={value}>

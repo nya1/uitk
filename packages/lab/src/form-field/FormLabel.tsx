@@ -6,8 +6,9 @@ import {
 } from "./NecessityIndicator";
 import { StatusIndicator, StatusIndicatorProps } from "./StatusIndicator";
 
-import "./FormLabel.css";
+import style from "./FormLabel.css";
 import { FormFieldValidationState } from "./FormField";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 const classBase = "uitkFormLabel";
 export interface FormLabelProps
@@ -61,30 +62,33 @@ export const FormLabel = ({
   readOnly,
   tooltipText,
   ...restProps
-}: FormLabelProps) => (
-  <label
-    className={cx(className, classBase, {
-      [`${classBase}-disabled`]: disabled,
-      [`${classBase}-readOnly`]: readOnly,
-    })}
-    {...restProps}
-  >
-    {label}
+}: FormLabelProps) => {
+  useStyleInject(style);
+  return (
+    <label
+      className={cx(className, classBase, {
+        [`${classBase}-disabled`]: disabled,
+        [`${classBase}-readOnly`]: readOnly,
+      })}
+      {...restProps}
+    >
+      {label}
 
-    <NecessityIndicator
-      required={required}
-      displayedNecessity={displayedNecessity}
-      necessityText={necessityText}
-      className={`${classBase}-necessityIndicator`}
-    />
-    {hasStatusIndicator && (
-      <StatusIndicator
-        className={`${classBase}-statusIndicator`}
-        state={validationState}
-        tooltipText={tooltipText}
-        hasTooltip
-        {...StatusIndicatorProps}
+      <NecessityIndicator
+        required={required}
+        displayedNecessity={displayedNecessity}
+        necessityText={necessityText}
+        className={`${classBase}-necessityIndicator`}
       />
-    )}
-  </label>
-);
+      {hasStatusIndicator && (
+        <StatusIndicator
+          className={`${classBase}-statusIndicator`}
+          state={validationState}
+          tooltipText={tooltipText}
+          hasTooltip
+          {...StatusIndicatorProps}
+        />
+      )}
+    </label>
+  );
+};

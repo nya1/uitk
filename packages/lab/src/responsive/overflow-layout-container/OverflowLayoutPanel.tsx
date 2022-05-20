@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { forwardRef, ReactElement } from "react";
 import cx from "classnames";
-import { makePrefixer, Button } from "@jpmorganchase/uitk-core";
+import { Button, makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 
 import { OverflowPanelItemProps } from "./OverflowPaneltemProps";
 import OverflowPanelItem from "./OverflowPanelItem";
 import { OverflowLayoutPanelProps } from "./OverflowLayoutPanelProps";
 import { Tooltray } from "../../toolbar";
 
-import "./OverflowLayoutPanel.css";
+import style from "./OverflowLayoutPanel.css";
 
 const withBaseName = makePrefixer("uitkOverflowLayoutPanel");
 
@@ -73,6 +73,8 @@ export const OverflowLayoutPanel = forwardRef<
     }
     return count;
   }, 0);
+
+  useStyleInject(style);
 
   return (
     <div

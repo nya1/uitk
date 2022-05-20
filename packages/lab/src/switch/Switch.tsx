@@ -8,14 +8,14 @@ import {
   useState,
 } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { ControlLabel, ControlLabelProps } from "../control-label";
 
 import { useControlled } from "../utils";
 import { useFormFieldProps } from "../form-field-context";
 
 import { CheckedIcon } from "./assets/CheckedIcon";
-import "./Switch.css";
+import style from "./Switch.css";
 
 export interface SwitchProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
@@ -88,6 +88,8 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(function Switch(
     },
     [onBlur]
   );
+
+  useStyleInject(style);
 
   // TODO review ControlLabel
   return (

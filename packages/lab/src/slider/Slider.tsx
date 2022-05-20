@@ -5,8 +5,8 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import "./Slider.css";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
+import style from "./Slider.css";
 import { useControlled } from "../utils";
 import cn from "classnames";
 import { createHandleStyles, createTrackStyle } from "./internal/styles";
@@ -112,6 +112,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(function Slider(
     setValue,
     onChange
   );
+
+  useStyleInject(style);
 
   return (
     <div

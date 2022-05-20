@@ -4,7 +4,8 @@ import { ClosablePill, ClosablePillProps } from "./ClosablePill";
 import { PillBase, PillBaseProps } from "./internal/PillBase";
 import { SelectablePill, SelectablePillProps } from "./SelectablePill";
 
-import "./Pill.css";
+import style from "./Pill.css";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export type PillVariant = "basic" | "closable" | "selectable";
 
@@ -35,6 +36,7 @@ export const Pill = forwardRef(function Pill(
   ref: ForwardedRef<HTMLDivElement>
 ) {
   const variant = getVariant(restProps.deletable, variantProp);
+  useStyleInject(style);
   if (variant === "selectable") {
     return <SelectablePill {...(restProps as SelectablePillProps)} ref={ref} />;
   } else if (variant === "closable") {

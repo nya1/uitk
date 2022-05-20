@@ -1,8 +1,8 @@
 import { forwardRef, HTMLAttributes } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 
-import "./StaticInputAdornment.css";
+import style from "./StaticInputAdornment.css";
 
 export interface StaticInputAdornmentProps
   extends HTMLAttributes<HTMLDivElement> {}
@@ -14,7 +14,7 @@ export const StaticInputAdornment = forwardRef<
   StaticInputAdornmentProps
 >(function StaticInputAdornment(props, ref) {
   const { children, className, ...other } = props;
-
+  useStyleInject(style);
   return (
     <div className={cx(withBaseName(), className)} ref={ref} {...other}>
       {children}

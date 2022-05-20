@@ -1,13 +1,14 @@
 import { forwardRef, HTMLAttributes, useCallback } from "react";
 import cn from "classnames";
 import { ChevronLeftIcon, ChevronRightIcon } from "@jpmorganchase/uitk-icons";
-import "./Pagination.css";
+import style from "./Pagination.css";
 import { withBaseName } from "./utils";
 import { usePaginationContext } from "./usePaginationContext";
 import { RegularControls } from "./RegularControls";
 import { ArrowButton } from "./ArrowButton";
 import { CompactControls } from "./CompactControls";
 import { useForkRef } from "../utils";
+import { useStyleInject } from "@jpmorganchase/uitk-core";
 
 export interface PaginatorProps extends HTMLAttributes<HTMLDivElement> {
   boundaryCount?: number;
@@ -47,6 +48,8 @@ export const Paginator = forwardRef<HTMLDivElement, PaginatorProps>(
 
     const isOnFirstPage = page === 1;
     const isOnLastPage = page === count;
+
+    useStyleInject(style);
 
     return (
       <div className={cn(withBaseName(), className)} {...restProps} ref={ref}>

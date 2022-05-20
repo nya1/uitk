@@ -1,10 +1,14 @@
 import { ComponentType, forwardRef, HTMLAttributes } from "react";
 import cx from "classnames";
-import { makePrefixer, IconProps } from "@jpmorganchase/uitk-core";
-import { ArrowUpIcon, ArrowDownIcon } from "@jpmorganchase/uitk-icons";
-import { useMetricContext, capitalise } from "./internal";
+import {
+  IconProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
+import { ArrowDownIcon, ArrowUpIcon } from "@jpmorganchase/uitk-icons";
+import { capitalise, useMetricContext } from "./internal";
 
-import "./MetricContent.css";
+import style from "./MetricContent.css";
 
 export interface MetricContentProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -85,6 +89,8 @@ export const MetricContent = forwardRef<HTMLDivElement, MetricContentProps>(
 
     const icon =
       showIndicator && IconComponent ? <IconComponent {...iconProps} /> : null;
+
+    useStyleInject(style);
 
     return (
       <div

@@ -1,4 +1,6 @@
 import {
+  Children,
+  cloneElement,
   FocusEventHandler,
   forwardRef,
   HTMLAttributes,
@@ -9,11 +11,13 @@ import {
   useMemo,
   useRef,
   useState,
-  Children,
-  cloneElement,
 } from "react";
 import cx from "classnames";
-import { makePrefixer, ButtonVariant } from "@jpmorganchase/uitk-core";
+import {
+  ButtonVariant,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import { useControlled } from "../utils";
 
 import {
@@ -21,7 +25,7 @@ import {
   ToggleButtonGroupContext,
 } from "./internal/ToggleButtonGroupContext";
 
-import "./ToggleButtonGroup.css";
+import style from "./ToggleButtonGroup.css";
 
 const withBaseName = makePrefixer("uitkToggleButtonGroup");
 
@@ -188,6 +192,8 @@ export const ToggleButtonGroup = forwardRef<
         handleToggle(event, index, newValue),
     });
   };
+
+  useStyleInject(style);
 
   return (
     <div

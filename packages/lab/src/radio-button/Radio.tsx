@@ -6,13 +6,13 @@ import {
   Ref,
   useState,
 } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useStyleInject } from "@jpmorganchase/uitk-core";
 import { useFormFieldProps } from "../form-field-context";
 import { useRadioGroup } from "./internal/useRadioGroup";
 import { useControlled, useForkRef, useIsFocusVisible } from "../utils";
 import classnames from "classnames";
 import { RadioIcon as DefaultRadioIcon, RadioIconProps } from "./RadioIcon";
-import "./Radio.css";
+import style from "./Radio.css";
 
 const withBaseName = makePrefixer("uitkRadio");
 
@@ -141,6 +141,8 @@ export const Radio = forwardRef<HTMLSpanElement, RadioProps>(function RadioBase(
   };
 
   const RadioIcon = iconProp || DefaultRadioIcon;
+
+  useStyleInject(style);
 
   return (
     <span

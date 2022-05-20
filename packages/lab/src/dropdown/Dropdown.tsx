@@ -1,18 +1,22 @@
 import classnames from "classnames";
 import {
   ComponentType,
+  FocusEvent,
   ForwardedRef,
   forwardRef,
   HTMLAttributes,
+  MouseEventHandler,
   ReactElement,
   ReactNode,
   Ref,
   useRef,
-  FocusEvent,
-  MouseEventHandler,
   useState,
 } from "react";
-import { makePrefixer, IconProps } from "@jpmorganchase/uitk-core";
+import {
+  IconProps,
+  makePrefixer,
+  useStyleInject,
+} from "@jpmorganchase/uitk-core";
 import { ChevronDownIcon } from "@jpmorganchase/uitk-icons";
 import {
   ListBase,
@@ -29,7 +33,7 @@ import { useForkRef, useId } from "../utils";
 import { DropdownButton, DropdownButtonProps } from "./DropdownButton";
 import { useDropdown } from "./useDropdown";
 
-import "./Dropdown.css";
+import baseStyle from "./Dropdown.css";
 import { useDropdownSelectionAriaAttributes } from "./internal/useDropdownSelectionAriaAttributes";
 import { Portal, PortalProps } from "../portal";
 import { isDesktop, useWindow } from "../window";
@@ -248,6 +252,8 @@ export const Dropdown = forwardRef(function Dropdown<
   // Will need to figure out a better way to assign popper id's for the electron windows
   const id = useId();
   const Window = useWindow();
+
+  useStyleInject(baseStyle);
 
   return (
     <div
