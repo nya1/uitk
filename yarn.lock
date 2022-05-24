@@ -19049,6 +19049,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"modular-template-uitk-app@workspace:packages/modular-template-uitk-app":
+  version: 0.0.0-use.local
+  resolution: "modular-template-uitk-app@workspace:packages/modular-template-uitk-app"
+  languageName: unknown
+  linkType: soft
+
 "module-deps@npm:^6.2.3":
   version: 6.2.3
   resolution: "module-deps@npm:6.2.3"
