@@ -101,6 +101,19 @@
   padding: calc(var(--uitk-size-unit) * 3) 0 calc(var(--uitk-size-unit) * 2) 0;
 }
 
+.layer-example {
+  height: 100%;
+}
+
+.layer-container .uitkLayerLayout-center {
+  width: 50vw;
+}
+
+.layer-container .uitkLayerLayout-right,
+.layer-container .uitkLayerLayout-left {
+  width: 240px;
+}
+
 @media (prefers-reduced-motion) {
   .reduced-motion .uitkParentChildItem-slide-left {
     animation: none;

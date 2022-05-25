@@ -10,7 +10,7 @@ import { makePrefixer, Breakpoints } from "@jpmorganchase/uitk-core";
 import { FlexLayout } from "@jpmorganchase/uitk-core";
 import { ParentChildItem, SlideDirection } from "../ParentChildItem";
 import "./ParentChildLayout.css";
-import { useIsStacked } from "./";
+import { useChangeView } from "../utils";
 
 type FlexLayoutProps = ComponentPropsWithoutRef<typeof FlexLayout>;
 
@@ -90,7 +90,7 @@ export const ParentChildLayout = forwardRef<
   },
   ref
 ) {
-  const stackedView = useIsStacked(stackedAtBreakpoint);
+  const stackedView = useChangeView(stackedAtBreakpoint);
 
   const parentChildDirection = getDirection(orientation, stackedViewElement);
 
