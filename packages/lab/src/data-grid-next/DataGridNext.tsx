@@ -13,13 +13,14 @@ export interface DataGridNextProps<TRowData = any> {
   rowKeyGetter: RowKeyGetterFn<TRowData>;
   data: TRowData[];
   columnDefinitions: ColDefNext<TRowData>[];
+  rowGroup?: string[]; // Column keys
   events?: DataGridModelEvents<TRowData>;
 }
 
 export const DataGridNext = function <TRowData = any>(
   props: DataGridNextProps<TRowData>
 ) {
-  const { rowKeyGetter, data, columnDefinitions, events } = props;
+  const { rowKeyGetter, data, rowGroup, columnDefinitions, events } = props;
 
   const [dataGridModel] = useState<DataGridNextModel<TRowData>>(
     () =>
@@ -40,6 +41,7 @@ export const DataGridNext = function <TRowData = any>(
 
   dataGridModel.setRowData(data);
   dataGridModel.setColumnDefs(columnDefinitions);
+  dataGridModel.setRowGroup(rowGroup);
 
   return (
     <DataGridNextContext.Provider value={contextValue}>

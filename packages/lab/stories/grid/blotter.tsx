@@ -2,6 +2,7 @@ import {
   randomAmount,
   randomCurrency,
   randomFlag,
+  randomItem,
   randomPercentage,
   randomSide,
   randomStatus,
@@ -76,16 +77,18 @@ export class Blotter {
   }
 }
 
+const fakeClients = [...Array(1000).keys()].map(() => randomText(2, 4, 22));
+
 export function makeFakeBlotterRecord(): BlotterRecord {
   const identifierText = randomString(10).toUpperCase();
   return {
     identifier: identifierText,
     attributes: [],
-    client: randomText(2, 4, 12),
+    client: randomItem(fakeClients), // randomText(2, 4, 12),
     date: new Date(),
     averagePx: randomAmount(),
     exec: randomPercentage(),
-    deskOwner: randomString(15),
+    deskOwner: randomText(1, 10, 15),
     instruction: randomText(5, 2, 8),
     key: identifierText,
     flag: randomFlag(),

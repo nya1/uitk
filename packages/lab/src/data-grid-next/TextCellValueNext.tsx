@@ -1,4 +1,4 @@
-import { DataGridColumn, RowNode } from "./DataGridNextModel";
+import { DataGridColumn, isLeafNode, RowNode } from "./DataGridNextModel";
 import { CellValueProps } from "../grid";
 
 export const TextCellValueNext = function TextCellValueNext<
@@ -13,12 +13,15 @@ export const TextCellValueNext = function TextCellValueNext<
 ) {
   const { row, column } = props;
   const rowNode: RowNode<TRowData> = row.useData();
-  const rowData: TRowData = rowNode.useData();
-  const dataGridColumn = column.useData();
-  if (!dataGridColumn) {
-    return <>{`ERROR: Column "${column.key}" has no data`}</>;
+  if (isLeafNode(rowNode)) {
+    const rowData: TRowData = rowNode.useData();
+    const dataGridColumn = column.useData();
+    if (!dataGridColumn) {
+      return <>{`ERROR: Column "${column.key}" has no data`}</>;
+    }
+    const field = dataGridColumn.definition.field;
+    const value = rowData[field as keyof TRowData];
+    return <>{value}</>;
   }
-  const field = dataGridColumn.definition.field;
-  const value = rowData[field as keyof TRowData];
-  return <>{value}</>;
+  return <></>;
 };

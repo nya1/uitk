@@ -9,7 +9,7 @@ export default {
 
 const blotter = new Blotter();
 
-for (let i = 0; i < 100; ++i) {
+for (let i = 0; i < 40000; ++i) {
   const record = makeFakeBlotterRecord();
   record.identifier = `${i}-${record.identifier}`;
   blotter.addRecord(record);
@@ -61,6 +61,7 @@ const DataGridNextStoryTemplate: Story<{}> = () => {
       rowKeyGetter={rowKeyGetter}
       data={blotter.visibleRecords}
       columnDefinitions={columnDefinitions}
+      rowGroup={["client", "side"]}
     />
   );
 };
