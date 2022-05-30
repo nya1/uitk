@@ -13,7 +13,7 @@ export const TextCellValueNext = function TextCellValueNext<
 ) {
   const { row, column } = props;
   const rowNode: RowNode<TRowData> = row.useData();
-  if (isLeafNode(rowNode)) {
+  if (rowNode && isLeafNode(rowNode)) {
     const rowData: TRowData = rowNode.useData();
     const dataGridColumn = column.useData();
     if (!dataGridColumn) {

@@ -66,24 +66,22 @@ export const TableRow = memo<TableRowProps>(function TableRow<T>(
         const Cell = definition.cellComponent || BaseCell;
         const CellValue = definition.cellValueComponent;
 
-        if (Cell) {
-          return (
-            <Cell
-              key={column.key}
-              row={row}
-              column={column}
-              isHoverOverRow={isHoverOver}
-              isSelectedRow={isSelectedRow}
-              isSelected={isSelected}
-              isFocused={isFocused}
-              isAlternate={isZebra}
-            >
-              {CellValue ? (
-                <CellValue column={column} row={row} value={value} />
-              ) : null}
-            </Cell>
-          );
-        }
+        return (
+          <Cell
+            key={column.key}
+            row={row}
+            column={column}
+            isHoverOverRow={isHoverOver}
+            isSelectedRow={isSelectedRow}
+            isSelected={isSelected}
+            isFocused={isFocused}
+            isAlternate={isZebra}
+          >
+            {CellValue ? (
+              <CellValue column={column} row={row} value={value} />
+            ) : null}
+          </Cell>
+        );
       })}
     </tr>
   );

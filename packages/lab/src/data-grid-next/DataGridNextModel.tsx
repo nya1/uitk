@@ -59,6 +59,7 @@ export class GroupRowNode<TRowData = any> {
   public readonly children: Array<RowNode<TRowData> | GroupRowNode<TRowData>>;
   public readonly useIsExpanded: () => boolean;
   public readonly setExpanded: (expanded: boolean) => void;
+  public treeLines: string[] = [];
 
   public get isExpandable() {
     return this.children != undefined;
@@ -85,6 +86,7 @@ export class LeafRowNode<TRowData = any> {
   public readonly key: string;
   public readonly data$: BehaviorSubject<TRowData>;
   public readonly useData: () => TRowData;
+  public treeLines: string[] = [];
 
   public constructor(key: string, data: TRowData) {
     this.key = key;
@@ -169,24 +171,20 @@ export interface DataGridModelOptions<TRowData> {
 export type FilterFn<TRowData> = (rowData: TRowData) => boolean;
 
 export function groupRows<TRowData>(
-  rows: RowNode<TRowData>[],
+  rows: LeafRowNode<TRowData>[],
   rowGroup: string[]
 ) {
   let i = 0;
   const groupNodesBy = (
-    nodes: RowNode<TRowData>[],
+    nodes: LeafRowNode<TRowData>[],
     fields: Array<keyof TRowData>,
     level: number
   ): RowNode<TRowData>[] => {
     if (fields.length === 0) {
       return nodes;
     }
-
-    const m = new Map<string, RowNode<TRowData>[]>();
-    const leafRows: LeafRowNode<TRowData>[] = nodes.filter((r) =>
-      isLeafNode(r)
-    ) as LeafRowNode<TRowData>[];
-    leafRows.forEach((r) => {
+    const m = new Map<string, LeafRowNode<TRowData>[]>();
+    nodes.forEach((r) => {
       const k = String(r.data$.getValue()[fields[0]]);
       if (m.has(k)) {
         m.get(k)!.push(r);
@@ -212,17 +210,25 @@ export function flattenVisibleRows<TRowData>(
   topLevelRows: RowNode<TRowData>[]
 ) {
   const visibleRows: RowNode<TRowData>[] = [];
-  const addToVisible = (nodes: RowNode<TRowData>[]) => {
-    nodes.forEach((n) => {
+
+  const addToVisible = (nodes: RowNode<TRowData>[], lines: string[]) => {
+    nodes.forEach((n, i) => {
+      const isLastChild = nodes.length - i === 1;
+      n.treeLines = [...lines, isLastChild ? "L" : "T"];
+      // n.treeLines = lines.length === 0 ? [] : [...lines, isLastChild ? "L" : "T"];
       visibleRows.push(n);
       if (isGroupNode(n)) {
         if (n.isExpanded$.getValue()) {
-          addToVisible(n.children);
+          addToVisible(
+            n.children,
+            // nextLines
+            [...lines, isLastChild ? " " : "I"]
+          );
         }
       }
     });
   };
-  addToVisible(topLevelRows);
+  addToVisible(topLevelRows, []);
   return visibleRows;
 }
 
@@ -243,11 +249,14 @@ export class DataGridNextModel<TRowData = any> {
 
   private readonly filterFn$: BehaviorSubject<FilterFn<TRowData> | undefined>;
   private readonly rowGroup$: BehaviorSubject<string[] | undefined>;
+  private readonly showTreeLines$: BehaviorSubject<boolean>;
 
   public readonly gridModel: GridModel<RowNode<TRowData>>;
   public readonly setRowData: (data: TRowData[]) => void;
   public readonly setColumnDefs: (columnDefs: ColDefNext<TRowData>[]) => void;
   public readonly setRowGroup: (rowGroup: string[] | undefined) => void;
+  public readonly setShowTreeLines: (showTreeLines: boolean) => void;
+  public readonly useShowTreeLines: () => boolean;
 
   public readonly expandCollapseNode: (event: ExpandCollapseEvent) => void;
 
@@ -264,6 +273,9 @@ export class DataGridNextModel<TRowData = any> {
     this.leafRows$ = new BehaviorSubject<LeafRowNode<TRowData>[]>([]); // TODO init
     this.filteredLeafRows$ = new BehaviorSubject<LeafRowNode<TRowData>[]>([]);
     this.columns$ = new BehaviorSubject<DataGridColumn[]>([]); // TODO
+    this.showTreeLines$ = new BehaviorSubject<boolean>(false);
+    this.useShowTreeLines = createHook(this.showTreeLines$);
+    this.setShowTreeLines = createHandler(this.showTreeLines$);
 
     this.rowsByKey$ = new BehaviorSubject<Map<string, RowNode<TRowData>>>(
       new Map()
@@ -326,9 +338,9 @@ export class DataGridNextModel<TRowData = any> {
               column.definition.headerComponent || ColumnHeaderValueNext,
             pinned: pin,
           };
-          console.log(
-            `Created column definition. key: ${column.definition.key}; pinned: ${pin}`
-          );
+          // console.log(
+          //   `Created column definition. key: ${column.definition.key}; pinned: ${pin}`
+          // );
           return columnDefinition;
         });
         this.gridModel.setColumnDefinitions(gridColumnDefinitions);

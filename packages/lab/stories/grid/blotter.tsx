@@ -77,7 +77,7 @@ export class Blotter {
   }
 }
 
-const fakeClients = [...Array(1000).keys()].map(() => randomText(2, 4, 22));
+const fakeClients = [...Array(3).keys()].map(() => randomText(2, 4, 22));
 
 export function makeFakeBlotterRecord(): BlotterRecord {
   const identifierText = randomString(10).toUpperCase();
