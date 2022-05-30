@@ -23,10 +23,10 @@ export const GroupCellValue = function GroupCellValue<TRowData, TColumnData>(
   }
   const model = useDataGridNextContext();
   const showTreeLines = model.dataGridModel.useShowTreeLines();
+  const name = rowNode.name;
 
   if (isGroupNode(rowNode)) {
     const level = rowNode.level;
-    const name = rowNode.name;
     // const isExpandable = rowNode.isExpandable;
     const isExpanded = rowNode.useIsExpanded();
 
@@ -60,6 +60,7 @@ export const GroupCellValue = function GroupCellValue<TRowData, TColumnData>(
   return (
     <div className={withBaseName()}>
       {showTreeLines ? <TreeLines lines={rowNode.treeLines} /> : null}
+      <div className={withBaseName("leafName")}>{name}</div>
     </div>
   );
 };

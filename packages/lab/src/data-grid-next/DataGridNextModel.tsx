@@ -84,6 +84,10 @@ export class GroupRowNode<TRowData = any> {
 export class LeafRowNode<TRowData = any> {
   public readonly rowNodeType = "leaf";
   public readonly key: string;
+  // TODO extract these into a "tree cell" class?
+  public name: string = "";
+  public level: number = 0;
+
   public readonly data$: BehaviorSubject<TRowData>;
   public readonly useData: () => TRowData;
   public treeLines: string[] = [];
@@ -172,7 +176,8 @@ export type FilterFn<TRowData> = (rowData: TRowData) => boolean;
 
 export function groupRows<TRowData>(
   rows: LeafRowNode<TRowData>[],
-  rowGroup: string[]
+  rowGroup: string[],
+  leafNodeGroupNameField?: keyof TRowData
 ) {
   let i = 0;
   const groupNodesBy = (
@@ -181,6 +186,13 @@ export function groupRows<TRowData>(
     level: number
   ): RowNode<TRowData>[] => {
     if (fields.length === 0) {
+      if (leafNodeGroupNameField) {
+        nodes.forEach((leafNode) => {
+          leafNode.name = String(
+            leafNode.data$.getValue()[leafNodeGroupNameField]
+          );
+        });
+      }
       return nodes;
     }
     const m = new Map<string, LeafRowNode<TRowData>[]>();
@@ -211,7 +223,11 @@ export function flattenVisibleRows<TRowData>(
 ) {
   const visibleRows: RowNode<TRowData>[] = [];
 
-  const addToVisible = (nodes: RowNode<TRowData>[], lines: string[]) => {
+  const addToVisible = (
+    nodes: RowNode<TRowData>[],
+    lines: string[],
+    level: number
+  ) => {
     nodes.forEach((n, i) => {
       const isLastChild = nodes.length - i === 1;
       n.treeLines = [...lines, isLastChild ? "L" : "T"];
@@ -222,13 +238,16 @@ export function flattenVisibleRows<TRowData>(
           addToVisible(
             n.children,
             // nextLines
-            [...lines, isLastChild ? " " : "I"]
+            [...lines, isLastChild ? " " : "I"],
+            level + 1
           );
         }
+      } else {
+        n.level = level;
       }
     });
   };
-  addToVisible(topLevelRows, []);
+  addToVisible(topLevelRows, [], 0);
   return visibleRows;
 }
 
@@ -250,6 +269,9 @@ export class DataGridNextModel<TRowData = any> {
   private readonly filterFn$: BehaviorSubject<FilterFn<TRowData> | undefined>;
   private readonly rowGroup$: BehaviorSubject<string[] | undefined>;
   private readonly showTreeLines$: BehaviorSubject<boolean>;
+  private readonly leafNodeGroupNameField$: BehaviorSubject<
+    undefined | keyof TRowData
+  >;
 
   public readonly gridModel: GridModel<RowNode<TRowData>>;
   public readonly setRowData: (data: TRowData[]) => void;
@@ -257,6 +279,9 @@ export class DataGridNextModel<TRowData = any> {
   public readonly setRowGroup: (rowGroup: string[] | undefined) => void;
   public readonly setShowTreeLines: (showTreeLines: boolean) => void;
   public readonly useShowTreeLines: () => boolean;
+  public readonly setLeafNodeGroupNameField: (
+    field: undefined | keyof TRowData
+  ) => void;
 
   public readonly expandCollapseNode: (event: ExpandCollapseEvent) => void;
 
@@ -276,6 +301,12 @@ export class DataGridNextModel<TRowData = any> {
     this.showTreeLines$ = new BehaviorSubject<boolean>(false);
     this.useShowTreeLines = createHook(this.showTreeLines$);
     this.setShowTreeLines = createHandler(this.showTreeLines$);
+    this.leafNodeGroupNameField$ = new BehaviorSubject<
+      keyof TRowData | undefined
+    >(undefined);
+    this.setLeafNodeGroupNameField = createHandler(
+      this.leafNodeGroupNameField$
+    );
 
     this.rowsByKey$ = new BehaviorSubject<Map<string, RowNode<TRowData>>>(
       new Map()
@@ -418,13 +449,17 @@ export class DataGridNextModel<TRowData = any> {
       this.filteredLeafRows$.next(filteredRows);
     });
 
-    combineLatest([this.filteredLeafRows$, this.rowGroup$])
+    combineLatest([
+      this.filteredLeafRows$,
+      this.rowGroup$,
+      this.leafNodeGroupNameField$,
+    ])
       .pipe(
-        map(([filteredRows, rowGroup]) => {
+        map(([filteredRows, rowGroup, leafNodeGroupNameField]) => {
           if (rowGroup == undefined || rowGroup.length < 1) {
             return filteredRows;
           }
-          return groupRows(filteredRows, rowGroup);
+          return groupRows(filteredRows, rowGroup, leafNodeGroupNameField);
         }),
         distinctUntilChanged()
       )

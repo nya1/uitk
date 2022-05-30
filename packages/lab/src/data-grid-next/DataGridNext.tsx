@@ -13,7 +13,10 @@ export interface DataGridNextProps<TRowData = any> {
   rowKeyGetter: RowKeyGetterFn<TRowData>;
   data: TRowData[];
   columnDefinitions: ColDefNext<TRowData>[];
+  // TODO allow using functions for grouping?
   rowGroup?: string[]; // Column keys
+  // TODO make this a component?
+  leafNodeGroupNameField?: keyof TRowData; // Which field to show in the group/tree column for leaf nodes
   showTreeLines?: boolean;
   events?: DataGridModelEvents<TRowData>;
 }
@@ -26,6 +29,7 @@ export const DataGridNext = function <TRowData = any>(
     data,
     rowGroup,
     showTreeLines,
+    leafNodeGroupNameField,
     columnDefinitions,
     events,
   } = props;
@@ -51,6 +55,7 @@ export const DataGridNext = function <TRowData = any>(
   dataGridModel.setColumnDefs(columnDefinitions);
   dataGridModel.setRowGroup(rowGroup);
   dataGridModel.setShowTreeLines(showTreeLines || false);
+  dataGridModel.setLeafNodeGroupNameField(leafNodeGroupNameField);
 
   return (
     <DataGridNextContext.Provider value={contextValue}>
