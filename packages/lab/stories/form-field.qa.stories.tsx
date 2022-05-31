@@ -22,7 +22,6 @@ export const AllExamplesGrid: ComponentStory<typeof FormField> = (props) => {
         <FormField label="Default Form Field description label">
           <Input value="Value" />
         </FormField>
-
         <FormField
           label="Default Form Field description label"
           className="uitkEmphasisHigh"
@@ -57,15 +56,15 @@ export const AllExamplesGrid: ComponentStory<typeof FormField> = (props) => {
           <Input />
         </FormField>
         <FormField
-          helperText="Warning helper text"
-          label="Warning Form Field"
+          helperText="Error helper text"
+          label="Error Form Field"
           validationState="error"
         >
           <Input />
         </FormField>
         <FormField
-          helperText="Warning helper text"
-          label="Warning Form Field"
+          helperText="Error helper text"
+          label="Error Form Field"
           validationState="error"
           className="uitkEmphasisHigh"
         >
@@ -73,8 +72,8 @@ export const AllExamplesGrid: ComponentStory<typeof FormField> = (props) => {
         </FormField>
         <FormField
           hasStatusIndicator
-          helperText="Warning helper text"
-          label="Warning Form Field"
+          helperText="Error helper text"
+          label="Error Form Field"
           validationState="error"
           className="uitkEmphasisLow"
         >

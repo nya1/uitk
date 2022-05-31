@@ -22,11 +22,10 @@
 
   /* We don't want the activation indicator to increase height of it's container */
   bottom: var(--uitkFormFieldHelperText-line-height, 0px);
-  position: var(--uitkFormActivationIndicator-position, absolute);
 }
 
 .uitkFormActivationIndicator-icon {
-  bottom: var(--uitkFormActivationIndicator-icon-bottom, 3px);
+  bottom: calc((var(--uitkFormFieldHelperText-line-height, var(--uitk-typography-lineHeight)) * 1em) + var(--uitkFormFieldHelperText-margin-top, var(--form-field-helper-text-margin-top)) + 3px);
   fill: var(--uitkFormActivationIndicator-icon-color);
   width: var(--uitkFormActivationIndicator-icon-size, var(--form-activation-indicator-icon-size));
   height: var(--uitkFormActivationIndicator-icon-size, var(--form-activation-indicator-icon-size));
