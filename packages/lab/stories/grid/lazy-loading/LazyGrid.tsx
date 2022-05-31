@@ -11,7 +11,7 @@ export interface LazyGridRowData {
   quantity: number;
 }
 
-const keyGetter = (x: LazyGridRowData, index: number) =>
+const keyGetter = (x: LazyGridRowData | undefined, index: number) =>
   x ? x.identifier : `row_${index}`;
 
 const columnDefinitions: ColumnDefinition<LazyGridRowData>[] = [

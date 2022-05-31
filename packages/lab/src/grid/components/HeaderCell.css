@@ -3,7 +3,7 @@
   text-align: left;
 
   border-style: solid;
-  border-color: #84878E;
+  border-color: #84878e;
   border-width: 0 0 1px 0;
 
   font-size: var(--font-size);
@@ -16,7 +16,7 @@
   box-sizing: border-box;
 
   background-color: white;
-  color: #4C505B;
+  color: #4c505b;
 
   white-space: nowrap;
 }
@@ -52,7 +52,7 @@
 }
 
 .uitkGridHeaderCell-regularSeparator {
-  background-color: #84878E;
+  background-color: #84878e;
   width: 1px;
   height: auto;
   position: absolute;
@@ -62,7 +62,7 @@
 }
 
 .uitkGridHeaderCell-edgeSeparator {
-  background-color: #84878E;
+  background-color: #84878e;
   width: 1px;
   height: auto;
   position: absolute;

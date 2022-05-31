@@ -3,7 +3,7 @@ import { DataGridColumn } from "./DataGridNextModel";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import "./ColumnHeaderValueNext.css";
 import { ColumnMenu } from "./column-menu/ColumnMenu";
-import { FilterIcon } from "../../../icons";
+import { FilterIcon } from "@jpmorganchase/uitk-icons";
 
 const withBasename = makePrefixer("uitkColumnHeaderValueNext");
 

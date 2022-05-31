@@ -10,7 +10,7 @@
   margin: 0;
 
   border-style: solid;
-  border-color: #D9DDE3;
+  border-color: #d9dde3;
   border-width: 0 0 1px 0;
 
   font-size: var(--font-size);
@@ -43,7 +43,7 @@
 
 .uitkGridBaseCell-editable {
   border-width: 0 1px 1px 2px;
-  border-color: #84878E;
+  border-color: #84878e;
 }
 
 .uitkGridBaseCell-valueContainer {

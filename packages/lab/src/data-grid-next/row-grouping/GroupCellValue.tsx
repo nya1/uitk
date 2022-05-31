@@ -3,7 +3,7 @@ import { CellValueProps } from "../../grid";
 import { DataGridColumn, isGroupNode, RowNode } from "../DataGridNextModel";
 import "./GroupCellValue.css";
 import { useDataGridNextContext } from "../DataGridNextContext";
-import { ChevronDownIcon, ChevronRightIcon } from "../../../../icons";
+import { ChevronDownIcon, ChevronRightIcon } from "@jpmorganchase/uitk-icons";
 import { TreeLines } from "./TreeLines";
 import { CSSProperties, useCallback, useMemo } from "react";
 
