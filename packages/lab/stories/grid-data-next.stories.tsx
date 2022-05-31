@@ -2,9 +2,23 @@ import { Story } from "@storybook/react";
 import { ColDefNext, DataGrid, DataGridNext } from "../src";
 import { Blotter, BlotterRecord, makeFakeBlotterRecord } from "./grid/blotter";
 
+const rowGroupOptions = new Map<string, string[] | undefined>([
+  ["No Grouping", undefined],
+  ["Client", ["client"]],
+  ["Client->Side", ["client", "side"]],
+  ["Desk Owner->Client->Side", ["deskOwner", "client", "side"]],
+]);
+
 export default {
   title: "Lab/Data Grid Next",
   component: DataGrid,
+  argTypes: {
+    showTreeLines: { control: "boolean" },
+    rowGroup: {
+      control: "select",
+      options: [...rowGroupOptions.keys()],
+    },
+  },
 };
 
 const blotter = new Blotter();
@@ -55,17 +69,26 @@ const columnDefinitions: ColDefNext<BlotterRecord>[] = [
 
 const rowKeyGetter = (rowData: BlotterRecord) => rowData.key;
 
-const DataGridNextStoryTemplate: Story<{}> = () => {
+interface DataGridNestStoryProps {
+  showTreeLines: boolean;
+  rowGroup: string;
+}
+
+const DataGridNextStoryTemplate: Story<DataGridNestStoryProps> = (props) => {
+  const { showTreeLines, rowGroup: rowGroupOption } = props;
+  const rowGroup = rowGroupOptions.get(rowGroupOption);
   return (
     <DataGridNext
       rowKeyGetter={rowKeyGetter}
       data={blotter.visibleRecords}
       columnDefinitions={columnDefinitions}
-      rowGroup={["client", "side"]}
+      rowGroup={rowGroup}
       leafNodeGroupNameField={"identifier"}
-      showTreeLines={true}
+      showTreeLines={showTreeLines}
     />
   );
 };
 
 export const DataGridNextExample = DataGridNextStoryTemplate.bind({});
+
+DataGridNextExample.args = {};

@@ -77,7 +77,8 @@ export class Blotter {
   }
 }
 
-const fakeClients = [...Array(3).keys()].map(() => randomText(2, 4, 22));
+const fakeClients = [...Array(5).keys()].map(() => randomText(2, 4, 22));
+const fakeDeskOwners = [...Array(3).keys()].map(() => randomText(1, 10, 15));
 
 export function makeFakeBlotterRecord(): BlotterRecord {
   const identifierText = randomString(10).toUpperCase();
@@ -88,7 +89,7 @@ export function makeFakeBlotterRecord(): BlotterRecord {
     date: new Date(),
     averagePx: randomAmount(),
     exec: randomPercentage(),
-    deskOwner: randomText(1, 10, 15),
+    deskOwner: randomItem(fakeDeskOwners),
     instruction: randomText(5, 2, 8),
     key: identifierText,
     flag: randomFlag(),
