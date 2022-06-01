@@ -48,7 +48,7 @@
 
 /* Class applied to the root element on focus 
    Setting Activation Indicator API */
-.uitkFormField:not(.uitkEmphasisLow).uitkFormField-focused {
+.uitkFormField:not(.uitkEmphasisLow):not(.uitkFormField-labelLeft).uitkFormField-focused {
   outline-color: var(--form-field-focus-outline-color);
   outline-style: var(--form-field-focus-outline-style);
   outline-width: var(--form-field-focus-outline-width);
