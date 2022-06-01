@@ -12,6 +12,8 @@ import { Pill } from "@jpmorganchase/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { StarIcon } from "../src/contact-details/internal/StarIcon";
 
+import "./Pill.stories.newapp-pill.css";
+
 export default {
   title: "Lab/Pill",
   component: Pill,
@@ -38,7 +40,6 @@ export const ControlledPill: ComponentStory<typeof Pill> = () => {
 
   return (
     <Pill
-      className="backwardsCompat"
       label="Controlled Pill"
       variant="selectable"
       checked={checked}
@@ -81,10 +82,21 @@ export const IconPill: ComponentStory<typeof Pill> = () => {
 export const SelectablePill: ComponentStory<typeof Pill> = () => {
   return (
     <Pill
-      className="backwardsCompat"
       label="Selectable Pill"
       onChange={() => console.log("changed")}
       variant="selectable"
+    />
+  );
+};
+
+export const SelectableDisabledPill: ComponentStory<typeof Pill> = () => {
+  return (
+    <Pill
+      label="Selectable Pill"
+      onChange={() => console.log("changed")}
+      variant="selectable"
+      defaultChecked
+      disabled={true}
     />
   );
 };
@@ -124,3 +136,14 @@ export const AllDensities: ComponentStory<typeof Pill> = () => {
     </div>
   );
 };
+
+export const CustomStyling: ComponentStory<typeof Pill> = () => (
+  <div style={{ display: "flex" }}>
+    <ToolkitProvider density="high" theme={["light", "newapp"]}>
+      <FeaturePill />
+    </ToolkitProvider>
+    <ToolkitProvider density="medium" theme={["dark", "newapp"]}>
+      <FeaturePill />
+    </ToolkitProvider>
+  </div>
+);
