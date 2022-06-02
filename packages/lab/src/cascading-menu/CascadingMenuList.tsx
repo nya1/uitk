@@ -1,10 +1,7 @@
 import { forwardRef, useCallback, useEffect, useState, useMemo } from "react";
 import classnames from "classnames";
-import {
-  useCharacteristic,
-  useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
-import { List, ListProps } from "../list";
+import { useIsomorphicLayoutEffect } from "@jpmorganchase/uitk-core";
+import { List, ListProps } from "../list-deprecated";
 import { useForkRef } from "../utils";
 import { useFloatingUI, UseFloatingUIProps } from "../popper";
 import { refsManager } from "./internal/useRefsManager";
@@ -94,12 +91,12 @@ export const CascadingMenuList = forwardRef<
     [refsManager, menuId]
   );
 
-  const sizeStackable = useCharacteristic("size", "stackable", menuRef);
-  const defaultRowHeight =
-    sizeStackable === null ? 36 : parseInt(sizeStackable, 10);
+  // TODO removed useCharacteristic here
+  const sizeStackable = 36;
+  const defaultRowHeight = sizeStackable;
 
-  const spacingUnit = useCharacteristic("spacing", "unit", menuRef);
-  const spacing = spacingUnit === null ? 8 : parseInt(spacingUnit, 10);
+  // TODO removed useCharacteristic here
+  const spacing = 8;
 
   const isMenuActiveState = useState(true);
   const [isMenuActive, setIsMenuActive] = isMenuActiveState;

@@ -34,6 +34,7 @@
   position: relative;
   max-width: 230px;
   text-align: left;
+  z-index: var(--uitk-zindex-tooltip);
 }
 
 .uitkTooltip[data-placement^="top"] {

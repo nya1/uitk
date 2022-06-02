@@ -11,7 +11,7 @@ import { makePrefixer } from "@jpmorganchase/uitk-core";
 import { ChevronRightIcon } from "@jpmorganchase/uitk-icons";
 
 import { MenuDescriptor } from "./CascadingMenuProps";
-import { ListItem, ListItemProps } from "../list";
+import { ListItem, ListItemProps } from "../list-deprecated";
 import { Tooltip, useTooltip } from "../tooltip";
 
 import "./CascadingMenuItem.css";

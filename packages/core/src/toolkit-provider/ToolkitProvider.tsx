@@ -6,20 +6,11 @@ import React, {
   HTMLAttributes,
   ReactNode,
   useContext,
-  useState,
-  RefObject,
   ReactElement,
 } from "react";
 import cx from "classnames";
 
-import { useIsomorphicLayoutEffect } from "../utils";
-import {
-  characteristic,
-  Density,
-  DEFAULT_THEME,
-  getTheme,
-  Theme,
-} from "../theme";
+import { Density, DEFAULT_THEME, getTheme, Theme } from "../theme";
 
 import { AriaAnnouncerProvider } from "../aria-announcer";
 import { DEFAULT_BREAKPOINTS, Breakpoints } from "../breakpoints";
@@ -177,36 +168,7 @@ export function useDensity(density?: Density): Density {
   return density || densityFromContext || DEFAULT_DENSITY;
 }
 
-export const useBreakpoints = () => {
+export const useBreakpoints = (): Breakpoints => {
   const { breakpoints } = useContext(ToolkitContext);
   return breakpoints;
-};
-
-type HTMLElementRef = RefObject<HTMLElement>;
-// We might want to cache values in a local WeakMap ?
-export const useCharacteristic = (
-  characteristicName: characteristic,
-  variant: string,
-  ref: HTMLElementRef | HTMLElement | null = null
-): string | null => {
-  // TODO what do we do with multiple themes
-  const [theme] = useTheme();
-  const [value, setValue] = useState<string | null>(null);
-  const target =
-    (ref as HTMLElementRef)?.current !== undefined
-      ? (ref as HTMLElementRef).current
-      : (ref as HTMLElement);
-
-  useIsomorphicLayoutEffect(() => {
-    if (theme) {
-      const value = theme.getCharacteristicValue(
-        characteristicName,
-        variant,
-        target || undefined
-      );
-      setValue(value);
-    }
-  }, [characteristicName, target, theme, variant]);
-
-  return value;
 };

@@ -2,9 +2,10 @@
 import { useIsomorphicLayoutEffect } from "@jpmorganchase/uitk-core";
 import { useCallback, useRef, RefObject } from "react";
 export const WidthHeight = ["height", "width"];
+export const HeightOnly = ["height"];
 export const WidthOnly = ["width"];
 
-type measurements = { [key: string]: number };
+export type measurements = { [key: string]: number | string };
 type observedDetails = {
   onResize?: (measurements: measurements) => void;
   measurements: measurements;
@@ -16,11 +17,10 @@ const isScrollAttribute: { [key: string]: boolean } = {
   scrollWidth: true,
 };
 
-// TODO should we make this create-on-demand
-const resizeObserver = new ResizeObserver((entries: any[]) => {
+const resizeObserver = new ResizeObserver((entries: ResizeObserverEntry[]) => {
   for (const entry of entries) {
     const { target, contentRect } = entry;
-    const observedTarget = observedMap.get(target);
+    const observedTarget = observedMap.get(target as HTMLElement);
     if (observedTarget) {
       const { onResize, measurements } = observedTarget;
       let sizeChanged = false;
@@ -51,14 +51,16 @@ const resizeObserver = new ResizeObserver((entries: any[]) => {
 
 // TODO use an optional lag (default to false) to ask to fire onResize
 // with initial size
+// Note asking for scrollHeight alone will not trigger onResize, this is only triggered by height,
+// with scrollHeight returned as an auxilliary value
 export function useResizeObserver(
   ref: RefObject<Element | HTMLElement | null>,
   dimensions: string[],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onResize: (sizes: any) => void
+  onResize: (measurements: measurements) => void,
+  reportInitialSize = false
 ) {
   const dimensionsRef = useRef(dimensions);
-
   const measure = useCallback((target): measurements => {
     const rect = target.getBoundingClientRect();
     return dimensionsRef.current.reduce(
@@ -101,6 +103,9 @@ export function useResizeObserver(
           const measurements = measure(target);
           observedTarget.measurements = measurements;
           resizeObserver.observe(target);
+          if (reportInitialSize) {
+            onResize(measurements);
+          }
         }
       }
     }

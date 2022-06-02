@@ -93,7 +93,6 @@ export const DropdownButton = forwardRef(function DropdownButton(
       // We don't want the 'button' tag to be shown in the DOM to trigger some accessibility testing
       // tool's false alarm on role of 'listbox'
       elementType="div"
-      data-testid="dropdown-button"
       disabled={disabled}
       variant="secondary"
       {...rest}
@@ -108,7 +107,6 @@ export const DropdownButton = forwardRef(function DropdownButton(
           id={labelId}
           // 'option' role here is to suppress accessibility testing tool warning about 'listbox' missing children role.
           role="option"
-          data-testid="dropdown-button-label"
         >
           {label}
         </span>

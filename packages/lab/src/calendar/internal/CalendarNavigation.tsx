@@ -8,25 +8,20 @@ import cx from "classnames";
 import dayjs from "./dayjs";
 import { Button, ButtonProps, makePrefixer } from "@jpmorganchase/uitk-core";
 import { ChevronLeftIcon, ChevronRightIcon } from "@jpmorganchase/uitk-icons";
-import { Dropdown, DropdownProps } from "../../dropdown";
+import { DropdownList, DropdownListProps } from "../../dropdown";
 import { useForkRef, useId } from "../../utils";
 import { useCalendarContext } from "./CalendarContext";
 
 import "./CalendarNavigation.css";
-import {
-  IndexedListItemProps,
-  ListItemBase,
-  Tooltip,
-  useListItem,
-  useTooltip,
-} from "../../index";
+import { ListItem, ListItemProps, Tooltip, useTooltip } from "../../index";
+import { ListItemType } from "../../list";
 
 type DropdownItem = {
   value: Date;
   disabled?: boolean;
 };
 
-type dateDropdownProps = DropdownProps<DropdownItem>;
+type dateDropdownProps = DropdownListProps<DropdownItem>;
 
 export interface CalendarNavigationProps extends ComponentPropsWithRef<"div"> {
   MonthDropdownProps?: dateDropdownProps;
@@ -113,42 +108,31 @@ function useCalendarNavigation() {
 
 const ListItemWithTooltip = forwardRef<
   HTMLDivElement,
-  IndexedListItemProps<DropdownItem>
+  ListItemProps<DropdownItem>
 >((props, ref) => {
-  const { item, itemProps, itemToString } = useListItem<DropdownItem>(props);
+  const { item, label } = props;
 
   const { getTooltipProps, getTriggerProps } = useTooltip({
     placement: "right",
-    disabled: !item.disabled,
+    disabled: !item?.disabled,
   });
 
   const { ref: triggerRef, ...triggerProps } =
-    getTriggerProps<typeof ListItemBase>(itemProps);
+    getTriggerProps<typeof ListItem>(props);
 
   const handleRef = useForkRef(triggerRef, ref);
 
   return (
-    <>
-      <ListItemBase ref={handleRef} {...triggerProps}>
-        <label
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {itemToString(item)}
-        </label>
-      </ListItemBase>
+    <ListItem ref={handleRef} {...triggerProps}>
+      {label}
       <Tooltip
         {...getTooltipProps({
           title: "Out of range",
         })}
       />
-    </>
+    </ListItem>
   );
-});
+}) as ListItemType<DropdownListProps>;
 
 export const CalendarNavigation = forwardRef<
   HTMLDivElement,
@@ -185,13 +169,19 @@ export const CalendarNavigation = forwardRef<
     moveToNextMonth(event);
   };
 
-  const handleMonthSelect: dateDropdownProps["onChange"] = (event, month) => {
+  const handleMonthSelect: dateDropdownProps["onSelectionChange"] = (
+    event,
+    month
+  ) => {
     if (month) {
       moveToMonth(event, month.value);
     }
   };
 
-  const handleYearSelect: dateDropdownProps["onChange"] = (event, year) => {
+  const handleYearSelect: dateDropdownProps["onSelectionChange"] = (
+    event,
+    year
+  ) => {
     if (year) {
       moveToMonth(event, year.value);
     }
@@ -241,28 +231,28 @@ export const CalendarNavigation = forwardRef<
             .format("MMMM YYYY")}`}
         />
       </Button>
-      <Dropdown<DropdownItem>
+      <DropdownList<DropdownItem>
         source={months}
         id={monthDropdownId}
         aria-labelledby={monthDropdownLabelledBy}
         aria-label="Month Dropdown"
         {...MonthDropdownProps}
         ListItem={ListItemWithTooltip}
-        selectedItem={selectedMonth}
+        selected={selectedMonth}
         itemToString={defaultItemToMonth}
-        onChange={handleMonthSelect}
+        onSelectionChange={handleMonthSelect}
         fullWidth
       />
       {!hideYearDropdown && (
-        <Dropdown<DropdownItem>
+        <DropdownList<DropdownItem>
           source={years}
           id={yearDropdownId}
           aria-labelledby={yearDropdownLabelledBy}
           aria-label="Year Dropdown"
           {...YearDropdownProps}
           ListItem={ListItemWithTooltip}
-          selectedItem={selectedYear}
-          onChange={handleYearSelect}
+          selected={selectedYear}
+          onSelectionChange={handleYearSelect}
           itemToString={defaultItemToYear}
           fullWidth
         />

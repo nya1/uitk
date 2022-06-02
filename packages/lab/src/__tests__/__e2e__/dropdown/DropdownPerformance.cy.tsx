@@ -1,4 +1,4 @@
-import { Dropdown } from "@jpmorganchase/uitk-lab";
+import { DropdownList } from "@jpmorganchase/uitk-lab";
 
 const longSource = new Array(5000)
   .fill(null)
@@ -6,9 +6,9 @@ const longSource = new Array(5000)
 
 describe("Dropdown - Performance Testing", () => {
   specify("Opening a large list without virtualization", () => {
-    cy.mountPerformance(<Dropdown source={longSource} />);
+    cy.mountPerformance(<DropdownList id="test" source={longSource} />);
 
-    cy.findByTestId("dropdown-button").click();
+    cy.get("#test-control").click();
 
     cy.getRenderCount().then((renderCount) => {
       cy.log(`Render count: ${renderCount}`);
