@@ -1,7 +1,7 @@
 import { memo, MouseEventHandler, useCallback } from "react";
 import { CellValueProps } from "../../model";
 import "./RowSelectionCheckboxColumn.css";
-import { CheckboxCheckedIcon, CheckboxIcon } from "../../../checkbox";
+import { CheckboxCheckedIcon, CheckboxIcon } from "@jpmorganchase/uitk-lab";
 import { getRowKey } from "../../features/getAttribute";
 import { useGridContext } from "../../GridContext";
 import { makePrefixer } from "@jpmorganchase/uitk-core";

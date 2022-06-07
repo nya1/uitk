@@ -27,7 +27,7 @@ const dummyColumnDefinitions: ColumnDefinition<DummyData>[] = [
 
 describe("GridModel", () => {
   it("Should calculate visible columns and groups", () => {
-    const model = new GridModel<DummyData>((x) => x.key);
+    const model = new GridModel<DummyData>((x) => x!.key);
     //model.
     model.setColumnDefinitions(dummyColumnDefinitions);
   });

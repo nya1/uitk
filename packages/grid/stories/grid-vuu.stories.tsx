@@ -6,7 +6,7 @@ import {
   VuuColumnDefinition,
   VuuConfig,
   VuuRow,
-} from "@jpmorganchase/uitk-lab";
+} from "@jpmorganchase/uitk-grid";
 
 export default {
   title: "Lab/Grid/Vuu",

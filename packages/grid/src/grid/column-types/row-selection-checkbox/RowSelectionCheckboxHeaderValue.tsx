@@ -2,7 +2,7 @@ import { memo, MouseEventHandler, useCallback } from "react";
 import { HeaderValueProps } from "../../model";
 import "./RowSelectionCheckboxColumn.css";
 import { useGridContext } from "../../GridContext";
-import { CheckboxCheckedIcon, CheckboxIcon } from "../../../checkbox";
+import { CheckboxCheckedIcon, CheckboxIcon } from "@jpmorganchase/uitk-lab";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridRowSelectionCheckboxHeaderValue");

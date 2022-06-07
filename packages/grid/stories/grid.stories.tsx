@@ -7,7 +7,7 @@ import {
   createNumericColumn,
   createTextColumn,
   Grid,
-} from "@jpmorganchase/uitk-lab";
+} from "@jpmorganchase/uitk-grid";
 import { LazyGrid } from "./grid/lazy-loading/LazyGrid";
 
 export default {

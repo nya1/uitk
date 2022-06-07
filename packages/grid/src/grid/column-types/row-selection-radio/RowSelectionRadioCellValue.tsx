@@ -3,7 +3,7 @@ import { CellValueProps } from "../../model";
 import { useGridContext } from "../../GridContext";
 import { MouseEventHandler, useCallback } from "react";
 import { getRowKey } from "../../features/getAttribute";
-import { RadioIcon } from "../../../radio-button";
+import { RadioIcon } from "@jpmorganchase/uitk-lab";
 
 const withBaseName = makePrefixer("uitkGridRowSelectionRadioCellValue");
 
