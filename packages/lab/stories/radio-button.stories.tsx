@@ -12,7 +12,11 @@ import {
   ColumnLayoutItem,
 } from "./story-layout/ColumnLayout";
 import { ChangeEventHandler, FC, ReactNode, useState } from "react";
-import { ComponentMeta, ComponentStory, Story } from "@storybook/react";
+import {
+  ComponentMeta,
+  ComponentStory,
+  Story,
+} from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Radio Button",

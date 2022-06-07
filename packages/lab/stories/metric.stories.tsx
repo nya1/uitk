@@ -1,7 +1,7 @@
 import { DoubleChevronDownIcon, FavoriteIcon } from "@jpmorganchase/uitk-icons";
 import { Metric, MetricHeader, MetricContent } from "@jpmorganchase/uitk-lab";
 import "./metric.stories.css";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Metric",

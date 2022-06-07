@@ -4,7 +4,7 @@
 import { SyntheticEvent, useState } from "react";
 import { NotificationIcon } from "@jpmorganchase/uitk-icons";
 import { SearchInput, FormField } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/SearchInput",

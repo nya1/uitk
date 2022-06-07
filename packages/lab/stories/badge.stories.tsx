@@ -6,7 +6,7 @@ import {
 } from "@jpmorganchase/uitk-icons";
 import "./badge.stories.css";
 
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Badge",

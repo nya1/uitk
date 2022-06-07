@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Button } from "@jpmorganchase/uitk-core";
 import { Scrim } from "@jpmorganchase/uitk-lab";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Scrim",

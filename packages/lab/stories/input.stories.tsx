@@ -14,7 +14,7 @@ import {
   StaticInputAdornment,
   Dropdown,
 } from "@jpmorganchase/uitk-lab";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 import "./input.qa.stories.css";
 
 import "./Input.stories.newapp-input.css";

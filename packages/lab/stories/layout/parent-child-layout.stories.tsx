@@ -11,7 +11,7 @@ import {
 } from "@jpmorganchase/uitk-lab";
 import { GridLayout, GridItem } from "@jpmorganchase/uitk-core";
 import { Button } from "@jpmorganchase/uitk-core";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { DoubleChevronLeftIcon } from "@jpmorganchase/uitk-icons";
 
 export default {

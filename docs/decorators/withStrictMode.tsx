@@ -1,4 +1,4 @@
-import { DecoratorFn } from "@storybook/react";
+import { DecoratorFn } from "@storybook/react-webpack5";
 import { StrictMode } from "react";
 
 export const withStrictMode: DecoratorFn = (Story, context) => {

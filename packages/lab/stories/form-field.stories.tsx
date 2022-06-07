@@ -7,7 +7,7 @@ import {
 } from "@jpmorganchase/uitk-lab";
 import { useState } from "react";
 import { usStateExampleData } from "./exampleData";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Form Field",

@@ -1,6 +1,6 @@
 import { ToolkitProvider } from "@jpmorganchase/uitk-core";
 import { Input } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { AllRenderer, QAContainer } from "docs/components";
 import { BackgroundBlock } from "docs/components/BackgroundBlock";
 import { Adornments } from "./input.stories";

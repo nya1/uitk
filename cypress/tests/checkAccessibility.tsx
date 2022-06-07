@@ -1,5 +1,5 @@
 import { StoriesWithPartialProps } from "@storybook/testing-react/dist/types";
-import { Story } from "@storybook/react";
+import { Story } from "@storybook/react-webpack5";
 import { Options } from "cypress-axe";
 
 export function checkAccessibility(stories: StoriesWithPartialProps<unknown>) {

@@ -5,7 +5,7 @@ import {
   useOverlay,
   UseOverlayProps,
 } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, Story } from "@storybook/react";
+import { ComponentMeta, Story } from "@storybook/react-webpack5";
 
 import "./overlay.stories.css";
 

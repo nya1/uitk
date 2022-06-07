@@ -1,6 +1,6 @@
 import { useState, useCallback, FC } from "react";
 
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 import { useDensity } from "@jpmorganchase/uitk-core";
 import {
   createFileTypeValidator,

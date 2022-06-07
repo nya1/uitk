@@ -1,5 +1,5 @@
 import { TokenizedInput } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { AllRenderer, QAContainer } from "docs/components";
 import "./tokenizedinput.qa.stories.css";
 

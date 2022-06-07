@@ -5,7 +5,7 @@ import {
   Paginator,
   PaginatorProps,
 } from "@jpmorganchase/uitk-lab";
-import { Meta, Story } from "@storybook/react";
+import { Meta, Story } from "@storybook/react-webpack5";
 import { useState } from "react";
 
 export default {

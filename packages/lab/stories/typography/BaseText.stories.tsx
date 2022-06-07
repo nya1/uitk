@@ -1,4 +1,4 @@
-import { ComponentMeta, Story } from "@storybook/react";
+import { ComponentMeta, Story } from "@storybook/react-webpack5";
 
 import { Text, TextProps } from "@jpmorganchase/uitk-lab";
 import { useEffect, useState } from "react";

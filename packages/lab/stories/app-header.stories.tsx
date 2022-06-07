@@ -23,7 +23,7 @@ import PlaceholderLogo from "docs/assets/placeholder.svg";
 
 import "docs/story.css";
 import "./Flexbox.css";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/AppHeader",

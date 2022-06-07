@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { allIcons } from "./icon.all";
 import { QAContainer } from "docs/components";
-import { Meta, Story } from "@storybook/react";
+import { Meta, Story } from "@storybook/react-webpack5";
 
 export default {
   title: "Core/Icon/QA",

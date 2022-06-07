@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { useMemo, useState, MouseEvent } from "react";
 import { Button } from "@jpmorganchase/uitk-core";
 import { UserIcon, CallIcon } from "@jpmorganchase/uitk-icons";

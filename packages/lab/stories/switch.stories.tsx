@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Panel, Switch } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { ToolkitProvider } from "@jpmorganchase/uitk-core";
 
 import "./Switch.stories.newapp-switch.css";

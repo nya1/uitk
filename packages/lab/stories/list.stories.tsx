@@ -3,7 +3,7 @@ import type {
   ComponentMeta,
   ComponentStory,
   Story,
-} from "@storybook/react";
+} from "@storybook/react-webpack5";
 import { Button, useDensity } from "@jpmorganchase/uitk-core";
 import { ChevronDownIcon, ChevronUpIcon } from "@jpmorganchase/uitk-icons";
 import {

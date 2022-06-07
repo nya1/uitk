@@ -6,7 +6,11 @@ import {
   useTooltip,
   UseTooltipProps,
 } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory, Story } from "@storybook/react";
+import {
+  ComponentMeta,
+  ComponentStory,
+  Story,
+} from "@storybook/react-webpack5";
 import { useCallback } from "react";
 
 export default {

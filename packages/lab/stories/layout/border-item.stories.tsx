@@ -1,5 +1,5 @@
 import { BorderLayout, BorderItem } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import "./styles.css";
 export default {
   title: "Layout/BorderLayout/BorderItem",

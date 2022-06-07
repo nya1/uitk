@@ -32,7 +32,7 @@ import {
 } from "@jpmorganchase/uitk-lab/src/list/useListItem";
 import { ListItemBase } from "@jpmorganchase/uitk-lab/src/list";
 import { ListChangeHandler } from "@jpmorganchase/uitk-lab/src/list/ListProps";
-import { Story } from "@storybook/react";
+import { Story } from "@storybook/react-webpack5";
 
 import "./contact-details.stories.css";
 import { FC, forwardRef, Fragment } from "react";

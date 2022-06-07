@@ -1,4 +1,4 @@
-import type { Parameters } from "@storybook/react";
+import type { Parameters } from "@storybook/react-webpack5";
 import type { GlobalTypes } from "@storybook/csf";
 import "@jpmorganchase/uitk-theme/index.css";
 

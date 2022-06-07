@@ -1,6 +1,6 @@
 import { Button } from "@jpmorganchase/uitk-core";
 import { Card, Checkbox, Slider, SliderProps } from "@jpmorganchase/uitk-lab";
-import { Story } from "@storybook/react";
+import { Story } from "@storybook/react-webpack5";
 import "./slider.stories.css";
 
 export default {

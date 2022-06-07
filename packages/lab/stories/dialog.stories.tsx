@@ -10,7 +10,7 @@ import {
 } from "@jpmorganchase/uitk-lab";
 
 import "./dialog.stories.css";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Dialog",

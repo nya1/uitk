@@ -1,7 +1,7 @@
 import { Button } from "@jpmorganchase/uitk-core";
 import { SplitLayout } from "@jpmorganchase/uitk-lab";
 import { FLEX_ALIGNMENT_BASE, FlowLayout } from "@jpmorganchase/uitk-core";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { ExportIcon, ImportIcon } from "@jpmorganchase/uitk-icons";
 import { HTMLAttributes, ReactNode, useMemo } from "react";
 

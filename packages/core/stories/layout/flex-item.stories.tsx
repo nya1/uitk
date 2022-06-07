@@ -3,7 +3,7 @@ import {
   FLEX_ITEM_ALIGNMENTS,
   FlexLayout,
 } from "@jpmorganchase/uitk-core";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import "./styles.css";
 import { ReactNode, HTMLAttributes } from "react";
 

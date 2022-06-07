@@ -9,7 +9,7 @@ import {
   Button,
   useAriaAnnouncer,
 } from "@jpmorganchase/uitk-core";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Content Status",

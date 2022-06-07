@@ -1,4 +1,4 @@
-import { Story } from "@storybook/react";
+import { Story } from "@storybook/react-webpack5";
 import { Breadcrumb, Breadcrumbs } from "@jpmorganchase/uitk-lab";
 import { HomeIcon, TreeIcon } from "@jpmorganchase/uitk-icons";
 

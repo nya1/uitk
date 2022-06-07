@@ -23,7 +23,11 @@ import {
   objectOptionType,
   usStateExampleData,
 } from "./exampleData";
-import { Story, ComponentStory, ComponentMeta } from "@storybook/react";
+import {
+  Story,
+  ComponentStory,
+  ComponentMeta,
+} from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Dropdown",

@@ -16,7 +16,7 @@ import {
   UserIcon,
 } from "@jpmorganchase/uitk-icons";
 import { Toolbar, ToolbarProps, Tooltray } from "@jpmorganchase/uitk-lab";
-import { ComponentStory } from "@storybook/react";
+import { ComponentStory } from "@storybook/react-webpack5";
 
 import { AdjustableFlexbox, FlexboxProps } from "./story-components";
 import "./toolbar.stories.css";

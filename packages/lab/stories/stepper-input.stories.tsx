@@ -6,7 +6,7 @@ import {
   ColumnLayoutContainer,
   ColumnLayoutItem,
 } from "./story-layout/ColumnLayout";
-import { ComponentMeta, Story } from "@storybook/react";
+import { ComponentMeta, Story } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Stepper Input",

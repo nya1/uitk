@@ -1,6 +1,6 @@
 import { Button, ButtonVariantValues } from "@jpmorganchase/uitk-core";
 import { SearchIcon } from "@jpmorganchase/uitk-icons";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { AllRenderer, QAContainer } from "docs/components";
 
 export default {

@@ -3,7 +3,7 @@ import {
   QueryInputCategory,
   QueryInputItem,
 } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, Story } from "@storybook/react";
+import { ComponentMeta, Story } from "@storybook/react-webpack5";
 import {
   QueryResultRow,
   QueryResultTable,

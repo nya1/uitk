@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 import { Button, ToolkitProvider } from "@jpmorganchase/uitk-core";
 import {
   CircularProgress,

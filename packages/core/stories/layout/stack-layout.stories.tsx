@@ -4,7 +4,7 @@ import {
   StackLayout,
 } from "@jpmorganchase/uitk-core";
 import { Panel } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { FlexContent } from "./flex-item.stories";
 
 export default {

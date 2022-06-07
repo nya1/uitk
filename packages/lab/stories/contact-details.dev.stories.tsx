@@ -21,7 +21,7 @@ import {
   Slider,
 } from "@jpmorganchase/uitk-lab";
 import { SliderValue } from "@jpmorganchase/uitk-lab/src/slider/internal/utils";
-import { Story } from "@storybook/react";
+import { Story } from "@storybook/react-webpack5";
 
 import { useState } from "react";
 

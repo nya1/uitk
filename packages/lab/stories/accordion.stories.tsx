@@ -10,7 +10,7 @@ import {
   AccordionSummaryProps,
 } from "@jpmorganchase/uitk-lab";
 import { TriangleUpIcon } from "@jpmorganchase/uitk-icons";
-import { ComponentMeta, Story } from "@storybook/react";
+import { ComponentMeta, Story } from "@storybook/react-webpack5";
 import "./accordion.stories.css";
 
 import { CustomSummary } from "./accordion/CustomSummary";

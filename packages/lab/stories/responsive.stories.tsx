@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, Story } from "@storybook/react-webpack5";
 import { OverflowLayoutContainer } from "@jpmorganchase/uitk-lab";
 import { AdjustableFlexbox } from "./story-components";
 

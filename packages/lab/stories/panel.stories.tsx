@@ -1,6 +1,6 @@
 import { ToolkitProvider } from "@jpmorganchase/uitk-core";
 import { Panel } from "@jpmorganchase/uitk-lab";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 import { AllRenderer } from "docs/components";
 
 import "./Panel.stories.newapp-panel.css";

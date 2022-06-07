@@ -5,7 +5,7 @@ import {
   ColumnLayoutContainer,
   ColumnLayoutItem,
 } from "./story-layout/ColumnLayout";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 
 import "./Card.stories.newapp-card.css";
 

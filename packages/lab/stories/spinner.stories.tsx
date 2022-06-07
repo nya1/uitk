@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Button } from "@jpmorganchase/uitk-core";
 import { Spinner } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory, Story } from "@storybook/react";
+import {
+  ComponentMeta,
+  ComponentStory,
+  Story,
+} from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Spinner",

@@ -1,4 +1,4 @@
-import type { StorybookConfig } from "@storybook/react/types";
+import type { StorybookConfig } from "@storybook/react-webpack5";
 import type { UserConfig } from "vite";
 import { mergeConfig } from "vite";
 import PkgConfig from "vite-plugin-package-config";
@@ -18,7 +18,7 @@ interface ExtendedConfig extends StorybookConfig {
 }
 
 const config: ExtendedConfig = {
-  framework: "@storybook/react",
+  framework: "@storybook/react-webpack5",
   stories: ["../packages/*/stories/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
   staticDirs: ["../docs/public"],
   addons: [
@@ -37,7 +37,7 @@ const config: ExtendedConfig = {
     // 'storybook-addon-performance/register',
   ],
   core: {
-    builder: "@storybook/builder-vite",
+    builder: "@storybook/react-webpack5",
   },
   features: {
     postcss: false,

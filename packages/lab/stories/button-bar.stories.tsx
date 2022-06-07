@@ -1,6 +1,6 @@
 import { ButtonBar, OrderedButton } from "@jpmorganchase/uitk-lab";
 import { ExportIcon, ImportIcon } from "@jpmorganchase/uitk-icons";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/ButtonBar",

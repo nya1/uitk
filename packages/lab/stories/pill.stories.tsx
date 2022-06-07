@@ -9,7 +9,7 @@
 import { useState, SyntheticEvent } from "react";
 import { ToolkitProvider } from "@jpmorganchase/uitk-core";
 import { Pill } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { StarIcon } from "../src/contact-details/internal/StarIcon";
 
 import "./Pill.stories.newapp-pill.css";

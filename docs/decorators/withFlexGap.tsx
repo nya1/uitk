@@ -1,4 +1,4 @@
-import type { DecoratorFn } from "@storybook/react";
+import type { DecoratorFn } from "@storybook/react-webpack5";
 
 /** A storybook decorator that adds a gap between elements of a story */
 export const withFlexGap: DecoratorFn = (Story, context) => {

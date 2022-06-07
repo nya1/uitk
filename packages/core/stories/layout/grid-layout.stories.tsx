@@ -2,7 +2,7 @@ import { CSSProperties } from "react";
 import { GridLayout, GridItem } from "@jpmorganchase/uitk-core";
 import { Avatar, Card } from "@jpmorganchase/uitk-lab";
 import { ToolkitProvider } from "@jpmorganchase/uitk-core";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Layout/GridLayout",

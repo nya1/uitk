@@ -3,7 +3,7 @@ import { Calendar, CalendarProps } from "@jpmorganchase/uitk-lab";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
 
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 
 import "./calendar.stories.css";
 import { UseRangeSelectionCalendarProps } from "@jpmorganchase/uitk-lab/src/calendar/internal/useSelection";

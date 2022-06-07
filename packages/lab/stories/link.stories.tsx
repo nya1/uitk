@@ -1,7 +1,7 @@
 import { Link } from "@jpmorganchase/uitk-lab";
 
 import "./link.stories.css";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/Link",

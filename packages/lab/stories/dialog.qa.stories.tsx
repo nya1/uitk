@@ -9,7 +9,7 @@ import {
   DialogTitle,
   OrderedButton,
 } from "@jpmorganchase/uitk-lab";
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentStory, ComponentMeta } from "@storybook/react-webpack5";
 import { QAContainer } from "docs/components";
 import "./dialog.qa.stories.css";
 

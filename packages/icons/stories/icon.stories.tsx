@@ -3,7 +3,7 @@ import { Icon, IconProps } from "@jpmorganchase/uitk-core";
 import { AddDocumentIcon } from "@jpmorganchase/uitk-icons";
 import { allIcons } from "./icon.all";
 import CodeBrackets from "docs/assets/code-brackets.svg";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Core/Icon",

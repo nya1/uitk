@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 import { ToolkitProvider } from "@jpmorganchase/uitk-core";
 import { Metric, MetricContent, MetricHeader } from "@jpmorganchase/uitk-lab";

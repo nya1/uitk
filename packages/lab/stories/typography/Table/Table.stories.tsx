@@ -1,4 +1,4 @@
-import { ComponentMeta, Story } from "@storybook/react";
+import { ComponentMeta, Story } from "@storybook/react-webpack5";
 
 import { Text, Div } from "@jpmorganchase/uitk-lab";
 import { transactions } from "./transactions";

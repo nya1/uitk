@@ -1,4 +1,4 @@
-import { DecoratorFn } from "@storybook/react";
+import { DecoratorFn } from "@storybook/react-webpack5";
 
 export const withTestIdWrapper: DecoratorFn = (Story, context) => {
   return (

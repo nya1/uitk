@@ -4,7 +4,7 @@ import {
   FormattedInputProps,
   FormField,
 } from "@jpmorganchase/uitk-lab";
-import { Story } from "@storybook/react";
+import { Story } from "@storybook/react-webpack5";
 
 const parseDigits = (string: string) => (string.match(/(\d+)/g) || []).join("");
 

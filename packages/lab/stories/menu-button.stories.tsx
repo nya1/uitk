@@ -1,6 +1,6 @@
 import { MenuButton, MenuDescriptor } from "@jpmorganchase/uitk-lab";
 import { MicroMenuIcon, UserSolidIcon } from "@jpmorganchase/uitk-icons";
-import { Story } from "@storybook/react";
+import { Story } from "@storybook/react-webpack5";
 
 export default {
   title: "Lab/MenuButton",

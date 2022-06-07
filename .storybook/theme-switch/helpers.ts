@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from "react";
-import { DecoratorFn } from "@storybook/react";
+import { DecoratorFn } from "@storybook/react-webpack5";
 
 // Modified from storybook background addon
 // https://github.com/storybookjs/storybook/blob/next/addons/backgrounds/src/helpers/index.ts

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Button, ButtonProps, ToolkitProvider } from "@jpmorganchase/uitk-core";
 import { NotificationIcon, SearchIcon } from "@jpmorganchase/uitk-icons";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 import "./Button.stories.newapp-theme.css";
 import "./Button.stories.newapp-button.css";

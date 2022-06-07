@@ -12,7 +12,11 @@ import {
   ListItemProps,
   useListItem,
 } from "@jpmorganchase/uitk-lab";
-import { ComponentStory, ComponentMeta, Story } from "@storybook/react";
+import {
+  ComponentStory,
+  ComponentMeta,
+  Story,
+} from "@storybook/react-webpack5";
 import { Highlighter } from "../src/list/internal/Highlighter";
 import { IndexedListItemProps } from "../src/list";
 import { CloseIcon } from "@jpmorganchase/uitk-icons";

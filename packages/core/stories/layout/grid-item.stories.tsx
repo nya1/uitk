@@ -1,5 +1,5 @@
 import { GridItem, GridLayout } from "@jpmorganchase/uitk-core";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 
 export default {
   title: "Layout/GridLayout/GridItem",

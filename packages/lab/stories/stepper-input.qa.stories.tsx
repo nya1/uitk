@@ -1,5 +1,5 @@
 import { StepperInput } from "@jpmorganchase/uitk-lab";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react-webpack5";
 import { AllRenderer, QAContainer } from "docs/components";
 import "./stepper-input.qa.stories.css";
 
