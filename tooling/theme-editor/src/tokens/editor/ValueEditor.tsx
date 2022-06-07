@@ -36,7 +36,7 @@ export const ValueEditor = (props: ValueEditorProps): ReactElement => {
     setValue(props.value);
   }, [props.value]);
 
-  let valueName = props.valueName.split("-").join(" ");
+  const valueName = props.valueName.split("-").join(" ");
 
   const pathToUpdate = useMemo(() => {
     return `${props.patternName}-${props.valueName}`;
@@ -63,6 +63,7 @@ export const ValueEditor = (props: ValueEditorProps): ReactElement => {
       }
     }
   };
+
   return (
     <div className={cn(withBaseName())}>
       {props.isStateValue || isColor(props.extractValue(value)).length ? (
@@ -90,7 +91,7 @@ export const ValueEditor = (props: ValueEditorProps): ReactElement => {
               props.characteristicsView && props.value.startsWith("uitk"),
           })}
         >
-          <FormField label={capitalize(valueName) as string}>
+          <FormField label={capitalize(valueName)}>
             <Input
               onChange={(e) => {
                 onChange(e.target.value);

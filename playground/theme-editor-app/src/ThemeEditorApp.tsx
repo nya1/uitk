@@ -65,7 +65,7 @@ export const ThemeEditorApp = (props: {
   const positionInHistory = useRef<number>(0);
 
   useEffect(() => {
-    if (props.initialTheme !== undefined) setCurrentMode(props.initialTheme!);
+    if (props.initialTheme !== undefined) setCurrentMode(props.initialTheme);
   }, [props.initialTheme]);
 
   const onFileUpload = useCallback(
