@@ -1,12 +1,9 @@
 import { ComponentType, forwardRef, HTMLAttributes, useEffect } from "react";
 import { makePrefixer, IconProps } from "@jpmorganchase/uitk-core";
 import cn from "classnames";
+import { Div } from "../typography";
 import { useId } from "../utils";
-import {
-  TruncatableValue,
-  useContactDetailsContext,
-  ValueComponentProps,
-} from "./internal";
+import { useContactDetailsContext, ValueComponentProps } from "./internal";
 
 const withBaseName = makePrefixer("uitkContactSecondaryInfo");
 
@@ -29,7 +26,7 @@ export const ContactSecondaryInfo = forwardRef<
     ValueComponent,
     ...restProps
   } = props;
-  const { setSecondary, setSecondaryId } = useContactDetailsContext();
+  const { setSecondary, setSecondaryId, variant } = useContactDetailsContext();
   const id = useId(idProp);
 
   useEffect(() => {
@@ -42,7 +39,10 @@ export const ContactSecondaryInfo = forwardRef<
   }, [id, text, setSecondary, setSecondaryId]);
 
   return (
-    <div
+    <Div
+      styleAs={variant === "default" ? "h4" : undefined}
+      truncate
+      maxRows={1}
       {...restProps}
       id={id}
       ref={ref}
@@ -50,11 +50,7 @@ export const ContactSecondaryInfo = forwardRef<
       data-testid="secondary"
     >
       {Icon ? <Icon className={withBaseName("icon")} /> : null}
-      <TruncatableValue
-        className={withBaseName("value")}
-        value={text}
-        ValueComponent={ValueComponent}
-      />
-    </div>
+      {text}
+    </Div>
   );
 });

@@ -1,7 +1,8 @@
 import { ComponentType, forwardRef, HTMLAttributes, useEffect } from "react";
 import cn from "classnames";
 import { makePrefixer, IconProps } from "@jpmorganchase/uitk-core";
-import { TruncatableValue, useContactDetailsContext } from "./internal";
+import { Div } from "../typography";
+import { useContactDetailsContext } from "./internal";
 import { useId } from "../utils";
 
 const withBaseName = makePrefixer("uitkContactTertiaryInfo");
@@ -34,15 +35,18 @@ export const ContactTertiaryInfo = forwardRef<
   }
 
   return (
-    <div
+    <Div
       {...restProps}
+      truncate
+      maxRows={1}
+      styleAs={variant === "default" ? "h4" : undefined}
       id={id}
       ref={ref}
       className={cn(withBaseName(), className)}
       data-testid="tertiary"
     >
       {Icon ? <Icon className={withBaseName("icon")} /> : null}
-      <TruncatableValue className={withBaseName("value")} value={text} />
-    </div>
+      {text}
+    </Div>
   );
 });

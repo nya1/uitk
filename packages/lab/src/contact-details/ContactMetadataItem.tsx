@@ -1,10 +1,11 @@
-import { ComponentType, forwardRef } from "react";
+import { ComponentType, forwardRef, HTMLAttributes } from "react";
 import { makePrefixer, IconProps } from "@jpmorganchase/uitk-core";
-import { TruncatableValue, TruncatableValueProps } from "./internal";
+import { Div } from "../typography";
 
 const withBaseName = makePrefixer("uitkContactMetadataItem");
 
-export interface ContactMetadataItemProps extends TruncatableValueProps {
+export interface ContactMetadataItemProps
+  extends HTMLAttributes<HTMLDivElement> {
   label?: string;
   value: string;
   icon?: ComponentType<IconProps>;
@@ -16,14 +17,11 @@ export const ContactMetadataItem = forwardRef<
 >(function ContactMetadataItem(props, ref) {
   const { label, value, icon: Icon, ...restProps } = props;
   return (
-    <div {...restProps} ref={ref} className={withBaseName()}>
+    <Div {...restProps} ref={ref} className={withBaseName()}>
       {!Icon ? <div className={withBaseName("label")}>{label}</div> : null}
       {Icon ? <Icon className={withBaseName("icon")} /> : null}
-      <TruncatableValue
-        className={withBaseName("value")}
-        value={value}
-        {...restProps}
-      />
-    </div>
+
+      {value}
+    </Div>
   );
 });
