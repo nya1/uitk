@@ -14,6 +14,7 @@ import "./ValueEditor.css";
 const withBaseName = makePrefixer("uitkValueEditor");
 
 interface ValueEditorProps {
+  className?: string;
   characteristicsView?: boolean;
   extractValue: (value: string) => string;
   isStateValue?: boolean;
@@ -35,8 +36,6 @@ export const ValueEditor = (props: ValueEditorProps): ReactElement => {
   useEffect(() => {
     setValue(props.value);
   }, [props.value]);
-
-  const valueName = props.valueName.split("-").join(" ");
 
   const pathToUpdate = useMemo(() => {
     return `${props.patternName}-${props.valueName}`;
@@ -64,8 +63,10 @@ export const ValueEditor = (props: ValueEditorProps): ReactElement => {
     }
   };
 
+  const label = props.valueName.split("-").join(" ");
+
   return (
-    <div className={cn(withBaseName())}>
+    <div className={cn(withBaseName(), props.className)}>
       {props.isStateValue || isColor(props.extractValue(value)).length ? (
         <div className={cn(withBaseName("colorInput"))}>
           <ColorValueEditor
@@ -73,8 +74,8 @@ export const ValueEditor = (props: ValueEditorProps): ReactElement => {
             characteristicsView={props.characteristicsView}
             extractValue={props.extractValue}
             isStateValue={props.isStateValue}
-            key={`colorswatch-${valueName}`}
-            label={valueName}
+            key={`colorswatch-${label}`}
+            label={label}
             onUpdateJSON={props.onUpdateJSON}
             originalValue={originalValue}
             pathToUpdate={pathToUpdate}
@@ -91,7 +92,7 @@ export const ValueEditor = (props: ValueEditorProps): ReactElement => {
               props.characteristicsView && props.value.startsWith("uitk"),
           })}
         >
-          <FormField label={capitalize(valueName)}>
+          <FormField label={capitalize(label)}>
             <Input
               onChange={(e) => {
                 onChange(e.target.value);
