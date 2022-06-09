@@ -30,7 +30,9 @@ export function createRows<T>(
     .pipe(
       map(([data, visibleRowRange]) => {
         const oldRows = new Map(rows$.getValue().map((row) => [row.key, row]));
-
+        // console.log(
+        //   `data length: ${data.length}; visibleRowRange; ${visibleRowRange}`
+        // );
         const rows: Row<T>[] = [];
         const cursor = cursorPosition$.getValue();
         visibleRowRange.forEach((i) => {

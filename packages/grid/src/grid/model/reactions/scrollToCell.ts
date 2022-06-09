@@ -34,7 +34,7 @@ export function scrollToCell(
       scrollPosition = scrollPosition.setScrollTop(rowHeight * rowIndex);
     } else if (rowIndex >= visibleRowRange.end - 1) {
       scrollPosition = scrollPosition.setScrollTop(
-        rowHeight * rowIndex - clientMiddleHeight + rowHeight
+        Math.max(0, rowHeight * rowIndex - clientMiddleHeight + rowHeight)
       );
     }
 
@@ -60,6 +60,7 @@ export function scrollToCell(
     }
 
     if (!GridScrollPosition.equals(oldScrollPosition, scrollPosition)) {
+      // console.log(`ScrollToCell`);
       scrollPosition$.next(scrollPosition);
     }
   });

@@ -31,8 +31,9 @@ export interface DataGridRowGroupCellComponentProps<
 
 // TODO How are we going to control grouping from the UI?
 export interface DataGridRowGroupLevelSettings<TRowData> {
-  columnKey?: string; // Group by value in the given column
-  groupFn?: (rowData: TRowData) => string; // Group by value produced by the given function
+  // columnKey?: string; // Group by value in the given column
+  // groupFn?: (rowData: TRowData) => string; // Group by value produced by the given function
+  field: keyof TRowData;
   // Tree node component. What about other columns?
   groupCellComponent?: ComponentType<
     DataGridRowGroupCellComponentProps<TRowData>
@@ -48,6 +49,7 @@ export interface DataGridRowGroupSettings<TRowData> {
   leafCellComponent?: ComponentType<DataGridLeafNodeProps<TRowData>>;
   showTreeLines?: boolean;
   title?: string;
+  width?: number;
 }
 
 // Filtering
@@ -66,8 +68,6 @@ export interface DataGridNextProps<TRowData = any> {
   rowKeyGetter: RowKeyGetterFn<TRowData>;
   data: TRowData[];
   columnDefinitions: ColDefNext<TRowData>[];
-  // TODO remove
-  rowGroup?: string[]; // Column keys
   // TODO make this a component?
   leafNodeGroupNameField?: keyof TRowData; // Which field to show in the group/tree column for leaf nodes
   showTreeLines?: boolean;
@@ -92,7 +92,8 @@ export const DataGridNext = function <TRowData = any>(
   const {
     rowKeyGetter,
     data,
-    rowGroup,
+    // rowGroup,
+    rowGrouping,
     showTreeLines,
     leafNodeGroupNameField,
     columnDefinitions,
@@ -118,7 +119,7 @@ export const DataGridNext = function <TRowData = any>(
 
   dataGridModel.setRowData(data);
   dataGridModel.setColumnDefs(columnDefinitions);
-  dataGridModel.setRowGroup(rowGroup);
+  dataGridModel.setRowGrouping(rowGrouping);
   dataGridModel.setShowTreeLines(showTreeLines || false);
   dataGridModel.setLeafNodeGroupNameField(leafNodeGroupNameField);
 

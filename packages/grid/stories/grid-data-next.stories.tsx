@@ -1,12 +1,77 @@
 import { Story } from "@storybook/react";
-import { ColDefNext, DataGrid, DataGridNext } from "../src";
+import {
+  ColDefNext,
+  DataGrid,
+  DataGridNext,
+  DataGridRowGroupCellComponentProps,
+  DataGridRowGroupSettings,
+} from "../src";
 import { Blotter, BlotterRecord, makeFakeBlotterRecord } from "./grid/blotter";
+import { FC } from "react";
+import { UserBadgeIcon } from "../../icons";
+import "./data-grid-next.stories.css";
 
-const rowGroupOptions = new Map<string, string[] | undefined>([
+const DeskOwnerGroupValue: FC<
+  DataGridRowGroupCellComponentProps<BlotterRecord>
+> = (props) => {
+  const name = props.rowNode.name;
+  return (
+    <div className="desk-owner-cell">
+      <UserBadgeIcon />
+      <span style={{ marginLeft: "8px" }}>{name}</span>
+    </div>
+  );
+};
+
+const rowGroupingOptions = new Map<
+  string,
+  DataGridRowGroupSettings<BlotterRecord> | undefined
+>([
   ["No Grouping", undefined],
-  ["Client", ["client"]],
-  ["Client->Side", ["client", "side"]],
-  ["Desk Owner->Client->Side", ["deskOwner", "client", "side"]],
+  [
+    "Client",
+    {
+      title: "Client",
+      groupLevels: [
+        {
+          field: "client",
+        },
+      ],
+    },
+  ],
+  [
+    "Client->Side",
+    {
+      title: "Client-Side",
+      groupLevels: [
+        {
+          field: "client",
+        },
+        {
+          field: "side",
+        },
+      ],
+    },
+  ],
+  [
+    "Desk Owner -> Client -> Side",
+    {
+      title: "Desk Owner -> Client -> Side",
+      width: 300,
+      groupLevels: [
+        {
+          field: "deskOwner",
+          groupCellComponent: DeskOwnerGroupValue,
+        },
+        {
+          field: "client",
+        },
+        {
+          field: "side",
+        },
+      ],
+    },
+  ],
 ]);
 
 export default {
@@ -14,9 +79,9 @@ export default {
   component: DataGrid,
   argTypes: {
     showTreeLines: { control: "boolean" },
-    rowGroup: {
+    rowGrouping: {
       control: "select",
-      options: [...rowGroupOptions.keys()],
+      options: [...rowGroupingOptions.keys()],
     },
   },
 };
@@ -34,6 +99,7 @@ const columnDefinitions: ColDefNext<BlotterRecord>[] = [
     key: "identifier",
     type: "text",
     field: "identifier",
+    title: "Identifier",
   },
   {
     key: "client",
@@ -71,18 +137,18 @@ const rowKeyGetter = (rowData: BlotterRecord) => rowData.key;
 
 interface DataGridNestStoryProps {
   showTreeLines: boolean;
-  rowGroup: string;
+  rowGrouping: string;
 }
 
 const DataGridNextStoryTemplate: Story<DataGridNestStoryProps> = (props) => {
-  const { showTreeLines, rowGroup: rowGroupOption } = props;
-  const rowGroup = rowGroupOptions.get(rowGroupOption);
+  const { showTreeLines, rowGrouping: rowGroupingOption } = props;
+  const rowGrouping = rowGroupingOptions.get(rowGroupingOption);
   return (
     <DataGridNext
       rowKeyGetter={rowKeyGetter}
       data={blotter.visibleRecords}
       columnDefinitions={columnDefinitions}
-      rowGroup={rowGroup}
+      rowGrouping={rowGrouping}
       leafNodeGroupNameField={"identifier"}
       showTreeLines={showTreeLines}
     />

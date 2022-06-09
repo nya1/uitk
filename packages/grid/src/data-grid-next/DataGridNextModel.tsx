@@ -18,6 +18,10 @@ import { TextCellValueNext } from "./TextCellValueNext";
 import { ColumnHeaderValueNext } from "./ColumnHeaderValueNext";
 import { ColumnMenuModel } from "./column-menu/ColumnMenuModel";
 import { GroupCellValue } from "./row-grouping/GroupCellValue";
+import {
+  DataGridRowGroupLevelSettings,
+  DataGridRowGroupSettings,
+} from "./DataGridNext";
 
 export type ValueGetterFn<TRowData, TCellValue> = (
   rowNode: RowNode<TRowData>
@@ -176,16 +180,17 @@ export type FilterFn<TRowData> = (rowData: TRowData) => boolean;
 
 export function groupRows<TRowData>(
   rows: LeafRowNode<TRowData>[],
-  rowGroup: string[],
+  rowGrouping: DataGridRowGroupSettings<TRowData>,
   leafNodeGroupNameField?: keyof TRowData
 ) {
   let i = 0;
   const groupNodesBy = (
     nodes: LeafRowNode<TRowData>[],
-    fields: Array<keyof TRowData>,
+    // fields: Array<keyof TRowData>,
+    levels: DataGridRowGroupLevelSettings<TRowData>[],
     level: number
   ): RowNode<TRowData>[] => {
-    if (fields.length === 0) {
+    if (levels.length === 0) {
       if (leafNodeGroupNameField) {
         nodes.forEach((leafNode) => {
           leafNode.name = String(
@@ -197,7 +202,7 @@ export function groupRows<TRowData>(
     }
     const m = new Map<string, LeafRowNode<TRowData>[]>();
     nodes.forEach((r) => {
-      const k = String(r.data$.getValue()[fields[0]]);
+      const k = String(r.data$.getValue()[levels[0].field]);
       if (m.has(k)) {
         m.get(k)!.push(r);
       } else {
@@ -209,13 +214,14 @@ export function groupRows<TRowData>(
         String(i++),
         k,
         level,
-        groupNodesBy(v, fields.slice(1), level + 1)
+        groupNodesBy(v, levels.slice(1), level + 1)
       );
     });
   };
 
-  const fields = rowGroup.map((field) => field as keyof TRowData);
-  return groupNodesBy(rows, fields, 0);
+  // const fields = rowGrouping.map((field) => field as keyof TRowData);
+  const levels = rowGrouping.groupLevels;
+  return groupNodesBy(rows, levels, 0);
 }
 
 export function flattenVisibleRows<TRowData>(
@@ -267,7 +273,10 @@ export class DataGridNextModel<TRowData = any> {
   private readonly expandEvents$: Subject<ExpandCollapseEvent>;
 
   private readonly filterFn$: BehaviorSubject<FilterFn<TRowData> | undefined>;
-  private readonly rowGroup$: BehaviorSubject<string[] | undefined>;
+  // private readonly rowGroup$: BehaviorSubject<string[] | undefined>;
+  private readonly rowGrouping$: BehaviorSubject<
+    DataGridRowGroupSettings<TRowData> | undefined
+  >;
   private readonly showTreeLines$: BehaviorSubject<boolean>;
   private readonly leafNodeGroupNameField$: BehaviorSubject<
     undefined | keyof TRowData
@@ -276,7 +285,13 @@ export class DataGridNextModel<TRowData = any> {
   public readonly gridModel: GridModel<RowNode<TRowData>>;
   public readonly setRowData: (data: TRowData[]) => void;
   public readonly setColumnDefs: (columnDefs: ColDefNext<TRowData>[]) => void;
-  public readonly setRowGroup: (rowGroup: string[] | undefined) => void;
+  // public readonly setRowGroup: (rowGroup: string[] | undefined) => void;
+  public readonly setRowGrouping: (
+    rowGrouping: DataGridRowGroupSettings<TRowData> | undefined
+  ) => void;
+  public readonly useRowGrouping: () =>
+    | DataGridRowGroupSettings<TRowData>
+    | undefined;
   public readonly setShowTreeLines: (showTreeLines: boolean) => void;
   public readonly useShowTreeLines: () => boolean;
   public readonly setLeafNodeGroupNameField: (
@@ -293,8 +308,14 @@ export class DataGridNextModel<TRowData = any> {
       options.columnDefinitions || []
     );
     this.setColumnDefs = createHandler(this.columnDefinitions$);
-    this.rowGroup$ = new BehaviorSubject<string[] | undefined>(undefined);
-    this.setRowGroup = createHandler(this.rowGroup$);
+    // this.rowGroup$ = new BehaviorSubject<string[] | undefined>(undefined);
+    this.rowGrouping$ = new BehaviorSubject<
+      DataGridRowGroupSettings<TRowData> | undefined
+    >(undefined);
+    // this.setRowGroup = createHandler(this.rowGroup$);
+    this.setRowGrouping = createHandler(this.rowGrouping$);
+    this.useRowGrouping = createHook(this.rowGrouping$);
+
     this.leafRows$ = new BehaviorSubject<LeafRowNode<TRowData>[]>([]); // TODO init
     this.filteredLeafRows$ = new BehaviorSubject<LeafRowNode<TRowData>[]>([]);
     this.columns$ = new BehaviorSubject<DataGridColumn[]>([]); // TODO
@@ -320,25 +341,19 @@ export class DataGridNextModel<TRowData = any> {
 
     this.gridModel = new GridModel<RowNode<TRowData>>(getRowKey);
 
-    // this.columnDefinitions$.subscribe((columnDefinitions) => {
-    //   const columns = columnDefinitions.map((colDef, index) => {
-    //     return new DataGridColumn(colDef);
-    //   });
-    //   this.columns$.next(columns);
-    // });
-
-    combineLatest([this.columnDefinitions$, this.rowGroup$]).subscribe(
-      ([columnDefinitions, rowGroup]) => {
+    combineLatest([this.columnDefinitions$, this.rowGrouping$]).subscribe(
+      ([columnDefinitions, rowGrouping]) => {
         const columns = columnDefinitions.map((colDef, index) => {
           return new DataGridColumn(colDef);
         });
         // TODO
-        if (rowGroup && rowGroup.length > 0) {
+        if (rowGrouping && rowGrouping.groupLevels.length > 0) {
           const groupColumn: DataGridColumn = new DataGridColumn({
             key: "group",
             field: "",
             type: "",
-            title: rowGroup[0],
+            title: rowGrouping.title,
+            width: rowGrouping.width,
             cellComponent: GroupCellValue,
           });
           columns.unshift(groupColumn);
@@ -361,13 +376,14 @@ export class DataGridNextModel<TRowData = any> {
         const gridColumnDefinitions = pins.map(({ column, pin }) => {
           const columnDefinition: ColumnDefinition<RowNode<TRowData>> = {
             key: column.definition.key,
-            title: column.definition.field,
+            title: column.definition.title || column.definition.field,
             cellValueComponent:
               column.definition.cellComponent || TextCellValueNext,
             data: column,
             headerValueComponent:
               column.definition.headerComponent || ColumnHeaderValueNext,
             pinned: pin,
+            width: column.definition.width,
           };
           // console.log(
           //   `Created column definition. key: ${column.definition.key}; pinned: ${pin}`
@@ -451,15 +467,15 @@ export class DataGridNextModel<TRowData = any> {
 
     combineLatest([
       this.filteredLeafRows$,
-      this.rowGroup$,
+      this.rowGrouping$,
       this.leafNodeGroupNameField$,
     ])
       .pipe(
-        map(([filteredRows, rowGroup, leafNodeGroupNameField]) => {
-          if (rowGroup == undefined || rowGroup.length < 1) {
+        map(([filteredRows, rowGrouping, leafNodeGroupNameField]) => {
+          if (rowGrouping == undefined || rowGrouping.groupLevels.length < 1) {
             return filteredRows;
           }
-          return groupRows(filteredRows, rowGroup, leafNodeGroupNameField);
+          return groupRows(filteredRows, rowGrouping, leafNodeGroupNameField);
         }),
         distinctUntilChanged()
       )
@@ -475,15 +491,14 @@ export class DataGridNextModel<TRowData = any> {
       const { rowNode, expand = true } = event;
       rowNode.setExpanded(expand);
       const newVisibleRows = flattenVisibleRows(this.topLevelRows$.getValue());
+      // console.log(
+      //   `expandEvents$ -> visibleRows$: ${newVisibleRows.length} rows`
+      // );
       this.visibleRows$.next(newVisibleRows);
     });
 
     this.visibleRows$.subscribe((visibleRows) => {
       this.gridModel.setData(visibleRows);
     });
-
-    // this.filteredLeafRows$.subscribe((filteredRows) => {
-    //   this.gridModel.setData(filteredRows);
-    // });
   }
 }

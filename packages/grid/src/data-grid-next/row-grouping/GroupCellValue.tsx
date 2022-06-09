@@ -1,6 +1,11 @@
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import { CellValueProps } from "../../grid";
-import { DataGridColumn, isGroupNode, RowNode } from "../DataGridNextModel";
+import {
+  DataGridColumn,
+  GroupRowNode,
+  isGroupNode,
+  RowNode,
+} from "../DataGridNextModel";
 import "./GroupCellValue.css";
 import { useDataGridNextContext } from "../DataGridNextContext";
 import { ChevronDownIcon, ChevronRightIcon } from "@jpmorganchase/uitk-icons";
@@ -25,6 +30,16 @@ export const GroupCellValue = function GroupCellValue<TRowData, TColumnData>(
   const showTreeLines = model.dataGridModel.useShowTreeLines();
   const name = rowNode.name;
   const level = rowNode.level;
+  const rowGrouping = model.dataGridModel.useRowGrouping();
+
+  const hasComponent =
+    rowGrouping != undefined &&
+    rowGrouping.groupLevels != undefined &&
+    rowGrouping.groupLevels.length > level;
+
+  const ValueComponent = hasComponent
+    ? rowGrouping.groupLevels[level].groupCellComponent
+    : undefined;
 
   const style: CSSProperties = useMemo(() => {
     if (showTreeLines) {
@@ -48,6 +63,15 @@ export const GroupCellValue = function GroupCellValue<TRowData, TColumnData>(
 
   const isExpanded = isGroup && rowNode.useIsExpanded();
 
+  const renderValue = () => {
+    if (ValueComponent) {
+      return <ValueComponent rowNode={rowNode as GroupRowNode} />;
+    }
+    return (
+      <div className={isGroup ? "" : withBaseName("leafName")}>{name}</div>
+    );
+  };
+
   return (
     <div className={withBaseName()} style={style} onClick={onClick}>
       {showTreeLines ? <TreeLines lines={rowNode.treeLines} /> : null}
@@ -56,7 +80,8 @@ export const GroupCellValue = function GroupCellValue<TRowData, TColumnData>(
           {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
         </div>
       ) : null}
-      <div className={isGroup ? "" : withBaseName("leafName")}>{name}</div>
+      {renderValue()}
+      {/*<div className={isGroup ? "" : withBaseName("leafName")}>{name}</div>*/}
     </div>
   );
 };

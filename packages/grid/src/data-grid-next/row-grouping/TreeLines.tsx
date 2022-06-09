@@ -45,7 +45,7 @@ export const TreeLines = function TreeLines(props: TreeLinesProps) {
           case "T":
             return <TreeLineT key={i} />;
           case " ":
-            return <div className={withBaseName("treeLine")} />;
+            return <div key={i} className={withBaseName("treeLine")} />;
         }
       })}
     </>

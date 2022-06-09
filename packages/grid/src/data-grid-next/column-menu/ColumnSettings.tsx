@@ -1,6 +1,6 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { FlexLayout, makePrefixer } from "@jpmorganchase/uitk-core";
 import { ColumnSettingsModel } from "./ColumnSettingsModel";
-import { Checkbox, FlexLayout } from "@jpmorganchase/uitk-lab";
+import { Checkbox } from "@jpmorganchase/uitk-lab";
 
 const withBaseName = makePrefixer("uitkDataGridColumnSettings");
 

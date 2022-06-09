@@ -618,6 +618,7 @@ export class GridModel<TRowData = any> implements IGridModel<TRowData> {
     );
 
     scrollEvents$.subscribe((event) => {
+      // console.log(`scrollEvent$. top: ${event.scrollTop}`);
       scrollPosition$.next(
         new GridScrollPosition(event.scrollLeft, event.scrollTop, "ui")
       );
