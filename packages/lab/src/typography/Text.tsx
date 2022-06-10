@@ -61,14 +61,6 @@ interface TextPropsBase<E extends ElementType> {
    */
   onOverflowChange?: (isOverflowed: boolean) => unknown;
   /**
-   * Override style for margin-top
-   */
-  marginTop?: number;
-  /**
-   * Override style for margin-bottom
-   */
-  marginBottom?: number;
-  /**
    * Match styling to a specified heading
    */
   styleAs?: "h1" | "h2" | "h3" | "h4" | "label";
@@ -84,8 +76,6 @@ export const Text = forwardRef<HTMLElement, TextProps<ElementType>>(
       className,
       elementType = "div",
       expanded,
-      marginBottom,
-      marginTop,
       maxRows,
       onOverflowChange,
       showTooltip,
@@ -112,7 +102,7 @@ export const Text = forwardRef<HTMLElement, TextProps<ElementType>>(
 
       const { ref: triggerRef, ...triggerProps } = getTriggerProps({
         className: cx(withBaseName(), className, {
-          [withBaseName("lineClamp")]: !expanded,
+          [withBaseName("lineClamp")]: (rows || maxRows) && !expanded,
           [withBaseName(styleAs || "")]: styleAs,
         }),
         ...restProps,
@@ -127,8 +117,6 @@ export const Text = forwardRef<HTMLElement, TextProps<ElementType>>(
             {...triggerProps}
             ref={handleRef}
             style={{
-              marginTop,
-              marginBottom,
               ...style,
               "--text-max-rows": rows,
             }}
@@ -156,11 +144,7 @@ export const Text = forwardRef<HTMLElement, TextProps<ElementType>>(
         })}
         {...restProps}
         ref={ref}
-        style={{
-          marginTop,
-          marginBottom,
-          ...style,
-        }}
+        style={style}
       >
         {children}
       </Component>
