@@ -2,14 +2,13 @@ import { Story } from "@storybook/react";
 import {
   ColDefNext,
   DataGrid,
-  DataGridNext,
   DataGridRowGroupCellComponentProps,
   DataGridRowGroupSettings,
 } from "../src";
 import { Blotter, BlotterRecord, makeFakeBlotterRecord } from "./grid/blotter";
 import { FC } from "react";
 import { UserBadgeIcon } from "../../icons";
-import "./data-grid-next.stories.css";
+import "./data-grid.stories.css";
 
 const DeskOwnerGroupValue: FC<
   DataGridRowGroupCellComponentProps<BlotterRecord>
@@ -75,7 +74,7 @@ const rowGroupingOptions = new Map<
 ]);
 
 export default {
-  title: "Lab/Data Grid Next",
+  title: "Lab/Data Grid",
   component: DataGrid,
   argTypes: {
     showTreeLines: { control: "boolean" },
@@ -94,7 +93,7 @@ for (let i = 0; i < 100; ++i) {
   blotter.addRecord(record);
 }
 
-const columnDefinitions: ColDefNext<BlotterRecord>[] = [
+const blotterColumnDefinitions: ColDefNext<BlotterRecord>[] = [
   {
     key: "identifier",
     type: "text",
@@ -133,21 +132,21 @@ const columnDefinitions: ColDefNext<BlotterRecord>[] = [
   },
 ];
 
-const rowKeyGetter = (rowData: BlotterRecord) => rowData.key;
+const blotterRowKeyGetter = (rowData: BlotterRecord) => rowData.key;
 
 interface DataGridNestStoryProps {
   showTreeLines: boolean;
   rowGrouping: string;
 }
 
-const DataGridNextStoryTemplate: Story<DataGridNestStoryProps> = (props) => {
+const DataGridStoryTemplate: Story<DataGridNestStoryProps> = (props) => {
   const { showTreeLines, rowGrouping: rowGroupingOption } = props;
   const rowGrouping = rowGroupingOptions.get(rowGroupingOption);
   return (
-    <DataGridNext
-      rowKeyGetter={rowKeyGetter}
+    <DataGrid
+      rowKeyGetter={blotterRowKeyGetter}
       data={blotter.visibleRecords}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={blotterColumnDefinitions}
       rowGrouping={rowGrouping}
       leafNodeGroupNameField={"identifier"}
       showTreeLines={showTreeLines}
@@ -155,6 +154,6 @@ const DataGridNextStoryTemplate: Story<DataGridNestStoryProps> = (props) => {
   );
 };
 
-export const DataGridNextExample = DataGridNextStoryTemplate.bind({});
+export const DataGridExample = DataGridStoryTemplate.bind({});
 
-DataGridNextExample.args = {};
+DataGridExample.args = {};

@@ -1,13 +1,13 @@
 import { HeaderValueProps } from "../grid";
-import { DataGridColumn } from "./DataGridNextModel";
+import { DataGridColumn } from "./DataGridModel";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
-import "./ColumnHeaderValueNext.css";
+import "./ColumnHeaderValue.css";
 import { ColumnMenu } from "./column-menu/ColumnMenu";
 import { FilterIcon } from "@jpmorganchase/uitk-icons";
 
 const withBasename = makePrefixer("uitkColumnHeaderValueNext");
 
-export const ColumnHeaderValueNext = function ColumHeaderValueNext<TRowData>(
+export const ColumnHeaderValue = function ColumHeaderValue<TRowData>(
   props: HeaderValueProps<TRowData, any, DataGridColumn<TRowData>>
 ) {
   const { column } = props;

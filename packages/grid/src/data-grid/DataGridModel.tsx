@@ -14,14 +14,14 @@ import {
   RowKeyGetter,
 } from "../grid";
 import React from "react";
-import { TextCellValueNext } from "./TextCellValueNext";
-import { ColumnHeaderValueNext } from "./ColumnHeaderValueNext";
+import { TextCellValue } from "./TextCellValue";
+import { ColumnHeaderValue } from "./ColumnHeaderValue";
 import { ColumnMenuModel } from "./column-menu/ColumnMenuModel";
 import { GroupCellValue } from "./row-grouping/GroupCellValue";
 import {
   DataGridRowGroupLevelSettings,
   DataGridRowGroupSettings,
-} from "./DataGridNext";
+} from "./DataGrid";
 
 export type ValueGetterFn<TRowData, TCellValue> = (
   rowNode: RowNode<TRowData>
@@ -257,7 +257,7 @@ export function flattenVisibleRows<TRowData>(
   return visibleRows;
 }
 
-export class DataGridNextModel<TRowData = any> {
+export class DataGridModel<TRowData = any> {
   private readonly rowKeyGetter: RowKeyGetterFn<TRowData>;
   private readonly data$: BehaviorSubject<TRowData[]>;
 
@@ -378,10 +378,10 @@ export class DataGridNextModel<TRowData = any> {
             key: column.definition.key,
             title: column.definition.title || column.definition.field,
             cellValueComponent:
-              column.definition.cellComponent || TextCellValueNext,
+              column.definition.cellComponent || TextCellValue,
             data: column,
             headerValueComponent:
-              column.definition.headerComponent || ColumnHeaderValueNext,
+              column.definition.headerComponent || ColumnHeaderValue,
             pinned: pin,
             width: column.definition.width,
           };

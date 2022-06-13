@@ -1,16 +1,16 @@
 import { createContext, useContext } from "react";
-import { DataGridNextModel } from "./DataGridNextModel";
+import { DataGridModel } from "./DataGridModel";
 
 export interface DataGridNextContext {
-  dataGridModel: DataGridNextModel;
+  dataGridModel: DataGridModel;
 }
 
-export const DataGridNextContext = createContext<
-  DataGridNextContext | undefined
->(undefined);
+export const DataGridContext = createContext<DataGridNextContext | undefined>(
+  undefined
+);
 
 export function useDataGridNextContext() {
-  const c = useContext(DataGridNextContext);
+  const c = useContext(DataGridContext);
   if (!c) {
     throw new Error(
       `useDataGridNextContext should be used within a DataGridNext`

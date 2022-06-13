@@ -21,12 +21,16 @@ import { useGridContext } from "../GridContext";
 import { ColumnDropTarget } from "./ColumnDropTarget";
 import { MovingColumn } from "./MovingColumn";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
+import cx from "classnames";
 
 const withBaseName = makePrefixer("uitkGrid");
 
-export interface GridBaseProps<T> {}
+export interface GridBaseProps<T> {
+  className?: string;
+}
 
 export function GridBase<T>(props: GridBaseProps<T>) {
+  const { className } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const scrollableRef = useRef<HTMLDivElement>(null);
   const middleRef = useRef<HTMLDivElement>(null);
@@ -64,7 +68,7 @@ export function GridBase<T>(props: GridBaseProps<T>) {
 
   return (
     <div
-      className={withBaseName()}
+      className={cx(withBaseName(), className)}
       ref={rootRef}
       tabIndex={0}
       onKeyDown={onKeyDown}

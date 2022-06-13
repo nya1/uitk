@@ -1,10 +1,7 @@
-import { DataGridColumn, isLeafNode, RowNode } from "./DataGridNextModel";
+import { DataGridColumn, isLeafNode, RowNode } from "./DataGridModel";
 import { CellValueProps } from "../grid";
 
-export const TextCellValueNext = function TextCellValueNext<
-  TRowData,
-  TColumnData
->(
+export const TextCellValue = function TextCellValue<TRowData, TColumnData>(
   props: CellValueProps<
     RowNode<TRowData>,
     any,

@@ -1,4 +1,4 @@
 export * from "./DataGrid";
+export * from "./DataGridModel";
 export * from "./DataGridContext";
-export * from "./model";
-export * from "./DataGrid";
+export * from "./filter";

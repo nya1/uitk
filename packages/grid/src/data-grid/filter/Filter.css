@@ -1,0 +1,36 @@
+.uitkDataGridFilter {
+}
+
+.uitkDataGridFilter-window {
+  z-index: 10;
+}
+
+.uitkDataGridFilter-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  border: solid 1px black;
+  background-color: white;
+  padding: 8px;
+}
+
+.uitkDataGridFilter-row-kind {
+  margin-right: 8px;
+}
+
+.uitkDataGridFilter-row-column {
+  margin-right: 8px;
+}
+
+.uitkDataGridFilter-row-operator {
+  margin-right: 8px;
+}
+
+.uitkDataGridFilter-row-query {
+  margin-right: 8px;
+}
+
+.uitkDataGridFilter-row-delete {
+  margin-right: 8px;
+}
