@@ -197,7 +197,7 @@ const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
 
   const handleKeyDown = useKeyboardNavigation(visibleItems);
 
-  console.log({ collapseItems });
+  // console.log({ collapseItems });
 
   // const densityClass: DensityClassKey = classes?.[`${density}Density`];
   return (

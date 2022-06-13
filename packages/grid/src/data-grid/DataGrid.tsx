@@ -86,6 +86,9 @@ export interface DataGridProps<TRowData = any> {
   onRowGroupingChanged?: (
     rowGrouping: DataGridRowGroupSettings<TRowData>
   ) => void;
+
+  // Filtering
+  filterFn?: (rowData: TRowData) => boolean;
 }
 
 export const DataGrid = function <TRowData = any>(
@@ -101,6 +104,7 @@ export const DataGrid = function <TRowData = any>(
     leafNodeGroupNameField,
     columnDefinitions,
     events,
+    filterFn,
   } = props;
 
   const [dataGridModel] = useState<DataGridModel<TRowData>>(
@@ -125,6 +129,7 @@ export const DataGrid = function <TRowData = any>(
   dataGridModel.setRowGrouping(rowGrouping);
   dataGridModel.setShowTreeLines(showTreeLines || false);
   dataGridModel.setLeafNodeGroupNameField(leafNodeGroupNameField);
+  dataGridModel.setFilterFn(filterFn);
 
   return (
     <DataGridContext.Provider value={contextValue}>

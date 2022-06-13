@@ -297,6 +297,9 @@ export class DataGridModel<TRowData = any> {
   public readonly setLeafNodeGroupNameField: (
     field: undefined | keyof TRowData
   ) => void;
+  public readonly setFilterFn: (
+    filterFn: FilterFn<TRowData> | undefined
+  ) => void;
 
   public readonly expandCollapseNode: (event: ExpandCollapseEvent) => void;
 
@@ -396,43 +399,45 @@ export class DataGridModel<TRowData = any> {
     this.filterFn$ = new BehaviorSubject<FilterFn<TRowData> | undefined>(
       undefined
     );
+    this.setFilterFn = createHandler(this.filterFn$);
 
-    this.columns$
-      .pipe(
-        map((columns) => {
-          const filterStreams = columns.map((column) =>
-            column.menu.filter.filterFn$.pipe(
-              map((fn) => {
-                if (fn === undefined) {
-                  return undefined;
-                }
-                return (rowData: TRowData) => {
-                  const cellValue = String(
-                    rowData[column.definition.field as keyof TRowData]
-                  );
-                  return fn(cellValue);
-                };
-              })
-            )
-          );
-          return combineLatest(filterStreams);
-        }),
-        switchMap((filters) => filters),
-        map((filters) => {
-          const columnFilters: FilterFn<TRowData>[] = filters.filter(
-            (x) => x != undefined
-          ) as FilterFn<TRowData>[];
-
-          if (columnFilters.length < 1) {
-            return undefined;
-          }
-
-          return (rowData: TRowData) => {
-            return columnFilters.every((f) => f!(rowData));
-          };
-        })
-      )
-      .subscribe(this.filterFn$);
+    // TODO replaced by external filter
+    // this.columns$
+    //   .pipe(
+    //     map((columns) => {
+    //       const filterStreams = columns.map((column) =>
+    //         column.menu.filter.filterFn$.pipe(
+    //           map((fn) => {
+    //             if (fn === undefined) {
+    //               return undefined;
+    //             }
+    //             return (rowData: TRowData) => {
+    //               const cellValue = String(
+    //                 rowData[column.definition.field as keyof TRowData]
+    //               );
+    //               return fn(cellValue);
+    //             };
+    //           })
+    //         )
+    //       );
+    //       return combineLatest(filterStreams);
+    //     }),
+    //     switchMap((filters) => filters),
+    //     map((filters) => {
+    //       const columnFilters: FilterFn<TRowData>[] = filters.filter(
+    //         (x) => x != undefined
+    //       ) as FilterFn<TRowData>[];
+    //
+    //       if (columnFilters.length < 1) {
+    //         return undefined;
+    //       }
+    //
+    //       return (rowData: TRowData) => {
+    //         return columnFilters.every((f) => f!(rowData));
+    //       };
+    //     })
+    //   )
+    //   .subscribe(this.filterFn$);
 
     this.topLevelRows$ = new BehaviorSubject<RowNode<TRowData>[]>([]);
     this.visibleRows$ = new BehaviorSubject<RowNode<TRowData>[]>([]);
@@ -455,6 +460,9 @@ export class DataGridModel<TRowData = any> {
     });
 
     this.filterFn$.subscribe((filterFn) => {
+      if (filterFn != undefined && typeof filterFn != "function") {
+        debugger;
+      }
       const rows = this.leafRows$.getValue();
       const filteredRows =
         filterFn != undefined

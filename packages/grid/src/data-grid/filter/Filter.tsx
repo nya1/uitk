@@ -1,4 +1,9 @@
-import { FilterModel, FilterRowKind, FilterRowModel } from "./FilterModel";
+import {
+  FilterColumn,
+  FilterModel,
+  FilterRowKind,
+  FilterRowModel,
+} from "./FilterModel";
 import { makePrefixer, Button } from "@jpmorganchase/uitk-core";
 import {
   Dropdown,
@@ -7,20 +12,20 @@ import {
   Input,
 } from "@jpmorganchase/uitk-lab";
 import { DeleteIcon, AddIcon } from "@jpmorganchase/uitk-icons";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useMemo } from "react";
 import { ListChangeHandler } from "@jpmorganchase/uitk-lab";
 import "./Filter.css";
 
 const withBaseName = makePrefixer("uitkDataGridFilter");
 
-export interface FilterRowProps {
+export interface FilterRowProps<T> {
   index: number;
-  model: FilterRowModel;
+  model: FilterRowModel<T>;
   onAdd: (index: number) => void;
   onDelete: (index: number) => void;
 }
 
-export const FilterRow = function FilterRow(props: FilterRowProps) {
+export const FilterRow = function FilterRow<T>(props: FilterRowProps<T>) {
   const { model, index, onAdd, onDelete } = props;
   const kind = model.useKind();
   const column = model.useColumn();
@@ -28,6 +33,16 @@ export const FilterRow = function FilterRow(props: FilterRowProps) {
   const operator = model.useOperator();
   const operators = model.useOperators();
   const query = model.useQuery();
+
+  const [columnNames, columnsByName] = useMemo(
+    () => [
+      columns.map((c) => c.name),
+      new Map<string, FilterColumn<T>>(
+        columns.map((c) => [c.name, c] as [string, FilterColumn<T>])
+      ),
+    ],
+    [columns]
+  );
 
   const onKindChange: ListChangeHandler = (event, selectedItem) => {
     if (selectedItem != null) {
@@ -43,7 +58,7 @@ export const FilterRow = function FilterRow(props: FilterRowProps) {
 
   const onColumnChange: ListChangeHandler = (event, selectedItem) => {
     if (selectedItem != null) {
-      model.setColumn(selectedItem);
+      model.setColumn(columnsByName.get(selectedItem));
     }
   };
 
@@ -78,8 +93,8 @@ export const FilterRow = function FilterRow(props: FilterRowProps) {
       )}
       {/*<FormField className={withBaseName("row-column")}>*/}
       <Dropdown
-        source={columns}
-        selectedItem={column}
+        source={columnNames}
+        selectedItem={column ? column.name : (null as any)}
         onChange={onColumnChange}
         WindowProps={{
           className: withBaseName("window"),
@@ -113,11 +128,11 @@ export const FilterRow = function FilterRow(props: FilterRowProps) {
   );
 };
 
-export interface FilterProps {
-  model: FilterModel;
+export interface FilterProps<T> {
+  model: FilterModel<T>;
 }
 
-export const Filter = function Filter(props: FilterProps) {
+export const Filter = function Filter<T>(props: FilterProps<T>) {
   const { model } = props;
   const rows = model.useRows();
 

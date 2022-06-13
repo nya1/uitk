@@ -11,21 +11,16 @@ import {
 } from "@jpmorganchase/uitk-lab";
 import "./GridToolbar.css";
 import { useState } from "react";
+import { GridToolbarModel } from "./GridToolbarModel";
 
 const withBaseName = makePrefixer("uitkDataGridToolbar");
 
-export interface GridToolbarProps {}
+export interface GridToolbarProps<T> {
+  model: GridToolbarModel<T>;
+}
 
-const columns: string[] = [
-  "Name",
-  "Added Investors",
-  "Location",
-  "Strategy",
-  "Cohort",
-  "Notes",
-];
-
-export const GridToolbar = function GridToolbar(props: GridToolbarProps) {
+export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
+  const { model } = props;
   const [isFilterOpen, setFilterOpen] = useState<boolean>(false);
 
   const onFilterClick = () => {
@@ -38,8 +33,6 @@ export const GridToolbar = function GridToolbar(props: GridToolbarProps) {
     placement: "bottom-end",
     middleware: [],
   });
-
-  const [filterModel] = useState<FilterModel>(() => new FilterModel(columns));
 
   return (
     <Toolbar className={withBaseName()} ref={reference}>
@@ -64,7 +57,7 @@ export const GridToolbar = function GridToolbar(props: GridToolbarProps) {
             }}
             ref={floating}
           >
-            <Filter model={filterModel} />
+            <Filter model={model.filter} />
           </Window>
         </Portal>
       ) : null}

@@ -1,8 +1,14 @@
 import { Story } from "@storybook/react";
-import { ColDefNext, DataGrid, Filter, FilterModel } from "../src";
+import {
+  ColDefNext,
+  DataGrid,
+  Filter,
+  FilterColumn,
+  FilterModel,
+} from "../src";
 import "./data-grid-capital-connect.stories.css";
 import { useState } from "react";
-import { GridToolbar } from "../src/data-grid/toolbar";
+import { GridToolbar, GridToolbarModel } from "../src/data-grid/toolbar";
 
 export default {
   title: "Grid/Data Grid Capital Connect",
@@ -117,6 +123,13 @@ const columnDefinitions: ColDefNext<Investor>[] = [
   },
 ];
 
+const filterColumns: FilterColumn<Investor>[] = columnDefinitions.map((c) => {
+  return {
+    name: c.title || c.field,
+    field: c.field as keyof Investor,
+  };
+});
+
 const dummyInvestors = createDummyInvestors();
 
 const rowKeyGetter = (rowData: Investor) => rowData.name;
@@ -127,28 +140,39 @@ interface DataGridStoryProps {
 }
 
 const DataGridStoryTemplate: Story<DataGridStoryProps> = (props) => {
+  const [toolbarModel] = useState<GridToolbarModel<Investor>>(
+    () => new GridToolbarModel(filterColumns)
+  );
+  const filterFn = toolbarModel.filter.useFilterFn();
+  // console.log(`useFilterFn returns ${filterFn}`);
+  if (filterFn != undefined && typeof filterFn != "function") {
+    debugger;
+  }
+
   return (
     <div className={"gridStory"}>
-      <GridToolbar />
+      <GridToolbar model={toolbarModel} />
       <DataGrid
         className={"grid"}
         rowKeyGetter={rowKeyGetter}
         data={dummyInvestors}
         columnDefinitions={columnDefinitions}
+        filterFn={filterFn}
       />
     </div>
   );
 };
 
 const FilterStoryTemplate: Story<{}> = () => {
-  const [model] = useState(
-    () => new FilterModel(columnDefinitions.map((c) => c.title || c.field))
-  );
+  const [model] = useState(() => new FilterModel<Investor>(filterColumns));
   return <Filter model={model} />;
 };
 
 const ToolbarStoryTemplate: Story<{}> = () => {
-  return <GridToolbar />;
+  const [toolbarModel] = useState<GridToolbarModel<Investor>>(
+    () => new GridToolbarModel(filterColumns)
+  );
+  return <GridToolbar model={toolbarModel} />;
 };
 
 export const DataGridExample = DataGridStoryTemplate.bind({});
