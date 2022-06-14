@@ -388,9 +388,6 @@ export class DataGridModel<TRowData = any> {
             pinned: pin,
             width: column.definition.width,
           };
-          // console.log(
-          //   `Created column definition. key: ${column.definition.key}; pinned: ${pin}`
-          // );
           return columnDefinition;
         });
         this.gridModel.setColumnDefinitions(gridColumnDefinitions);
@@ -460,9 +457,6 @@ export class DataGridModel<TRowData = any> {
     });
 
     this.filterFn$.subscribe((filterFn) => {
-      if (filterFn != undefined && typeof filterFn != "function") {
-        debugger;
-      }
       const rows = this.leafRows$.getValue();
       const filteredRows =
         filterFn != undefined

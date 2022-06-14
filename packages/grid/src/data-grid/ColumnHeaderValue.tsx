@@ -23,8 +23,8 @@ export const ColumnHeaderValue = function ColumHeaderValue<TRowData>(
   return (
     <span className={withBasename()}>
       {title}
-      {isFilterApplied ? <FilterIcon /> : null}
-      <ColumnMenu model={menuModel} />
+      {/*{isFilterApplied ? <FilterIcon /> : null}*/}
+      {/*<ColumnMenu model={menuModel} />*/}
     </span>
   );
 };

@@ -1,7 +1,7 @@
-import { DataGridColumn, isLeafNode, RowNode } from "./DataGridModel";
 import { CellValueProps } from "../grid";
+import { DataGridColumn, isLeafNode, RowNode } from "./DataGridModel";
 
-export const TextCellValue = function TextCellValue<TRowData, TColumnData>(
+export const ListCellValue = function ListCellValue<TRowData, TColumnData>(
   props: CellValueProps<
     RowNode<TRowData>,
     any,
@@ -14,11 +14,11 @@ export const TextCellValue = function TextCellValue<TRowData, TColumnData>(
     const rowData: TRowData = rowNode.useData();
     const dataGridColumn = column.useData();
     if (!dataGridColumn) {
-      return <>{`ERROR: Column "${column.key}" has no data`}</>;
+      return null;
     }
     const field = dataGridColumn.definition.field;
-    const value = rowData[field as keyof TRowData];
-    return <>{value}</>;
+    const value = rowData[field as keyof TRowData] as any as string[];
+    return <>{value.join(", ")}</>;
   }
   return null;
 };

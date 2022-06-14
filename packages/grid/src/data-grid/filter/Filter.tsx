@@ -6,9 +6,11 @@ import {
 } from "./FilterModel";
 import { makePrefixer, Button } from "@jpmorganchase/uitk-core";
 import {
+  ControlLabel,
   Dropdown,
   DropdownButton,
   FormField,
+  FormLabel,
   Input,
 } from "@jpmorganchase/uitk-lab";
 import { DeleteIcon, AddIcon } from "@jpmorganchase/uitk-icons";
@@ -79,41 +81,52 @@ export const FilterRow = function FilterRow<T>(props: FilterRowProps<T>) {
 
   return (
     <div className={withBaseName("row")}>
-      {kind === "where" ? (
-        <span className={withBaseName("row-kind")}>{kind}</span>
-      ) : (
+      <div className={withBaseName("row-kind")}>
+        {kind === "where" ? (
+          <ControlLabel label="Where" className={withBaseName("where")} />
+        ) : (
+          <Dropdown
+            fullWidth={true}
+            source={["and"]}
+            selectedItem={kind}
+            onChange={onKindChange}
+            WindowProps={{
+              className: withBaseName("window"),
+            }}
+          />
+        )}
+      </div>
+      <div className={withBaseName("row-column")}>
+        {/*<FormField className={withBaseName("row-column")}>*/}
         <Dropdown
-          source={["and", "or"]}
-          selectedItem={kind}
-          onChange={onKindChange}
+          fullWidth={true}
+          source={columnNames}
+          selectedItem={column ? column.name : (null as any)}
+          onChange={onColumnChange}
           WindowProps={{
             className: withBaseName("window"),
           }}
         />
-      )}
-      {/*<FormField className={withBaseName("row-column")}>*/}
-      <Dropdown
-        source={columnNames}
-        selectedItem={column ? column.name : (null as any)}
-        onChange={onColumnChange}
-        WindowProps={{
-          className: withBaseName("window"),
-        }}
-      />
-      {/*</FormField>*/}
-      {/*<FormField className={withBaseName("row-column")}>*/}
-      <Dropdown
-        source={operators}
-        selectedItem={operator}
-        onChange={onOperatorChange}
-        WindowProps={{
-          className: withBaseName("window"),
-        }}
-      />
-      {/*</FormField>*/}
-      {/*<FormField className={withBaseName("row-query")}>*/}
-      <Input value={query} onChange={onQueryChange} />
-      {/*</FormField>*/}
+        {/*</FormField>*/}
+      </div>
+      <div className={withBaseName("row-operator")}>
+        {/*<FormField className={withBaseName("row-column")}>*/}
+        <Dropdown
+          fullWidth={true}
+          source={operators}
+          selectedItem={operator}
+          onChange={onOperatorChange}
+          WindowProps={{
+            className: withBaseName("window"),
+          }}
+        />
+        {/*</FormField>*/}
+      </div>
+      <div className={withBaseName("row-query")}>
+        {/*<FormField className={withBaseName("row-query")}>*/}
+        <Input value={query} onChange={onQueryChange} />
+        {/*</FormField>*/}
+      </div>
       <Button
         className={withBaseName("row-delete")}
         variant={"secondary"}

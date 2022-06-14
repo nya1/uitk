@@ -9,6 +9,8 @@ import {
 import "./data-grid-capital-connect.stories.css";
 import { useState } from "react";
 import { GridToolbar, GridToolbarModel } from "../src/data-grid/toolbar";
+import { ListCellValue } from "../src/data-grid/ListCellValue";
+import { PillCellValue } from "../src/data-grid/PillCellValue";
 
 export default {
   title: "Grid/Data Grid Capital Connect",
@@ -108,12 +110,14 @@ const columnDefinitions: ColDefNext<Investor>[] = [
     type: "multiList",
     field: "strategy",
     title: "Strategy",
+    cellComponent: ListCellValue,
   },
   {
     key: "cohort",
     type: "multiList",
     field: "cohort",
     title: "Cohort",
+    cellComponent: PillCellValue,
   },
   {
     key: "notes",
