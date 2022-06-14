@@ -6,9 +6,9 @@ describe("GIVEN a DropdownButton component", () => {
       cy.mount(<DropdownButton label="button" />);
       cy.findByRole("option").should(
         "have.class",
-        "uitkDropdownButton-buttonLabel"
+        "uitkDropdownButtonNext-buttonLabel"
       );
-      cy.get(".uitkDropdownButton-icon").within(() => {
+      cy.get(".uitkDropdownButtonNext-icon").within(() => {
         cy.findByTestId("ChevronDownIcon").should("exist");
       });
     });
@@ -20,12 +20,13 @@ describe("GIVEN a DropdownButton component", () => {
       const keyUpSpy = cy.stub().as("keyUpSpy");
       cy.mount(
         <DropdownButton
+          id="test-button"
           label="button"
           onKeyDown={keyDownSpy}
           onKeyUp={keyUpSpy}
         />
       );
-      cy.findByTestId("dropdown-button").focus();
+      cy.get("#test-button").focus();
       cy.realPress("B");
       cy.get("@keyDownSpy").should("have.callCount", 1);
       cy.get("@keyUpSpy").should("have.callCount", 1);

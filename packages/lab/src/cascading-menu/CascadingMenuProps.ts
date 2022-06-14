@@ -1,5 +1,5 @@
 import { ComponentType, HTMLAttributes, ReactNode } from "react";
-import { ItemToStringFunction } from "../list";
+import { ItemToStringFunction } from "../list-deprecated";
 import { CascadingMenuListProps } from "./CascadingMenuList";
 import { UseFloatingUIProps } from "../popper";
 import { IconProps } from "@jpmorganchase/uitk-core";

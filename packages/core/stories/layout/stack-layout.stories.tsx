@@ -3,7 +3,12 @@ import {
   FlexItem,
   StackLayout,
 } from "@jpmorganchase/uitk-core";
-import { Panel, FormField, Input, Dropdown } from "@jpmorganchase/uitk-lab";
+import {
+  Panel,
+  FormField,
+  Input,
+  DropdownList as Dropdown,
+} from "@jpmorganchase/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FlexContent } from "./flex-item.stories";
 import { SearchIcon } from "@jpmorganchase/uitk-icons";
@@ -113,7 +118,7 @@ export const ComplexFormOne: ComponentStory<typeof StackLayout> = () => {
         }}
       >
         <Dropdown
-          initialSelectedItem={dropdownExampleData[0]}
+          defaultSelected={dropdownExampleData[0]}
           source={dropdownExampleData}
         />
       </FormField>

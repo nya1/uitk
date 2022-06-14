@@ -1,29 +1,89 @@
 import {
   FocusEvent,
-  KeyboardEvent,
+  HTMLAttributes,
   MouseEvent,
-  Ref,
-  SyntheticEvent,
-  useMemo,
+  useCallback,
   useRef,
+  KeyboardEvent,
+  ReactElement,
+  RefObject,
+  useState,
 } from "react";
-import { useControlled, useForkRef, useId } from "../utils";
+import { useControlled } from "../utils";
+import { useClickAway } from "./useClickAway";
+import { measurements, useResizeObserver, WidthOnly } from "../responsive";
 import { useFormFieldProps } from "../form-field-context";
-import {
-  itemToString as defaultItemToString,
-  ListSelectionVariant,
-  useList,
-  useTypeSelect,
-} from "../list";
 
-import { useResizeObserver } from "./internal/useResizeObserver";
-import { DropdownProps } from "./Dropdown";
-import { DropdownButtonProps } from "./DropdownButton";
+const NO_OBSERVER: string[] = [];
 
-export function useDropdown<Item, Variant extends ListSelectionVariant>(
-  props: DropdownProps<Item, Variant> = { source: [] },
-  isMultiSelect = false
-) {
+export interface DropdownHookProps {
+  defaultIsOpen?: boolean;
+  disabled?: boolean;
+  fullWidth?: boolean;
+  id: string;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLElement>) => void;
+  openOnFocus?: boolean;
+  popupComponent: ReactElement;
+  popupWidth?: number;
+  rootRef: RefObject<HTMLDivElement>;
+  width?: number | string;
+}
+
+export interface DropdownHookTriggerProps {
+  "aria-expanded"?: boolean;
+  "aria-owns"?: string;
+  id: string;
+  onClick?: (e: MouseEvent) => void;
+  onFocus?: (e: FocusEvent) => void;
+  role: string;
+  onKeyDown?: (e: KeyboardEvent<HTMLElement>) => void;
+  style?: any;
+}
+
+// We don't know what the popup component will be, but for those that
+// support a width prop ...
+interface ComponentProps extends HTMLAttributes<HTMLElement> {
+  width?: number | string;
+}
+
+// TODO add onButtonClick
+export interface DropdownHookResult {
+  componentProps: ComponentProps;
+  isOpen: boolean;
+  label: string;
+  popperRef: (node: HTMLElement | null) => void;
+  triggerProps: DropdownHookTriggerProps;
+}
+
+export const useDropdown = ({
+  defaultIsOpen,
+  disabled,
+  // TODO check how we're using fullWidth, do we need a separate value for the popup component
+  fullWidth: fullWidthProp,
+  id,
+  isOpen: isOpenProp,
+  onOpenChange,
+  onKeyDown: onKeyDownProp,
+  openOnFocus,
+  popupComponent: { props: componentProps },
+  popupWidth: popupWidthProp,
+  rootRef,
+  width,
+}: DropdownHookProps): DropdownHookResult => {
+  const justFocused = useRef<number | null>(null);
+  const popperRef = useRef<HTMLElement | null>(null);
+  const popperCallbackRef = useCallback((element: HTMLElement | null) => {
+    popperRef.current = element;
+  }, []);
+  const [isOpen, setIsOpen] = useControlled({
+    controlled: isOpenProp,
+    default: defaultIsOpen,
+    name: "useDropdown",
+    state: "isOpen",
+  });
+
   const {
     inFormField,
     onFocus: formFieldOnFocus,
@@ -31,307 +91,96 @@ export function useDropdown<Item, Variant extends ListSelectionVariant>(
     a11yProps: { "aria-labelledby": ariaLabelledBy, ...restA11yProps } = {},
   } = useFormFieldProps();
 
-  const {
-    ButtonProps = {},
-    IconComponent,
-    ListItem,
-    ListProps,
-    adaExceptions: { virtualized } = {},
-    "aria-label": ariaLabelProp,
-    "aria-labelledby": ariaLabelledByProp,
-    borderless = false,
-    buttonRef: buttonRefProp,
-    children,
-    disabled,
-    displayedItemCount,
-    fullWidth: fullWidthProp, // = formFieldFullWidth,
-    iconSize,
-    id: idProp,
-    initialIsOpen = false,
-    initialSelectedItem,
-    isOpen: isOpenProp,
-    itemToString = defaultItemToString,
-    listWidth: listWidthProp,
-    onBlur: onBlurProp,
-    onButtonClick: onButtonClickProp,
-    onChange: onChangeProp,
-    onFocus: onFocusProp,
-    onMouseLeave,
-    onMouseOver,
-    onSelect,
-    selectedItem: selectedItemProp,
-    source,
-    width: widthProp,
-    ...rest
-  } = props;
-
-  const id = useId(idProp);
-  const buttonRef = useRef(null);
-
-  const isFullWidth = fullWidthProp !== undefined ? fullWidthProp : inFormField;
-
-  const { ref: rootRef, width: observedWidth } = useResizeObserver({
-    fullWidth: isFullWidth,
+  const [popup, setPopup] = useState<measurements>({
+    width: popupWidthProp ?? width ?? 0,
   });
 
-  const {
-    onKeyDown: onButtonKeyDown,
-    onKeyDownCapture: onButtonKeyDownCapture,
-    ...restButtonProps
-  } = ButtonProps;
+  const showDropdown = useCallback(() => {
+    setIsOpen(true);
+    onOpenChange?.(true);
+  }, [onOpenChange, setIsOpen]);
 
-  const [isOpen, setIsOpen] = useControlled({
-    controlled: isOpenProp,
-    default: initialIsOpen,
-    name: "useDropdown",
-    state: "isOpen",
-  });
-
-  const listWidth = useMemo(() => {
-    if (isFullWidth) {
-      return observedWidth ? observedWidth : undefined;
-    } else {
-      return listWidthProp ? listWidthProp : widthProp;
-    }
-  }, [isFullWidth, listWidthProp, observedWidth, widthProp]);
-
-  const { focusedRef, state, helpers, listProps } = useList<Item, Variant>({
-    ListItem,
-    displayedItemCount,
-    id: `${id}-list`,
-    initialSelectedItem,
-    itemToString,
-    onChange: onChangeProp,
-    onSelect,
-    selectedItem: selectedItemProp,
-    selectionVariant: (isMultiSelect ? "multiple" : "default") as Variant,
-    source,
-    tabToSelect: !isMultiSelect,
-    virtualized,
-    width: listWidth,
-    disableFocus: true,
-    disableMouseDown: true,
-    ...ListProps,
-  });
-
-  const { selectedItem, highlightedIndex } = state;
-
-  const { setHighlightedIndex, setFocusVisible } = helpers;
-
-  const {
-    onBlur: onListBlur,
-    onClick: onListClick,
-    onFocus: onListFocus,
-    onKeyDown: onListKeyDown,
-    id: listId,
-    "aria-activedescendant": ariaActivedescendant,
-    "aria-multiselectable": ariaMultiselectable,
-    getItemAtIndex,
-    getItemIndex,
-    itemCount,
-    ...restListProps
-  } = listProps;
-
-  const { onKeyDownCapture: onTypeSelectKeyDownCapture } = useTypeSelect({
-    getItemAtIndex,
-    highlightedIndex,
-    itemCount,
-    itemToString,
-    setFocusVisible,
-    setHighlightedIndex,
-  });
-
-  const getSelectedItemLabel = () => {
-    if (isMultiSelect && Array.isArray(selectedItem)) {
-      if (selectedItem.length === 0) {
-        return undefined;
-      } else if (selectedItem.length === 1) {
-        return itemToString(selectedItem[0]);
-      } else {
-        return `${selectedItem.length} items selected`;
-      }
-    } else {
-      return selectedItem == null
-        ? undefined
-        : itemToString(selectedItem as Item);
-    }
-  };
-
-  const syncListFocus = (event: any) => {
-    if (!isOpen) {
-      onListFocus?.(event);
-    } else {
-      onListBlur?.(event);
-    }
-  };
-
-  const handleButtonClick = (event: SyntheticEvent) => {
-    // Do not trigger menu open for 'Enter' and 'SPACE' key as they're handled in `handleButtonKeyDown`
-    if (
-      ["Enter", " "].indexOf((event as KeyboardEvent<HTMLDivElement>).key) ===
-      -1
-    ) {
-      setIsOpen((value?: boolean) => !value);
-      syncListFocus(event);
-    }
-
-    onButtonClickProp?.(event as MouseEvent<HTMLDivElement>);
-  };
-
-  const handleButtonKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if ("Escape" === event.key) {
-      event.preventDefault();
-      if (isOpen) {
-        setIsOpen(false);
-        onListBlur?.(event as any);
-      }
-    } else if ("ArrowDown" === event.key) {
-      event.preventDefault();
-      if (event.altKey) {
-        event.stopPropagation();
-      }
-      if (!isOpen) {
-        setIsOpen(true);
-        onListFocus?.(event as any);
-      }
-    } else if ("Tab" === event.key) {
-      if (isOpen) {
-        setIsOpen(false);
-        onListBlur?.(event as any);
-      }
-    } else if (["Enter", " "].indexOf(event.key) !== -1) {
-      event.preventDefault();
-      if (!isMultiSelect || !isOpen) {
-        setIsOpen((value?: boolean) => !value);
-        syncListFocus(event);
-      }
-    }
-
-    // A lot of keyDown events are shared in the List already
-    onListKeyDown?.(event);
-
-    onButtonKeyDown?.(event);
-  };
-
-  const handleButtonKeyDownCapture = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (disabled) {
-      return;
-    }
-
-    onTypeSelectKeyDownCapture?.(event);
-
-    onButtonKeyDownCapture?.(event);
-  };
-
-  const handleListClick = (event: MouseEvent<HTMLDivElement>) => {
-    if (onListClick) {
-      onListClick(event);
-    }
-
-    if (!isMultiSelect) {
-      setIsOpen(false);
-    }
-  };
-
-  const handleButtonBlur = (event: FocusEvent<HTMLDivElement>) => {
-    // Next line causes an issue for DesktopWindows. Need to consider how we fix.
+  const hideDropdown = useCallback(() => {
     setIsOpen(false);
-    onListBlur?.(event);
-    onBlurProp?.(event);
-    formFieldOnBlur?.(event);
-  };
+    onOpenChange?.(false);
+  }, [onOpenChange, setIsOpen]);
 
-  const handleButtonFocus = (event: FocusEvent<HTMLDivElement>) => {
-    if (isOpen) {
-      onListFocus?.(event);
-    }
-
-    onFocusProp?.(event);
-
-    formFieldOnFocus?.(event);
-  };
-
-  const dropdownButtonLabelId = `${listId as string}--label`;
-
-  const getAriaActiveDescendant = () => {
-    if (isOpen && ariaActivedescendant) {
-      return ariaActivedescendant;
-    }
-    return isMultiSelect ? undefined : dropdownButtonLabelId;
-  };
-
-  const dropdownButtonProps: DropdownButtonProps & {
-    ref: Ref<HTMLDivElement>;
-  } = {
-    IconComponent,
-    "aria-activedescendant": getAriaActiveDescendant(),
-    "aria-expanded": isOpen,
-    "aria-multiselectable": ariaMultiselectable,
-    "aria-owns": isOpen ? listId : undefined,
-    "aria-label": ariaLabelProp,
-    "aria-labelledby": isMultiSelect
-      ? [dropdownButtonLabelId, ariaLabelledBy, ariaLabelledByProp]
-          .filter((x) => !!x)
-          .join(" ")
-      : [ariaLabelledBy, ariaLabelledByProp].filter((x) => !!x).join(" "),
-    ariaHideOptionRole: isOpen,
-    // This will result in a duplicated 'listbox' on top of the list within the popper, but is an ADA requirement
-    role: "listbox",
-    disabled,
-    fullWidth: isFullWidth,
-    iconSize,
-    id,
+  useClickAway({
+    popperRef,
+    rootRef,
     isOpen,
-    label: getSelectedItemLabel(),
-    labelId: dropdownButtonLabelId,
-    // `fullWidth` is handled separately in `DropdownButton`
-    style: { width: isFullWidth ? undefined : widthProp },
+    onClose: hideDropdown,
+  });
 
-    onBlur: handleButtonBlur,
-    onClick: disabled ? undefined : handleButtonClick,
-    onFocus: handleButtonFocus,
-    onKeyDown: disabled ? undefined : handleButtonKeyDown,
-    onKeyDownCapture: disabled ? undefined : handleButtonKeyDownCapture,
-    onMouseLeave,
-    onMouseOver,
+  const handleTriggerFocus = useCallback(() => {
+    setIsOpen(true);
+    onOpenChange?.(true);
+    // Suppress response to click if click was the cause of focus
+    justFocused.current = window.setTimeout(() => {
+      justFocused.current = null;
+    }, 1000);
+  }, [onOpenChange, setIsOpen]);
 
-    ...restButtonProps,
-    ...restA11yProps,
+  const handleTriggerToggle = useCallback(
+    (e) => {
+      // Do not trigger menu open for 'Enter' and 'SPACE' key as they're handled in `handleKeyDown`
+      if (
+        ["Enter", " "].indexOf((e as KeyboardEvent<HTMLDivElement>).key) === -1
+      ) {
+        const newIsOpen = !isOpen;
+        setIsOpen(newIsOpen);
+        onOpenChange?.(newIsOpen);
+      }
+    },
+    [isOpen, setIsOpen, onOpenChange]
+  );
 
-    ref: useForkRef<HTMLDivElement>(
-      buttonRef,
-      useForkRef<HTMLDivElement>(focusedRef, buttonRefProp)
-    ),
+  const handleKeydown = useCallback(
+    (evt: KeyboardEvent<HTMLElement>) => {
+      if ((evt.key === "Tab" || evt.key === "Escape") && isOpen) {
+        // No preventDefault here, this behaviour does not need to be exclusive
+        hideDropdown();
+      } else if (
+        (evt.key === "Enter" || evt.key === "ArrowDown" || evt.key === " ") &&
+        !isOpen
+      ) {
+        evt.preventDefault();
+        showDropdown();
+      } else {
+        onKeyDownProp?.(evt);
+      }
+    },
+    [hideDropdown, isOpen, onKeyDownProp, showDropdown]
+  );
+
+  const fullWidth = fullWidthProp ?? inFormField;
+  const measurements = fullWidth ? WidthOnly : NO_OBSERVER;
+  useResizeObserver(rootRef, measurements, setPopup, fullWidth);
+
+  const componentId = `${id}-dropdown`;
+
+  // TODO do we use aria-popup - valid values are menu, disloag, grid, tree, listbox
+  const triggerProps = {
+    "aria-expanded": isOpen,
+    "aria-owns": isOpen ? componentId : undefined,
+    id: `${id}-control`,
+    onClick: disabled || openOnFocus ? undefined : handleTriggerToggle,
+    onFocus: openOnFocus && !disabled ? handleTriggerFocus : undefined,
+    role: "listbox",
+    onKeyDown: disabled ? undefined : handleKeydown,
+    style: { width: fullWidth ? undefined : width },
+  };
+
+  const dropdownComponentProps = {
+    id: componentId,
+    width: popup.width,
   };
 
   return {
-    rootProps: {
-      ...rest,
-      "aria-expanded": undefined,
-      "aria-haspopup": undefined,
-      "aria-labelledby": undefined,
-      "data-testid": "dropdown",
-      disabled,
-      isOpen,
-      fullWidth: isFullWidth,
-      role: undefined,
-      ref: rootRef,
-    },
-    buttonProps: dropdownButtonProps,
-    listContext: { state, helpers },
-    listProps: {
-      "aria-multiselectable": ariaMultiselectable,
-      "aria-labelledby": ariaLabelledBy,
-      id: listId,
-      borderless,
-      onBlur: onListBlur,
-      onClick: handleListClick,
-      onFocus: onListFocus,
-      onKeyDown: onListKeyDown,
-      getItemAtIndex,
-      getItemIndex,
-      itemCount,
-      ...restListProps,
-    },
+    componentProps: dropdownComponentProps,
+    popperRef: popperCallbackRef,
+    isOpen,
+    label: "Dropdown Button",
+    triggerProps,
   };
-}
+};

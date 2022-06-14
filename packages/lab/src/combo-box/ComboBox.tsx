@@ -1,135 +1,183 @@
-import { ComponentType, forwardRef, Ref, useRef } from "react";
+import { forwardRef, ForwardedRef, ReactElement, useCallback } from "react";
 
-import classnames from "classnames";
-import warning from "warning";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { List, ListProps } from "../list";
+import { useIdMemo as useId } from "../utils";
+import { Dropdown, DropdownProps } from "../dropdown";
+import { Input, InputProps } from "../input";
 
+import { useCombobox } from "./useCombobox";
 import {
-  DefaultComboBox,
-  DefaultComboBoxProps,
-} from "./internal/DefaultComboBox";
-import {
-  MultiSelectComboBox,
-  MultiSelectComboBoxProps,
-} from "./internal/MultiSelectComboBox";
-import { useFormFieldProps } from "../form-field-context";
-import { useForkRef, useId } from "../utils";
-import { useWidth } from "../list/internal/useWidth";
-import "./ComboBox.css";
+  CollectionItem,
+  CollectionProvider,
+  useCollectionItems,
+  SelectionStrategy,
+  SelectionProps,
+  SingleSelectionStrategy,
+} from "../common-hooks";
 
-const withBaseName = makePrefixer("uitkComboBox");
-
-function getMultiSelect<Item>({
-  multiSelect,
-  initialSelectedItem,
-  selectedItem,
-}: {
-  multiSelect?: boolean;
-  initialSelectedItem?: Item | Item[];
-  selectedItem?: Item | Item[];
-}) {
-  return (
-    multiSelect ||
-    Array.isArray(initialSelectedItem) ||
-    Array.isArray(selectedItem)
-  );
+export interface ComboboxProps<
+  Item = string,
+  Selection extends SelectionStrategy = "default"
+> extends Omit<
+      DropdownProps,
+      "triggerComponent" | "onBlur" | "onChange" | "onFocus"
+    >,
+    Pick<InputProps, "onBlur" | "onChange" | "onFocus" | "onSelect">,
+    Pick<
+      ListProps<Item, Selection>,
+      "ListItem" | "itemToString" | "source" | "width"
+    >,
+    Pick<
+      SelectionProps<Item, Selection>,
+      "onSelectionChange" | "selectionStrategy"
+    > {
+  InputProps?: InputProps;
+  ListProps?: Omit<
+    ListProps<Item, Selection>,
+    "ListItem" | "itemToString" | "source"
+  >;
+  allowFreeText?: boolean;
+  defaultValue?: string;
+  getFilterRegex?: (inputValue: string) => RegExp;
+  stringToItem?: (value?: string) => Item | null | undefined;
+  value?: string;
 }
 
-const validateProps = ({
-  isMultiSelect,
-  delimiter,
-}: {
-  isMultiSelect: boolean;
-  delimiter?: string | string[];
-}) => {
-  if (process.env.NODE_ENV !== "production") {
-    warning(
-      isMultiSelect || (!isMultiSelect && !delimiter),
-      "Delimiter can only be used for a multi-select combo-box."
-    );
-  }
-};
+export const Combobox = forwardRef(function Combobox<
+  Item = "string",
+  Selection extends SelectionStrategy = "default"
+>(
+  {
+    InputProps,
+    ListProps,
+    ListItem,
+    "aria-label": ariaLabel,
+    allowFreeText,
+    children,
+    defaultIsOpen,
+    defaultValue,
+    disabled,
+    onBlur,
+    onFocus,
+    onChange,
+    onSelect,
+    getFilterRegex,
+    id: idProp,
+    isOpen: isOpenProp,
+    itemToString,
+    onOpenChange: onOpenChangeProp,
+    onSelectionChange,
+    selectionStrategy,
+    source,
+    stringToItem,
+    value: valueProp,
+    width = 180,
+    // TODO why is onKeyDown in here
+    ...props
+  }: ComboboxProps<Item, Selection>,
+  forwardedRef: ForwardedRef<HTMLDivElement>
+) {
+  const id = useId(idProp);
 
-export type ComboBoxProps = Omit<
-  DefaultComboBoxProps<any> | MultiSelectComboBoxProps<any>,
-  "rootRef"
-> & {
-  rootRef?: Ref<HTMLElement>;
-  delimiter?: string | string[];
-};
+  const collectionHook = useCollectionItems<Item>({
+    id,
+    source,
+    children,
+    options: {
+      filterPattern: valueProp ?? defaultValue,
+      getFilterRegex,
+      itemToString,
+    },
+  });
 
-export const ComboBox = forwardRef<HTMLDivElement, ComboBoxProps>(
-  function ComboBox(props, ref) {
-    const {
-      inFormField,
-      a11yProps: {
-        "aria-labelledby": ariaLabelledBy,
-        "aria-required": ariaRequired,
-        disabled: formFieldDisabled,
-      } = {},
-    } = useFormFieldProps();
+  const {
+    focusVisible,
+    highlightedIndex,
+    inputProps,
+    isOpen,
+    listHandlers,
+    listControlProps: controlProps,
+    onOpenChange,
+    selected,
+  } = useCombobox<Item, Selection>({
+    InputProps,
+    allowFreeText,
+    ariaLabel,
+    collectionHook,
+    defaultIsOpen,
+    defaultValue,
+    disabled,
+    onBlur,
+    onFocus,
+    onChange,
+    onSelect,
+    id,
+    isOpen: isOpenProp,
+    itemToString,
+    label: "DropdownList",
+    onOpenChange: onOpenChangeProp,
+    onSelectionChange,
+    selectionStrategy,
+    stringToItem,
+    value: valueProp,
+  });
 
-    const { current: isMultiSelect } = useRef(getMultiSelect(props));
-    validateProps({ isMultiSelect, ...props });
+  const collectionItemsToItem = useCallback(
+    (
+      sel?: CollectionItem<Item> | null | CollectionItem<Item>[]
+    ):
+      | undefined
+      | (Selection extends SingleSelectionStrategy ? Item | null : Item[]) => {
+      type returnType = Selection extends SingleSelectionStrategy
+        ? Item | null
+        : Item[];
+      if (Array.isArray(sel)) {
+        return sel.map((i) => i.value) as returnType;
+      } else if (sel) {
+        return sel.value as returnType;
+      } else {
+        return sel as returnType;
+      }
+    },
+    []
+  );
 
-    const {
-      inputRef,
-      listRef,
-      className,
-      disabled = formFieldDisabled,
-      source = [],
-      multiSelect,
-      initialSelectedItem,
-      selectedItem,
-      width,
-      listWidth,
-      id: idProp,
-      "aria-label": ariaLabel,
-      ...restProps
-    } = props;
-
-    const id = useId(idProp);
-    const [rootRef, rootWidth] = useWidth<HTMLDivElement>(
-      width == null && listWidth == null
-    );
-
-    const ComboBoxComponent = (
-      isMultiSelect ? MultiSelectComboBox : DefaultComboBox
-    ) as ComponentType<ComboBoxProps>;
-
-    return (
-      <div
-        className={classnames(
-          withBaseName(),
-          {
-            [withBaseName("disabled")]: disabled,
-            [withBaseName(`field`)]: inFormField,
-          },
-          className
-        )}
+  return (
+    <CollectionProvider<Item> collectionHook={collectionHook}>
+      <Dropdown
+        {...props}
+        fullWidth
         id={id}
-        ref={useForkRef(ref, rootRef)}
-        style={{ width }}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        openOnFocus
+        ref={forwardedRef}
+        width={width}
       >
-        <ComboBoxComponent
-          {...{
-            ...restProps,
-            id,
-            source,
-            disabled,
-            rootRef,
-            rootWidth,
-            inputRef,
-            listRef,
-            listWidth,
-            initialSelectedItem,
-            selectedItem,
-            "aria-label": classnames(ariaLabel),
-            "aria-labelledby": ariaLabelledBy,
-            "aria-required": ariaRequired,
-          }}
+        <Input
+          {...inputProps}
+          disabled={disabled}
+          // ref={useForkRef(setInputRef, setHookInputRef)}
+          {...controlProps}
         />
-      </div>
-    );
+
+        <List<Item, Selection>
+          {...ListProps}
+          ListItem={ListItem}
+          focusVisible={focusVisible}
+          highlightedIndex={highlightedIndex}
+          itemTextHighlightPattern={inputProps.value || undefined}
+          id={`${id}-list`}
+          listHandlers={listHandlers}
+          onSelectionChange={onSelectionChange}
+          selected={collectionItemsToItem(selected)}
+          selectionStrategy={selectionStrategy}
+        />
+      </Dropdown>
+    </CollectionProvider>
+  );
+}) as <Item, Selection extends SelectionStrategy = "default">(
+  props: ComboboxProps<Item, Selection> & {
+    ref?: ForwardedRef<HTMLDivElement>;
   }
-);
+) => ReactElement<ComboboxProps<Item, Selection>>;
