@@ -534,7 +534,7 @@ const ItemWithContactDetailsTooltip: ListItemType<NameEmail> = ({
   item,
   ...props
 }) => {
-  const itemLabel = contactToString(item);
+  const itemLabel = item ? contactToString(item) : "";
   const { getTriggerProps, getTooltipProps } = useTooltip({ enterDelay: 500 });
 
   return (

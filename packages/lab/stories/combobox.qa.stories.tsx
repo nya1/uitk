@@ -1,15 +1,10 @@
 import { ComponentMeta, Story } from "@storybook/react";
 
-import { ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { Panel, ToolkitProvider } from "@jpmorganchase/uitk-core";
 import {
   Combobox as ComboBox,
   ComboboxProps,
-  escapeRegExp,
   FormField,
-  ListItem,
-  ListItemProps,
-  ListItemType,
-  Panel,
 } from "@jpmorganchase/uitk-lab";
 
 import { usa_states } from "./list.data";
@@ -21,7 +16,6 @@ export default {
 
 const DensityValues = ["high", "medium", "low", "touch"] as const;
 const DisplayRows = [5, 4, 3, 2] as const;
-// const DensityValues = ['high', 'medium'] as const;
 
 export const AllExamples: Story<ComboboxProps> = () => (
   <div>
@@ -61,12 +55,12 @@ export const AllExamples: Story<ComboboxProps> = () => (
               >
                 <ComboBox
                   ListProps={{
+                    defaultSelected: usa_states[1],
                     displayedItemCount: DisplayRows[i],
                   }}
                   aria-label="Listbox example"
                   defaultIsOpen
-                  initialSelectedItem={usa_states[1]}
-                  inputValue="al"
+                  defaultValue="al"
                   source={usa_states}
                 />
               </FormField>
@@ -82,10 +76,10 @@ export const AllExamples: Story<ComboboxProps> = () => (
             <ToolkitProvider key={`density-light-${d}`} density={d}>
               <ComboBox
                 ListProps={{
+                  defaultSelected: usa_states[2],
                   displayedItemCount: DisplayRows[i],
                 }}
                 aria-label="Listbox example"
-                initialSelectedItem={usa_states[2]}
                 source={usa_states}
               />
             </ToolkitProvider>
@@ -100,10 +94,10 @@ export const AllExamples: Story<ComboboxProps> = () => (
             <ToolkitProvider key={`density-dark-${d}`} density={d}>
               <ComboBox
                 ListProps={{
+                  defaultSelected: usa_states[2],
                   displayedItemCount: DisplayRows[i],
                 }}
                 aria-label="Listbox example"
-                initialSelectedItem={usa_states[2]}
                 source={usa_states}
               />
             </ToolkitProvider>

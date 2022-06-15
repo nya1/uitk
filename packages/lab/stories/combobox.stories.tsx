@@ -201,9 +201,9 @@ export const ItemRenderer: Story<ComboboxProps<LargeCity>> = (args) => {
 };
 
 ItemRenderer.args = {
+  ListItem: CityListItem,
   ListProps: {
     displayedItemCount: 5,
-    ListItem: CityListItem,
   },
   // TODO how do we specify the Item type is LargeCity ?
   itemToString: cityItemToString as (item: unknown) => string,

@@ -24,11 +24,10 @@ import {
   Input,
   List,
   ListProps,
-  ListItemGroup as ListItemGroup,
+  ListItemGroup,
   ListItem,
   ListItemType,
   ListItemProps,
-  ListItemHeader as ListItemHeader,
   ListScrollHandles,
   VirtualizedList,
 } from "@jpmorganchase/uitk-lab";
@@ -36,7 +35,6 @@ import { SelectionChangeHandler, SelectHandler } from "../src/common-hooks";
 
 import {
   usa_states,
-  groupByInitialLetter,
   // random_1000,
 } from "./list.data";
 
@@ -538,7 +536,7 @@ export const WithItemRenderer: Story<ListProps<State>> = (props) => {
    * We intentionally created this example with some "heavy" components.
    * We memoize it with its props to avoid unnecessary re-render.
    */
-  const MemoizedItem = memo<{ label?: string } & ListItemProps>(
+  const MemoizedItem = memo<{ label?: string } & ListItemProps<State>>(
     function MemoizedItem({ label, ...restProps }) {
       return (
         <ListItem {...restProps}>
@@ -699,7 +697,7 @@ export const DisableTypeToSelect: Story<ListProps> = () => {
   );
 };
 
-export const ExtendedSelectionList = () => {
+export const ExtendedSelectionList: Story<ListProps> = () => {
   const handleSelectionChange: SelectionChangeHandler = (evt, selected) => {
     console.log({ selected });
   };

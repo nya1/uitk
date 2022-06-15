@@ -1,13 +1,12 @@
 import { Story } from "@storybook/react";
 import { QAContainer } from "docs/components";
 
-import { ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { Panel, ToolkitProvider } from "@jpmorganchase/uitk-core";
 
 import {
   DropdownList,
   DropdownListProps,
   FormField,
-  Panel,
 } from "@jpmorganchase/uitk-lab";
 import { usa_states } from "./list.data";
 

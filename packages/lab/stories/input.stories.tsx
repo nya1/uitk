@@ -12,7 +12,7 @@ import {
   Input,
   FormField,
   StaticInputAdornment,
-  Dropdown,
+  DropdownList,
 } from "@jpmorganchase/uitk-lab";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import "./input.qa.stories.css";
@@ -222,7 +222,7 @@ export const Adornments: ComponentStory<typeof Input> = (args) => {
         style={styles.input}
         {...args}
         startAdornment={
-          <Dropdown initialSelectedItem={data[0]} source={data} width={90} />
+          <DropdownList defaultSelected={data[0]} source={data} width={90} />
         }
       />
       <div style={{ height: "15px" }} />
@@ -245,8 +245,8 @@ export const Adornments: ComponentStory<typeof Input> = (args) => {
         style={styles.input}
         {...args}
         endAdornment={
-          <Dropdown
-            initialSelectedItem={suffixData[0]}
+          <DropdownList
+            defaultSelected={suffixData[0]}
             source={suffixData}
             width={60}
           />

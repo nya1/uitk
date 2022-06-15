@@ -3,7 +3,7 @@ import {
   Input,
   FormField,
   FormFieldProps,
-  Dropdown,
+  DropdownList,
 } from "@jpmorganchase/uitk-lab";
 import { useState } from "react";
 import { usStateExampleData } from "./exampleData";
@@ -190,8 +190,8 @@ export const LabelAlignments: ComponentStory<typeof FormField> = () => (
       <Input defaultValue="Value" />
     </FormField>
     <FormField label="Dropdown in form field" helperText="Helper text value">
-      <Dropdown
-        initialSelectedItem={usStateExampleData[0]}
+      <DropdownList
+        defaultSelected={usStateExampleData[0]}
         source={usStateExampleData}
       />
     </FormField>
