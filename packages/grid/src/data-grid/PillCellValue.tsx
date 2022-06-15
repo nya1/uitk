@@ -1,6 +1,6 @@
 import { CellValueProps } from "../grid";
 import { DataGridColumn, isLeafNode, RowNode } from "./DataGridModel";
-import { PillBase } from "../../../lab/src/pill/internal/PillBase";
+import { Pill } from "@jpmorganchase/uitk-lab";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import "./PillCellValue.css";
 
@@ -29,7 +29,7 @@ export const PillCellValue = function BreadcrumbsCellValue<
     return (
       <>
         {value.map((x) => (
-          <PillBase key={x} label={x} className={withBaseName("pill")} />
+          <Pill key={x} label={x} className={withBaseName("pill")} />
         ))}
       </>
     );

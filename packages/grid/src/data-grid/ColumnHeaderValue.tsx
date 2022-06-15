@@ -17,8 +17,8 @@ export const ColumnHeaderValue = function ColumHeaderValue<TRowData>(
   if (!dataGridColumn) {
     throw new Error(`DataGrid column not found.`);
   }
-  const menuModel = dataGridColumn.menu;
-  const isFilterApplied = menuModel.filter.useIsFilterApplied();
+  // const menuModel = dataGridColumn.menu;
+  // const isFilterApplied = menuModel.filter.useIsFilterApplied();
   // const title = dataGridColumn?.definition.title || "";
   return (
     <span className={withBasename()}>

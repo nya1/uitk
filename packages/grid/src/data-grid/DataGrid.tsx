@@ -9,6 +9,7 @@ import {
   GroupRowNode,
   RowKeyGetterFn,
   RowNode,
+  SortFn,
 } from "./DataGridModel";
 
 // Sorting
@@ -17,6 +18,7 @@ interface SortColumn {
   direction: "ascending" | "descending";
 }
 
+// TODO delete (replaced by external sort)
 export interface DataGridSortSettings {
   sortColumns: SortColumn[];
 }
@@ -76,9 +78,11 @@ export interface DataGridProps<TRowData = any> {
   events?: DataGridModelEvents<TRowData>;
 
   // Sorting
+  // TODO remove this
   sortSettings?: DataGridSortSettings;
   defaultSortSettings?: DataGridSortSettings;
   onSortSettingsChanged?: (sortSettings: DataGridSortSettings) => void;
+  sortFn?: SortFn<TRowData>;
 
   // Row Grouping
   rowGrouping?: DataGridRowGroupSettings<TRowData>;
@@ -105,6 +109,7 @@ export const DataGrid = function <TRowData = any>(
     columnDefinitions,
     events,
     filterFn,
+    sortFn,
   } = props;
 
   const [dataGridModel] = useState<DataGridModel<TRowData>>(
@@ -130,6 +135,7 @@ export const DataGrid = function <TRowData = any>(
   dataGridModel.setShowTreeLines(showTreeLines || false);
   dataGridModel.setLeafNodeGroupNameField(leafNodeGroupNameField);
   dataGridModel.setFilterFn(filterFn);
+  dataGridModel.setSortFn(sortFn);
 
   return (
     <DataGridContext.Provider value={contextValue}>

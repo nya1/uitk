@@ -140,6 +140,7 @@ export class FilterModel<T> {
   public deleteRow(rowIndex: number) {
     let rows = this.rows$.getValue();
     if (rows.length === 1) {
+      rows[0].setQuery("");
       return;
     }
     rows = [...rows.slice(0, rowIndex), ...rows.slice(rowIndex + 1)];

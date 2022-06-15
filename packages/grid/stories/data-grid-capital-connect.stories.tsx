@@ -92,6 +92,7 @@ const columnDefinitions: ColDefNext<Investor>[] = [
     type: "text",
     field: "name",
     title: "Name",
+    pinned: "left",
   },
   {
     key: "addedInvestors",
@@ -147,11 +148,9 @@ const DataGridStoryTemplate: Story<DataGridStoryProps> = (props) => {
   const [toolbarModel] = useState<GridToolbarModel<Investor>>(
     () => new GridToolbarModel(filterColumns)
   );
+
   const filterFn = toolbarModel.filter.useFilterFn();
-  // console.log(`useFilterFn returns ${filterFn}`);
-  if (filterFn != undefined && typeof filterFn != "function") {
-    debugger;
-  }
+  const sortFn = toolbarModel.sort.useSortFn();
 
   return (
     <div className={"gridStory"}>
@@ -162,6 +161,7 @@ const DataGridStoryTemplate: Story<DataGridStoryProps> = (props) => {
         data={dummyInvestors}
         columnDefinitions={columnDefinitions}
         filterFn={filterFn}
+        sortFn={sortFn}
       />
     </div>
   );

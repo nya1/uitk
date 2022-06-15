@@ -1,7 +1,7 @@
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import { FilterIcon, SwapIcon, SearchIcon } from "@jpmorganchase/uitk-icons";
 import { Button } from "@jpmorganchase/uitk-core";
-import { Filter, FilterModel } from "@jpmorganchase/uitk-grid";
+import { Filter, FilterModel, Sort } from "@jpmorganchase/uitk-grid";
 import {
   Portal,
   Toolbar,
@@ -22,9 +22,16 @@ export interface GridToolbarProps<T> {
 export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
   const { model } = props;
   const [isFilterOpen, setFilterOpen] = useState<boolean>(false);
+  const [isSortOpen, setSortOpen] = useState<boolean>(false);
 
   const onFilterClick = () => {
-    setFilterOpen((isOpen) => !isOpen);
+    setFilterOpen((x) => !x);
+    setSortOpen(false);
+  };
+
+  const onSortClick = () => {
+    setSortOpen((x) => !x);
+    setFilterOpen(false);
   };
 
   const id = useId();
@@ -36,7 +43,7 @@ export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
 
   return (
     <Toolbar className={withBaseName()} ref={reference}>
-      <Button variant="secondary">
+      <Button variant="secondary" onClick={onSortClick}>
         <SwapIcon className={withBaseName("sortIcon")} /> Sort
       </Button>
       <Button variant="secondary" onClick={onFilterClick}>
@@ -45,7 +52,7 @@ export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
       <Button variant="secondary">
         <SearchIcon /> Search
       </Button>
-      {isFilterOpen ? (
+      {isFilterOpen || isSortOpen ? (
         <Portal>
           <Window
             id={id}
@@ -57,7 +64,8 @@ export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
             }}
             ref={floating}
           >
-            <Filter model={model.filter} />
+            {isFilterOpen ? <Filter model={model.filter} /> : null}
+            {isSortOpen ? <Sort model={model.sort} /> : null}
           </Window>
         </Portal>
       ) : null}

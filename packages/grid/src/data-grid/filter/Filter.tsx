@@ -4,18 +4,15 @@ import {
   FilterRowKind,
   FilterRowModel,
 } from "./FilterModel";
-import { makePrefixer, Button } from "@jpmorganchase/uitk-core";
+import { Button, makePrefixer } from "@jpmorganchase/uitk-core";
 import {
   ControlLabel,
   Dropdown,
-  DropdownButton,
-  FormField,
-  FormLabel,
   Input,
+  ListChangeHandler,
 } from "@jpmorganchase/uitk-lab";
-import { DeleteIcon, AddIcon } from "@jpmorganchase/uitk-icons";
+import { AddIcon, DeleteIcon } from "@jpmorganchase/uitk-icons";
 import { ChangeEvent, useMemo } from "react";
-import { ListChangeHandler } from "@jpmorganchase/uitk-lab";
 import "./Filter.css";
 
 const withBaseName = makePrefixer("uitkDataGridFilter");
