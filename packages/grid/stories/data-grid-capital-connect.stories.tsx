@@ -151,6 +151,7 @@ const DataGridStoryTemplate: Story<DataGridStoryProps> = (props) => {
 
   const filterFn = toolbarModel.filter.useFilterFn();
   const sortFn = toolbarModel.sort.useSortFn();
+  const sortSettings = toolbarModel.sort.useSortSettings();
 
   return (
     <div className={"gridStory"}>
@@ -162,6 +163,7 @@ const DataGridStoryTemplate: Story<DataGridStoryProps> = (props) => {
         columnDefinitions={columnDefinitions}
         filterFn={filterFn}
         sortFn={sortFn}
+        sortSettings={sortSettings}
       />
     </div>
   );

@@ -4,7 +4,6 @@ import {
   distinctUntilChanged,
   map,
   Subject,
-  switchMap,
 } from "rxjs";
 import {
   ColumnDefinition,
@@ -16,12 +15,12 @@ import {
 import React from "react";
 import { TextCellValue } from "./TextCellValue";
 import { ColumnHeaderValue } from "./ColumnHeaderValue";
-import { ColumnMenuModel } from "./column-menu/ColumnMenuModel";
 import { GroupCellValue } from "./row-grouping/GroupCellValue";
 import {
   DataGridRowGroupLevelSettings,
   DataGridRowGroupSettings,
 } from "./DataGrid";
+import { SortDirection, SortInfo } from "./sort";
 
 export type ValueGetterFn<TRowData, TCellValue> = (
   rowNode: RowNode<TRowData>
@@ -137,12 +136,22 @@ export class DataGridColumn<
     TCellValue
   >;
   // public readonly menu: ColumnMenuModel;
+  public readonly sortDirection$: BehaviorSubject<SortDirection | undefined>;
+  public readonly sortPriority$: BehaviorSubject<number | undefined>;
+  public readonly useSortDirection: () => SortDirection | undefined;
+  public readonly useSortPriority: () => number | undefined;
 
   public constructor(
     definition: ColDefNext<TRowData, TColumnData, THeaderValue, TCellValue>
   ) {
     this.definition = definition;
     // this.menu = new ColumnMenuModel();
+    this.sortDirection$ = new BehaviorSubject<SortDirection | undefined>(
+      undefined
+    );
+    this.sortPriority$ = new BehaviorSubject<number | undefined>(undefined);
+    this.useSortDirection = createHook(this.sortDirection$);
+    this.useSortPriority = createHook(this.sortPriority$);
   }
 }
 
@@ -276,10 +285,10 @@ export class DataGridModel<TRowData = any> {
 
   private readonly filterFn$: BehaviorSubject<FilterFn<TRowData> | undefined>;
   private readonly sortFn$: BehaviorSubject<SortFn<TRowData> | undefined>;
+  private readonly sortSettings$: BehaviorSubject<SortInfo[] | undefined>;
   private readonly leafNodeSortFn$: BehaviorSubject<
     SortFn<LeafRowNode<TRowData>> | undefined
   >;
-  // private readonly rowGroup$: BehaviorSubject<string[] | undefined>;
   private readonly rowGrouping$: BehaviorSubject<
     DataGridRowGroupSettings<TRowData> | undefined
   >;
@@ -307,6 +316,9 @@ export class DataGridModel<TRowData = any> {
     filterFn: FilterFn<TRowData> | undefined
   ) => void;
   public readonly setSortFn: (sortFn: SortFn<TRowData> | undefined) => void;
+  public readonly setSortSettings: (
+    sortSettings: SortInfo[] | undefined
+  ) => void;
 
   public readonly expandCollapseNode: (event: ExpandCollapseEvent) => void;
 
@@ -318,11 +330,9 @@ export class DataGridModel<TRowData = any> {
       options.columnDefinitions || []
     );
     this.setColumnDefs = createHandler(this.columnDefinitions$);
-    // this.rowGroup$ = new BehaviorSubject<string[] | undefined>(undefined);
     this.rowGrouping$ = new BehaviorSubject<
       DataGridRowGroupSettings<TRowData> | undefined
     >(undefined);
-    // this.setRowGroup = createHandler(this.rowGroup$);
     this.setRowGrouping = createHandler(this.rowGrouping$);
     this.useRowGrouping = createHook(this.rowGrouping$);
 
@@ -373,33 +383,22 @@ export class DataGridModel<TRowData = any> {
       }
     );
 
-    this.columns$
-      // .pipe(
-      //   map((columns) => {
-      //     const pinStreams = columns.map((column) =>
-      //       column.menu.settings.pinned$.pipe(map((pin) => ({ pin, column })))
-      //     );
-      //     return combineLatest(pinStreams);
-      //   }),
-      //   switchMap((pins) => pins)
-      // )
-      .subscribe((columns) => {
-        const gridColumnDefinitions = columns.map((column) => {
-          const columnDefinition: ColumnDefinition<RowNode<TRowData>> = {
-            key: column.definition.key,
-            title: column.definition.title || column.definition.field,
-            cellValueComponent:
-              column.definition.cellComponent || TextCellValue,
-            data: column,
-            headerValueComponent:
-              column.definition.headerComponent || ColumnHeaderValue,
-            pinned: column.definition.pinned,
-            width: column.definition.width,
-          };
-          return columnDefinition;
-        });
-        this.gridModel.setColumnDefinitions(gridColumnDefinitions);
+    this.columns$.subscribe((columns) => {
+      const gridColumnDefinitions = columns.map((column) => {
+        const columnDefinition: ColumnDefinition<RowNode<TRowData>> = {
+          key: column.definition.key,
+          title: column.definition.title || column.definition.field,
+          cellValueComponent: column.definition.cellComponent || TextCellValue,
+          data: column,
+          headerValueComponent:
+            column.definition.headerComponent || ColumnHeaderValue,
+          pinned: column.definition.pinned,
+          width: column.definition.width,
+        };
+        return columnDefinition;
       });
+      this.gridModel.setColumnDefinitions(gridColumnDefinitions);
+    });
 
     this.filterFn$ = new BehaviorSubject<FilterFn<TRowData> | undefined>(
       undefined
@@ -408,6 +407,32 @@ export class DataGridModel<TRowData = any> {
 
     this.sortFn$ = new BehaviorSubject<SortFn<TRowData> | undefined>(undefined);
     this.setSortFn = createHandler(this.sortFn$);
+    this.sortSettings$ = new BehaviorSubject<SortInfo[] | undefined>(undefined);
+    this.setSortSettings = createHandler(this.sortSettings$);
+
+    // TODO simplify and cleanup
+    combineLatest([this.columns$, this.sortSettings$]).subscribe(
+      ([columns, sortSettings]) => {
+        for (let column of columns) {
+          if (!sortSettings) {
+            column.sortDirection$.next(undefined);
+            column.sortPriority$.next(undefined);
+          } else {
+            const priority = sortSettings.findIndex(
+              (s) => s.columnName === column.definition.title
+            );
+            if (priority === -1) {
+              column.sortDirection$.next(undefined);
+              column.sortPriority$.next(undefined);
+            } else {
+              const { direction } = sortSettings[priority];
+              column.sortDirection$.next(direction);
+              column.sortPriority$.next(priority);
+            }
+          }
+        }
+      }
+    );
 
     this.leafNodeSortFn$ = new BehaviorSubject<
       SortFn<LeafRowNode<TRowData>> | undefined
@@ -471,20 +496,8 @@ export class DataGridModel<TRowData = any> {
         const key = this.rowKeyGetter(rowData);
         return new LeafRowNode(key, rowData);
       });
-      // const filterFn = this.filterFn$.getValue();
-      // const filteredRows =
-      //   filterFn != undefined
-      //     ? rows.filter((rowNode) => {
-      //         return filterFn(rowNode.data$.getValue());
-      //       })
-      //     : rows;
-      // const sortFn = this.leafNodeSortFn$.getValue();
-      // const sortedRows =
-      //   sortFn != undefined ? filteredRows.sort(sortFn) : filteredRows;
 
       this.leafRows$.next(rows);
-      // this.filteredLeafRows$.next(filteredRows);
-      // this.sortedLeafRows$.next(sortedRows);
     });
 
     combineLatest([this.leafRows$, this.filterFn$])
@@ -514,20 +527,8 @@ export class DataGridModel<TRowData = any> {
         })
       )
       .subscribe((sortedNodes) => {
-        // console.log(`Updating sorted nodes`);
         this.sortedLeafRows$.next(sortedNodes);
       });
-
-    // this.filterFn$.subscribe((filterFn) => {
-    //   const rows = this.leafRows$.getValue();
-    //   const filteredRows =
-    //     filterFn != undefined
-    //       ? rows.filter((rowNode) => {
-    //           return filterFn(rowNode.data$.getValue());
-    //         })
-    //       : rows;
-    //   this.filteredLeafRows$.next(filteredRows);
-    // });
 
     combineLatest([
       this.sortedLeafRows$,
@@ -548,14 +549,12 @@ export class DataGridModel<TRowData = any> {
         distinctUntilChanged()
       )
       .subscribe((topLevelRows) => {
-        // console.log(`Updating topLevelRows`);
         this.topLevelRows$.next(topLevelRows);
       });
 
     this.topLevelRows$.subscribe((topLevelRows) => {
       const newVisibleRows: RowNode<TRowData>[] =
         flattenVisibleRows(topLevelRows);
-      // console.log(`Updating visibleRows`);
       this.visibleRows$.next(newVisibleRows);
     });
 
@@ -563,24 +562,10 @@ export class DataGridModel<TRowData = any> {
       const { rowNode, expand = true } = event;
       rowNode.setExpanded(expand);
       const newVisibleRows = flattenVisibleRows(this.topLevelRows$.getValue());
-      // console.log(
-      //   `expandEvents$ -> visibleRows$: ${newVisibleRows.length} rows`
-      // );
       this.visibleRows$.next(newVisibleRows);
     });
 
     this.visibleRows$.subscribe((visibleRows) => {
-      // console.log(
-      //   `Calling setData on the grid model:\n${visibleRows
-      //     .map((r) => {
-      //       if (isLeafNode(r)) {
-      //         // return JSON.stringify(r.data$.getValue());
-      //         return (r.data$.getValue() as any).location;
-      //       }
-      //       return r.name;
-      //     })
-      //     .join("\n")}`
-      // );
       this.gridModel.setData(visibleRows);
     });
   }
