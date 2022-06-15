@@ -32,9 +32,9 @@
 /* Button Component API - reset to default state so they don't interfere with Pill styling */
 .uitkPill {
   --uitkButton-background-active: var(--pill-background);
-  --uitkButton-textColor-active: var(--pill-text-color);
+  --uitkButton-text-color-active: var(--pill-text-color);
   --uitkButton-background-hover: var(--pill-background);
-  --uitkButton-textColor-hover: var(--pill-text-color);
+  --uitkButton-text-color-hover: var(--pill-text-color);
   --uitkButton-font-weight: var(--uitkPill-button-font-weight, var(--uitk-typography-weight-regular));
   --uitkButton-padding: var(--uitkPill-button-padding, 0);
   --uitkButton-textTransform: var(--uitkPill-button-text-transform, unset);
