@@ -41,7 +41,7 @@
 }
 
 .uitkRadioButton-disabled {
-  opacity: var(--uitkRadioButton-disabled-opacity, var(--uitk-opacity-foreground));
+  color: var(--uitkRadioButton-label-text-color-disabled, var(--uitk-text-primary-foreground-disabled));
   pointer-events: visible;
 }
 
