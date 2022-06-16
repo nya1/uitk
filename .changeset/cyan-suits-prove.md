@@ -2,4 +2,5 @@
 "@jpmorganchase/uitk-core": patch
 ---
 
-Add CSS variables to API for button icon
+- Add spacing CSS API for Icon.
+- Export `ButtonBaseProps`.
