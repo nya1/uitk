@@ -94,7 +94,6 @@ export const FilterRow = function FilterRow<T>(props: FilterRowProps<T>) {
         )}
       </div>
       <div className={withBaseName("row-column")}>
-        {/*<FormField className={withBaseName("row-column")}>*/}
         <Dropdown
           fullWidth={true}
           source={columnNames}
@@ -104,10 +103,8 @@ export const FilterRow = function FilterRow<T>(props: FilterRowProps<T>) {
             className: withBaseName("window"),
           }}
         />
-        {/*</FormField>*/}
       </div>
       <div className={withBaseName("row-operator")}>
-        {/*<FormField className={withBaseName("row-column")}>*/}
         <Dropdown
           fullWidth={true}
           source={operators}
@@ -117,12 +114,9 @@ export const FilterRow = function FilterRow<T>(props: FilterRowProps<T>) {
             className: withBaseName("window"),
           }}
         />
-        {/*</FormField>*/}
       </div>
       <div className={withBaseName("row-query")}>
-        {/*<FormField className={withBaseName("row-query")}>*/}
         <Input value={query} onChange={onQueryChange} />
-        {/*</FormField>*/}
       </div>
       <Button
         className={withBaseName("row-delete")}

@@ -11,7 +11,7 @@ import { SortFn } from "../DataGridModel";
 // Columns to show in the dropdowns.
 export interface SortColumn<T> {
   name: string;
-  field: keyof T; // TODO does it belong here?
+  field: keyof T; // TODO
 }
 
 export type SortDirection = "ascending" | "descending";

@@ -2,12 +2,8 @@ import { HeaderValueProps } from "../grid";
 import { DataGridColumn } from "./DataGridModel";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import "./ColumnHeaderValue.css";
-import { ColumnMenu } from "./column-menu/ColumnMenu";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  FilterIcon,
-} from "@jpmorganchase/uitk-icons";
+import { ArrowDownIcon, ArrowUpIcon } from "@jpmorganchase/uitk-icons";
+import { Badge } from "@jpmorganchase/uitk-lab";
 
 const withBasename = makePrefixer("uitkColumnHeaderValueNext");
 
@@ -29,9 +25,11 @@ export const ColumnHeaderValue = function ColumHeaderValue<TRowData>(
   return (
     <span className={withBasename()}>
       {title}
-      {sortDirection === "ascending" ? <ArrowUpIcon /> : null}
-      {sortDirection === "descending" ? <ArrowDownIcon /> : null}
-      {sortPriority != undefined ? <span>{sortPriority}</span> : null}
+      {sortPriority != undefined ? (
+        <Badge badgeContent={sortPriority + 1}>
+          {sortDirection === "ascending" ? <ArrowUpIcon /> : <ArrowDownIcon />}
+        </Badge>
+      ) : null}
       {/*{isFilterApplied ? <FilterIcon /> : null}*/}
       {/*<ColumnMenu model={menuModel} />*/}
     </span>

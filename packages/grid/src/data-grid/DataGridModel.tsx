@@ -138,20 +138,27 @@ export class DataGridColumn<
   // public readonly menu: ColumnMenuModel;
   public readonly sortDirection$: BehaviorSubject<SortDirection | undefined>;
   public readonly sortPriority$: BehaviorSubject<number | undefined>;
+
   public readonly useSortDirection: () => SortDirection | undefined;
   public readonly useSortPriority: () => number | undefined;
+
+  public readonly setSortDirection: (
+    sortDirection: SortDirection | undefined
+  ) => void;
+  public readonly setSortPriority: (sortPriority: number | undefined) => void;
 
   public constructor(
     definition: ColDefNext<TRowData, TColumnData, THeaderValue, TCellValue>
   ) {
     this.definition = definition;
-    // this.menu = new ColumnMenuModel();
     this.sortDirection$ = new BehaviorSubject<SortDirection | undefined>(
       undefined
     );
     this.sortPriority$ = new BehaviorSubject<number | undefined>(undefined);
     this.useSortDirection = createHook(this.sortDirection$);
     this.useSortPriority = createHook(this.sortPriority$);
+    this.setSortDirection = createHandler(this.sortDirection$);
+    this.setSortPriority = createHandler(this.sortPriority$);
   }
 }
 
@@ -410,26 +417,25 @@ export class DataGridModel<TRowData = any> {
     this.sortSettings$ = new BehaviorSubject<SortInfo[] | undefined>(undefined);
     this.setSortSettings = createHandler(this.sortSettings$);
 
-    // TODO simplify and cleanup
     combineLatest([this.columns$, this.sortSettings$]).subscribe(
       ([columns, sortSettings]) => {
         for (let column of columns) {
           if (!sortSettings) {
-            column.sortDirection$.next(undefined);
-            column.sortPriority$.next(undefined);
-          } else {
-            const priority = sortSettings.findIndex(
-              (s) => s.columnName === column.definition.title
-            );
-            if (priority === -1) {
-              column.sortDirection$.next(undefined);
-              column.sortPriority$.next(undefined);
-            } else {
-              const { direction } = sortSettings[priority];
-              column.sortDirection$.next(direction);
-              column.sortPriority$.next(priority);
-            }
+            column.setSortDirection(undefined);
+            column.setSortPriority(undefined);
+            continue;
           }
+          const priority = sortSettings.findIndex(
+            (s) => s.columnName === column.definition.title
+          );
+          if (priority === -1) {
+            column.setSortDirection(undefined);
+            column.setSortPriority(undefined);
+            continue;
+          }
+          const { direction } = sortSettings[priority];
+          column.sortDirection$.next(direction);
+          column.sortPriority$.next(priority);
         }
       }
     );
@@ -437,56 +443,17 @@ export class DataGridModel<TRowData = any> {
     this.leafNodeSortFn$ = new BehaviorSubject<
       SortFn<LeafRowNode<TRowData>> | undefined
     >(undefined);
+
     this.sortFn$
       .pipe(
-        map((fn) => {
-          if (!fn) {
-            return undefined;
-          }
-          return function (a: LeafRowNode<TRowData>, b: LeafRowNode<TRowData>) {
-            return fn(a.data$.getValue(), b.data$.getValue());
-          };
-        })
+        map((fn) =>
+          !fn
+            ? undefined
+            : (a: LeafRowNode<TRowData>, b: LeafRowNode<TRowData>) =>
+                fn(a.data$.getValue(), b.data$.getValue())
+        )
       )
       .subscribe((fn) => this.leafNodeSortFn$.next(fn));
-
-    // TODO replaced by external filter
-    // this.columns$
-    //   .pipe(
-    //     map((columns) => {
-    //       const filterStreams = columns.map((column) =>
-    //         column.menu.filter.filterFn$.pipe(
-    //           map((fn) => {
-    //             if (fn === undefined) {
-    //               return undefined;
-    //             }
-    //             return (rowData: TRowData) => {
-    //               const cellValue = String(
-    //                 rowData[column.definition.field as keyof TRowData]
-    //               );
-    //               return fn(cellValue);
-    //             };
-    //           })
-    //         )
-    //       );
-    //       return combineLatest(filterStreams);
-    //     }),
-    //     switchMap((filters) => filters),
-    //     map((filters) => {
-    //       const columnFilters: FilterFn<TRowData>[] = filters.filter(
-    //         (x) => x != undefined
-    //       ) as FilterFn<TRowData>[];
-    //
-    //       if (columnFilters.length < 1) {
-    //         return undefined;
-    //       }
-    //
-    //       return (rowData: TRowData) => {
-    //         return columnFilters.every((f) => f!(rowData));
-    //       };
-    //     })
-    //   )
-    //   .subscribe(this.filterFn$);
 
     this.topLevelRows$ = new BehaviorSubject<RowNode<TRowData>[]>([]);
     this.visibleRows$ = new BehaviorSubject<RowNode<TRowData>[]>([]);
@@ -502,15 +469,11 @@ export class DataGridModel<TRowData = any> {
 
     combineLatest([this.leafRows$, this.filterFn$])
       .pipe(
-        map(([leafNodes, filterFn]) => {
-          const filteredRows =
-            filterFn != undefined
-              ? leafNodes.filter((rowNode) => {
-                  return filterFn(rowNode.data$.getValue());
-                })
-              : leafNodes;
-          return filteredRows;
-        })
+        map(([leafNodes, filterFn]) =>
+          filterFn != undefined
+            ? leafNodes.filter((rowNode) => filterFn(rowNode.data$.getValue()))
+            : leafNodes
+        )
       )
       .subscribe((filteredNodes) => {
         this.filteredLeafRows$.next(filteredNodes);
@@ -536,16 +499,11 @@ export class DataGridModel<TRowData = any> {
       this.leafNodeGroupNameField$,
     ])
       .pipe(
-        map(([sortedLeafNodes, rowGrouping, leafNodeGroupNameField]) => {
-          if (rowGrouping == undefined || rowGrouping.groupLevels.length < 1) {
-            return sortedLeafNodes;
-          }
-          return groupRows(
-            sortedLeafNodes,
-            rowGrouping,
-            leafNodeGroupNameField
-          );
-        }),
+        map(([sortedLeafNodes, rowGrouping, leafNodeGroupNameField]) =>
+          rowGrouping == undefined || rowGrouping.groupLevels.length < 1
+            ? sortedLeafNodes
+            : groupRows(sortedLeafNodes, rowGrouping, leafNodeGroupNameField)
+        ),
         distinctUntilChanged()
       )
       .subscribe((topLevelRows) => {
@@ -553,9 +511,7 @@ export class DataGridModel<TRowData = any> {
       });
 
     this.topLevelRows$.subscribe((topLevelRows) => {
-      const newVisibleRows: RowNode<TRowData>[] =
-        flattenVisibleRows(topLevelRows);
-      this.visibleRows$.next(newVisibleRows);
+      this.visibleRows$.next(flattenVisibleRows(topLevelRows));
     });
 
     this.expandEvents$.subscribe((event) => {

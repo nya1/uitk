@@ -4,7 +4,8 @@ import { FilterFn } from "../DataGridModel";
 
 export type FilterRowKind = "where" | "and" | "or";
 export type TextFilterRowOperator = "contains" | "starts with" | "ends with";
-export type NumericFilterRowOperator = "less than" | "equals" | "greater than";
+// export type NumericFilterRowOperator = "less than" | "equals" | "greater than";
+// TODO
 
 export interface FilterColumn<T> {
   name: string;

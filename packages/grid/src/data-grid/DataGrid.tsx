@@ -13,18 +13,6 @@ import {
 } from "./DataGridModel";
 import { SortInfo } from "./sort";
 
-// Sorting
-interface SortColumn {
-  columnKey: string;
-  direction: "ascending" | "descending";
-}
-
-// TODO delete (replaced by external sort)
-export interface DataGridSortSettings {
-  sortColumns: SortColumn[];
-}
-
-// Row Grouping
 export interface DataGridRowGroupCellComponentProps<
   TRowData,
   TGroupCellValue = any
@@ -32,12 +20,8 @@ export interface DataGridRowGroupCellComponentProps<
   rowNode: GroupRowNode<TRowData>;
 }
 
-// TODO How are we going to control grouping from the UI?
 export interface DataGridRowGroupLevelSettings<TRowData> {
-  // columnKey?: string; // Group by value in the given column
-  // groupFn?: (rowData: TRowData) => string; // Group by value produced by the given function
   field: keyof TRowData;
-  // Tree node component. What about other columns?
   groupCellComponent?: ComponentType<
     DataGridRowGroupCellComponentProps<TRowData>
   >;
@@ -78,12 +62,6 @@ export interface DataGridProps<TRowData = any> {
   showTreeLines?: boolean;
   events?: DataGridModelEvents<TRowData>;
 
-  // Sorting
-  // TODO remove this
-  // sortSettings?: DataGridSortSettings;
-  defaultSortSettings?: DataGridSortSettings;
-  onSortSettingsChanged?: (sortSettings: DataGridSortSettings) => void;
-  //
   sortFn?: SortFn<TRowData>;
   sortSettings?: SortInfo[];
 
@@ -105,7 +83,6 @@ export const DataGrid = function <TRowData = any>(
     className,
     rowKeyGetter,
     data,
-    // rowGroup,
     rowGrouping,
     showTreeLines,
     leafNodeGroupNameField,

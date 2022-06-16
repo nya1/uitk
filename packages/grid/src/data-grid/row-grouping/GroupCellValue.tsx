@@ -81,7 +81,6 @@ export const GroupCellValue = function GroupCellValue<TRowData, TColumnData>(
         </div>
       ) : null}
       {renderValue()}
-      {/*<div className={isGroup ? "" : withBaseName("leafName")}>{name}</div>*/}
     </div>
   );
 };

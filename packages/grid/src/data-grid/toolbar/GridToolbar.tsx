@@ -1,7 +1,6 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import { FilterIcon, SwapIcon, SearchIcon } from "@jpmorganchase/uitk-icons";
-import { Button } from "@jpmorganchase/uitk-core";
-import { Filter, FilterModel, Sort } from "@jpmorganchase/uitk-grid";
+import { Button, makePrefixer } from "@jpmorganchase/uitk-core";
+import { FilterIcon, SearchIcon, SwapIcon } from "@jpmorganchase/uitk-icons";
+import { Filter, Sort } from "@jpmorganchase/uitk-grid";
 import {
   Portal,
   Toolbar,
@@ -49,7 +48,7 @@ export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
       <Button variant="secondary" onClick={onFilterClick}>
         <FilterIcon /> Filter
       </Button>
-      <Button variant="secondary">
+      <Button variant="secondary" disabled={true}>
         <SearchIcon /> Search
       </Button>
       {isFilterOpen || isSortOpen ? (
