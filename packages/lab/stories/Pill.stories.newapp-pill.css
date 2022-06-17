@@ -1,7 +1,8 @@
 .uitk-newapp {
   --uitkPill-height: 20px;
   --uitkPill-borderRadius: 10px;
-  --uitkPill-label-padding: 20px;
+  --uitkPill-label-paddingLeft: 20px;
+  --uitkPill-label-paddingRight: 20px;
   --uitkPill-background-hover: var(--uitk-color-teal-300);
   --uitkPill-background-active: var(--uitk-color-teal-50);
 }
