@@ -1,12 +1,13 @@
 import {
   FLEX_ALIGNMENT_BASE,
-  StackLayout,
+  FormField,
   Panel,
+  StackLayout,
 } from "@jpmorganchase/uitk-core";
-import { FormField, Input, Dropdown } from "@jpmorganchase/uitk-lab";
+import { SearchIcon } from "@jpmorganchase/uitk-icons";
+import { Dropdown, Input } from "@jpmorganchase/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FlexContent } from "./flex-item.stories";
-import { SearchIcon } from "@jpmorganchase/uitk-icons";
 
 export default {
   title: "Core/Layout/StackLayout",
