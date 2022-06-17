@@ -14,8 +14,6 @@ export interface TopPartProps<T> {
   onWheel: WheelEventHandler<HTMLDivElement>;
 }
 
-// The header of the scrollable (unpinned) part of the grid
-// Virtualized, scrolls left and right.
 export function TopPart<T>(props: TopPartProps<T>) {
   const { topRef, onWheel } = props;
   const { model } = useGridContext();

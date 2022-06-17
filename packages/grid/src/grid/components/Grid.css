@@ -32,12 +32,15 @@
   --cell-background-color: var(--uitk-color-white);
   --zebra-color: #eaedef;
   --hover-color: #a4d5f4;
+  /*--row-separator-color: #D9DDE3;*/
   --selected-row-color: #64b1e4;
   --selected-row-border-color: #2670A9;
   --selected-cell-color: #64b1e4;
   --header-border-color: var(--uitk-color-grey-90);
   --header-background-color: var(--uitk-color-white);
   --header-color: var(--uitk-color-grey-300);
+  --header-column-separator-color: #84878E;
+  --header-row-separator-color: var(--uitk-color-grey-40);
   --group-header-color: var(--uitk-color-grey-600);
   --shade-color: rgba(0, 0, 0, 0.2);
   --column-drop-target-color: var(--uitk-color-blue-500);
@@ -49,12 +52,15 @@
   --cell-background-color: var(--uitk-color-grey-800);
   --zebra-color: #2F3136;
   --hover-color: #254A67;
+  /*--row-separator-color: #3B3F46;*/
   --selected-row-color: #155C93;
   --selected-row-border-color: #4B9FD8;
   --selected-cell-color: #64b1e4;
   --header-border-color: var(--uitk-color-grey-100);
   --header-background-color: var(--uitk-color-grey-800);
   --header-color: var(--uitk-color-grey-50);
+  --header-column-separator-color: #74777F;
+  --header-row-separator-color: var(--uitk-color-grey-500);
   --group-header-color: var(--uitk-color-grey-10);
   --shade-color: rgba(255, 255, 255, 0.4);
   --column-drop-target-color: var(--uitk-color-blue-100);

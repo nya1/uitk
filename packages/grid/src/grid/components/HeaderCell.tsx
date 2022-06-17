@@ -24,7 +24,6 @@ export function HeaderCellSeparator(props: HeaderCellSeparatorProps) {
   return <div className={className} />;
 }
 
-// Column header cell
 export function HeaderCell<T>(props: HeaderCellProps<T>) {
   const { column, children } = props;
   const separator = column.useSeparator();

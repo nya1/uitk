@@ -13,7 +13,6 @@ export interface TopRightPartProps<T> {
   onWheel: WheelEventHandler<HTMLTableElement>;
 }
 
-// The header of all columns pinned to the right. Doesn't move.
 export function TopRightPart<T>(props: TopRightPartProps<T>) {
   const { onWheel } = props;
   const { model } = useGridContext();

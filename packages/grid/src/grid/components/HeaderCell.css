@@ -62,7 +62,7 @@
 }
 
 .uitkGridHeaderCell-edgeSeparator {
-  background-color: #84878e;
+  background-color: var(--header-column-separator-color);
   width: 1px;
   height: auto;
   position: absolute;
@@ -87,7 +87,6 @@
   right: 32px;
   top: 0;
   bottom: 0;
-  /*width: 16px;*/
   left: 0;
   background-color: transparent;
   cursor: move;
