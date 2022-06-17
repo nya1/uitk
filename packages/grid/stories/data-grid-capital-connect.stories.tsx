@@ -95,7 +95,7 @@ const columnDefinitions: ColDefNext<Investor>[] = [
     type: "text",
     field: "name",
     title: "Name",
-    // pinned: "left",
+    pinned: "left",
   },
   {
     key: "addedInvestors",
@@ -128,6 +128,7 @@ const columnDefinitions: ColDefNext<Investor>[] = [
     type: "text",
     field: "notes",
     title: "Notes",
+    pinned: "right",
   },
 ];
 

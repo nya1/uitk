@@ -3,7 +3,7 @@
   text-align: left;
 
   border-style: solid;
-  border-color: #84878e;
+  border-color: var(--header-border-color);
   border-width: 0 0 1px 0;
 
   font-size: var(--font-size);
@@ -15,8 +15,8 @@
   position: relative;
   box-sizing: border-box;
 
-  background-color: white;
-  color: #4c505b;
+  background-color: var(--header-background-color);
+  color: var(--header-color);
 
   white-space: nowrap;
 }

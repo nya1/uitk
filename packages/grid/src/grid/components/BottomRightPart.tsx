@@ -10,7 +10,6 @@ export interface BottomRightPartProps<T> {
   onWheel: WheelEventHandler<HTMLTableElement>;
 }
 
-// The footer of all columns pinned to the right
 export function BottomRightPart<T>(props: BottomRightPartProps<T>) {
   const { onWheel } = props;
   const { model } = useGridContext();

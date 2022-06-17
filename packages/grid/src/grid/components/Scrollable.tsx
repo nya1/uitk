@@ -1,5 +1,5 @@
 import { useGridContext } from "../GridContext";
-import { RefObject, UIEventHandler, useEffect, useMemo, useRef } from "react";
+import { RefObject, UIEventHandler, useEffect, useMemo } from "react";
 import "./Scrollable.css";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 
@@ -14,10 +14,6 @@ export interface ScrollableProps<T> {
   bottomRef: RefObject<HTMLDivElement>;
 }
 
-// Renders a scrollable div with a large empty "space" div inside that has the
-// size that the entire table would have if it wasn't virtualized.
-// The idea is to show the right scrollbars.
-// When this component is scrolled it scrolls all other parts accordingly
 export function Scrollable<T>(props: ScrollableProps<T>) {
   const { scrollerRef, middleRef, topRef, leftRef, rightRef, bottomRef } =
     props;

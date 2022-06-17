@@ -3,6 +3,6 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background-color: var(--uitk-color-blue-500);
+  background-color: var(--column-drop-target-color);
   z-index: 3;
 }

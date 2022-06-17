@@ -24,14 +24,41 @@
 
 .uitkGrid {
   --scroll-bar-size: 15px;
-
   --cell-padding: 0 var(--padding) 0 var(--padding);
+}
+
+.uitk-light .uitkGrid {
+  --cell-border-color: #d9dde3;
+  --cell-background-color: var(--uitk-color-white);
   --zebra-color: #eaedef;
   --hover-color: #a4d5f4;
   --selected-row-color: #64b1e4;
+  --selected-row-border-color: #2670A9;
   --selected-cell-color: #64b1e4;
+  --header-border-color: var(--uitk-color-grey-90);
+  --header-background-color: var(--uitk-color-white);
+  --header-color: var(--uitk-color-grey-300);
+  --group-header-color: var(--uitk-color-grey-600);
+  --shade-color: rgba(0, 0, 0, 0.2);
+  --column-drop-target-color: var(--uitk-color-blue-500);
+  --cursor-border-color: #00477B;
+}
 
-  /*border: solid 1px red;*/
+.uitk-dark .uitkGrid {
+  --cell-border-color: #3B3F46;
+  --cell-background-color: var(--uitk-color-grey-800);
+  --zebra-color: #2F3136;
+  --hover-color: #254A67;
+  --selected-row-color: #155C93;
+  --selected-row-border-color: #4B9FD8;
+  --selected-cell-color: #64b1e4;
+  --header-border-color: var(--uitk-color-grey-100);
+  --header-background-color: var(--uitk-color-grey-800);
+  --header-color: var(--uitk-color-grey-50);
+  --group-header-color: var(--uitk-color-grey-10);
+  --shade-color: rgba(255, 255, 255, 0.4);
+  --column-drop-target-color: var(--uitk-color-blue-100);
+  --cursor-border-color: #7DC3F2;
 }
 
 .uitkGrid {

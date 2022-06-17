@@ -4,21 +4,20 @@
 .uitkGridBaseCell {
   border-collapse: collapse;
   box-sizing: border-box;
-  height: var(--row-height);
   overflow: hidden;
-
   margin: 0;
-
+  border-width: 1px 0 1px 0;
   border-style: solid;
-  border-color: #d9dde3;
-  border-width: 0 0 1px 0;
+  white-space: nowrap;
+  position: relative;
 
+  height: var(--row-height);
+  border-bottom-color: var(--cell-border-color);
+  border-top-color: transparent;
   font-size: var(--font-size);
   font-weight: normal;
 
-  background-color: white;
-  white-space: nowrap;
-  position: relative;
+  background-color: var(--cell-background-color);
 }
 
 .uitkGridBaseCell-hover {
@@ -27,6 +26,8 @@
 
 .uitkGridBaseCell-selectedRow {
   background-color: var(--selected-row-color);
+  border-top-color: var(--selected-row-border-color);
+  border-bottom-color: var(--selected-row-border-color);
 }
 
 .uitkGridBaseCell-selectedCell {
@@ -53,7 +54,6 @@
   bottom: 0;
   left: 0;
   padding: var(--cell-padding);
-  /*height: var(--row-height);*/
   overflow: hidden;
   line-height: var(--row-height);
 }

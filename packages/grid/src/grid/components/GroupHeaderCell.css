@@ -6,8 +6,8 @@
   text-align: left;
   padding: var(--cell-padding);
   position: relative;
-  background-color: white;
-  color: var(--uitk-grey-200);
+  background-color: var(--header-background-color);
+  color: var(--group-header-color);
   overflow: hidden;
   white-space: nowrap;
   height: var(--row-height);

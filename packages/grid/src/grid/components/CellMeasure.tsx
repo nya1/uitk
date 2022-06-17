@@ -7,8 +7,6 @@ const withBaseName = makePrefixer("uitkGridCellMeasure");
 
 export interface CellMeasureProps<T> {}
 
-// Dummy cell rendered to measure rowHeight
-// Invisible for the user
 export function CellMeasure<T>(props: CellMeasureProps<T>) {
   const cellRef = useRef<HTMLTableCellElement>(null);
   const rowRef = useRef<HTMLTableRowElement>(null);
@@ -18,9 +16,7 @@ export function CellMeasure<T>(props: CellMeasureProps<T>) {
 
   useEffect(() => {
     if (rowRef.current) {
-      // const height = cellRef.current.getBoundingClientRect().height;
       const height = rowRef.current.getBoundingClientRect().height;
-      // console.log(`CellMeasure sets rowHeight to ${height}`);
       model.setRowHeight(height);
     }
   }, [cellRef.current, density]);

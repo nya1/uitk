@@ -25,7 +25,5 @@ export const ColumnDropTarget: FC<ColumnDropTargetProps> =
       return null;
     }
 
-    // console.log(`RENDER ColumnDropTarget x=${x}`);
-
     return <div className={withBaseName()} style={style} />;
   };

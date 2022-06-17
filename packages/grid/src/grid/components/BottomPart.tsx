@@ -12,7 +12,6 @@ export interface BottomPartProps<T> {
   onWheel: WheelEventHandler<HTMLTableElement>;
 }
 
-// The footer of all scrollable (non-pinned) columns
 export function BottomPart<T>(props: BottomPartProps<T>) {
   const { bottomRef, onWheel } = props;
   const { model } = useGridContext();

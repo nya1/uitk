@@ -1,4 +1,4 @@
-import { Column, useObservable } from "../model";
+import { Column } from "../model";
 import { useMemo } from "react";
 
 export interface TableColGroupProps<T> {
@@ -9,7 +9,6 @@ export interface TableColProps<T> {
   column: Column<T>;
 }
 
-// Renders <colgroup> with <col>s to size grid columns
 export function TableColGroup<T>(props: TableColGroupProps<T>) {
   const { columns } = props;
   return (

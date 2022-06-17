@@ -25,9 +25,6 @@ export function getCellId(row: Row, column: Column) {
   return `R${row.key}C${column.key}`;
 }
 
-// The standard wrapper for cell values.
-// Takes care of the basic features such as zebra, hover over and selected row highlighting.
-// export const BaseCell: FC<BaseCellProps> = memo(function BaseCell(props) {
 export const BaseCell: FC<BaseCellProps> = function BaseCell(props) {
   const {
     row,

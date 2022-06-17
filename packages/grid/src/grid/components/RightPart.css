@@ -9,7 +9,7 @@
 }
 
 .uitkGridRightPart-raised {
-  box-shadow: -6px 0 4px -4px rgba(0, 0, 0, 0.0967821);
+  box-shadow: -6px 0 4px -4px var(--shade-color);
 }
 
 .uitkGridRightPart-space {
@@ -17,7 +17,8 @@
 }
 
 .uitkGridRightPart table {
-  border-collapse: collapse;
+  /*border-collapse: collapse;*/
+  border-spacing: 0;
   table-layout: fixed;
   position: absolute;
 }

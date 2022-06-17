@@ -10,7 +10,6 @@ export interface HeaderRowProps<T> {
   columns: Column<T>[];
 }
 
-// Column header row
 export function HeaderRow<T>(props: HeaderRowProps<T>) {
   const { columns } = props;
   return (

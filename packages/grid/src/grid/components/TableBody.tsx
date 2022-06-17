@@ -1,10 +1,5 @@
 import { Column, Row } from "../model";
-import {
-  HTMLAttributes,
-  MouseEventHandler,
-  useCallback,
-  useState,
-} from "react";
+import { HTMLAttributes, MouseEventHandler, useCallback } from "react";
 import { TableRow } from "./TableRow";
 import { useGridContext } from "../GridContext";
 import { getCellPosition, getRowKey } from "../features/getAttribute";
@@ -14,9 +9,6 @@ export interface TableBodyProps<T> {
   rows: Row<T>[];
 }
 
-// A piece of the grid's body. Renders the given rows and columns only.
-// Three instances of this thing are rendered, one for each part having rows
-// (left, middle, right).
 export function TableBody<T>(props: TableBodyProps<T>) {
   const { columns, rows } = props;
   const { model } = useGridContext();
