@@ -2,15 +2,18 @@ import { Story } from "@storybook/react";
 import {
   ColDefNext,
   DataGrid,
+  DataGridRowGroupLevelSettings,
+  DataGridRowGroupSettings,
   Filter,
   FilterColumn,
   FilterModel,
 } from "../src";
 import "./data-grid-capital-connect.stories.css";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GridToolbar, GridToolbarModel } from "../src/data-grid/toolbar";
 import { ListCellValue } from "../src/data-grid/ListCellValue";
 import { PillCellValue } from "../src/data-grid/PillCellValue";
+import { groupBy } from "rxjs";
 
 export default {
   title: "Grid/Data Grid Capital Connect",
@@ -92,7 +95,7 @@ const columnDefinitions: ColDefNext<Investor>[] = [
     type: "text",
     field: "name",
     title: "Name",
-    pinned: "left",
+    // pinned: "left",
   },
   {
     key: "addedInvestors",
@@ -152,6 +155,24 @@ const DataGridStoryTemplate: Story<DataGridStoryProps> = (props) => {
   const filterFn = toolbarModel.filter.useFilterFn();
   const sortFn = toolbarModel.sort.useSortFn();
   const sortSettings = toolbarModel.sort.useSortSettings();
+  const groupByColumns = toolbarModel.rowGrouping.useRowGroupingSettings();
+
+  const rowGrouping: DataGridRowGroupSettings<Investor> | undefined =
+    useMemo(() => {
+      if (groupByColumns == undefined || groupByColumns.length === 0) {
+        return undefined;
+      }
+      return {
+        title: "Group",
+        width: 100,
+        showTreeLines: true,
+        groupLevels: groupByColumns.map((x) => {
+          return {
+            field: x.field,
+          } as DataGridRowGroupLevelSettings<Investor>;
+        }),
+      };
+    }, [groupByColumns]);
 
   return (
     <div className={"gridStory"}>
@@ -164,6 +185,8 @@ const DataGridStoryTemplate: Story<DataGridStoryProps> = (props) => {
         filterFn={filterFn}
         sortFn={sortFn}
         sortSettings={sortSettings}
+        rowGrouping={rowGrouping}
+        leafNodeGroupNameField={"name"}
       />
     </div>
   );

@@ -1,6 +1,11 @@
 import { Button, makePrefixer } from "@jpmorganchase/uitk-core";
-import { FilterIcon, SearchIcon, SwapIcon } from "@jpmorganchase/uitk-icons";
-import { Filter, Sort } from "@jpmorganchase/uitk-grid";
+import {
+  FilterIcon,
+  SearchIcon,
+  SwapIcon,
+  TreeIcon,
+} from "@jpmorganchase/uitk-icons";
+import { Filter, RowGrouping, Sort } from "@jpmorganchase/uitk-grid";
 import {
   Portal,
   Toolbar,
@@ -18,19 +23,25 @@ export interface GridToolbarProps<T> {
   model: GridToolbarModel<T>;
 }
 
+type ToolbarState = "closed" | "filter" | "sort" | "rowGrouping";
+
 export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
   const { model } = props;
-  const [isFilterOpen, setFilterOpen] = useState<boolean>(false);
-  const [isSortOpen, setSortOpen] = useState<boolean>(false);
+  const [toolbarState, setToolbarState] = useState<ToolbarState>("closed");
+
+  // const [isFilterOpen, setFilterOpen] = useState<boolean>(false);
+  // const [isSortOpen, setSortOpen] = useState<boolean>(false);
 
   const onFilterClick = () => {
-    setFilterOpen((x) => !x);
-    setSortOpen(false);
+    setToolbarState((s) => (s === "filter" ? "closed" : "filter"));
   };
 
   const onSortClick = () => {
-    setSortOpen((x) => !x);
-    setFilterOpen(false);
+    setToolbarState((s) => (s === "sort" ? "closed" : "sort"));
+  };
+
+  const onGroupingClick = () => {
+    setToolbarState((s) => (s === "rowGrouping" ? "closed" : "rowGrouping"));
   };
 
   const id = useId();
@@ -48,10 +59,13 @@ export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
       <Button variant="secondary" onClick={onFilterClick}>
         <FilterIcon /> Filter
       </Button>
+      <Button variant="secondary" onClick={onGroupingClick}>
+        <TreeIcon /> Group
+      </Button>
       <Button variant="secondary" disabled={true}>
         <SearchIcon /> Search
       </Button>
-      {isFilterOpen || isSortOpen ? (
+      {toolbarState !== "closed" ? (
         <Portal>
           <Window
             id={id}
@@ -63,8 +77,11 @@ export const GridToolbar = function GridToolbar<T>(props: GridToolbarProps<T>) {
             }}
             ref={floating}
           >
-            {isFilterOpen ? <Filter model={model.filter} /> : null}
-            {isSortOpen ? <Sort model={model.sort} /> : null}
+            {toolbarState === "filter" ? <Filter model={model.filter} /> : null}
+            {toolbarState === "sort" ? <Sort model={model.sort} /> : null}
+            {toolbarState === "rowGrouping" ? (
+              <RowGrouping model={model.rowGrouping} />
+            ) : null}
           </Window>
         </Portal>
       ) : null}

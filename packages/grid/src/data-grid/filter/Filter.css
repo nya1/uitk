@@ -12,11 +12,11 @@
   align-items: center;
   border: solid 1px black;
   background-color: var(--uitk-color-grey-20);
-  padding: 8px;
+  padding: var(--uitk-size-basis-unit);
 }
 
 .uitkDataGridFilter-row-kind {
-  margin-right: 8px;
+  margin-right: var(--uitk-size-basis-unit);
   width: 80px;
   flex-shrink: 0;
 }
@@ -26,26 +26,26 @@
 }
 
 .uitkDataGridFilter-row-column {
-  margin-right: 8px;
+  margin-right: var(--uitk-size-basis-unit);
   width: 150px;
   flex-shrink: 0;
   background-color: var(--uitk-color-white);
 }
 
 .uitkDataGridFilter-row-operator {
-  margin-right: 8px;
+  margin-right: var(--uitk-size-basis-unit);
   width: 110px;
   flex-shrink: 0;
   background-color: var(--uitk-color-white);
 }
 
 .uitkDataGridFilter-row-query {
-  margin-right: 8px;
+  margin-right: var(--uitk-size-basis-unit);
   width: 200px;
   flex-shrink: 0;
   background-color: var(--uitk-color-white);
 }
 
 .uitkDataGridFilter-row-delete {
-  margin-right: 8px;
+  margin-right: var(--uitk-size-basis-unit);
 }

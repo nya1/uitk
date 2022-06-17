@@ -14,13 +14,6 @@ export type CellValueGetter<TRowData, TCellValue> = (
   rowData: TRowData
 ) => TCellValue;
 
-// External representation of a column.
-// There are two ways to customize cells:
-// 1) cellComponent - renders a complete cell (<td> and everything).
-// 2) cellValueComponent - renders the content of the cell. Doesn't include <td>
-//    wrapped by BaseCell that takes care of selection, hover over etc.
-//    Should be sufficient in most cases. Use cellComponent only when
-//    cellComponentValue is not flexible enough.
 export interface ColumnDefinition<
   TRowData = any,
   TCellValue = any,

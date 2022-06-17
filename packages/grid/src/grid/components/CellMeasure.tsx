@@ -1,7 +1,7 @@
 import "./CellMeasure.css";
 import { useEffect, useRef } from "react";
 import { useGridContext } from "../GridContext";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useDensity } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridCellMeasure");
 
@@ -14,6 +14,7 @@ export function CellMeasure<T>(props: CellMeasureProps<T>) {
   const rowRef = useRef<HTMLTableRowElement>(null);
 
   const { model } = useGridContext();
+  const density = useDensity();
 
   useEffect(() => {
     if (rowRef.current) {
@@ -22,7 +23,7 @@ export function CellMeasure<T>(props: CellMeasureProps<T>) {
       // console.log(`CellMeasure sets rowHeight to ${height}`);
       model.setRowHeight(height);
     }
-  }, [cellRef.current]);
+  }, [cellRef.current, density]);
 
   return (
     <div className={withBaseName()}>
