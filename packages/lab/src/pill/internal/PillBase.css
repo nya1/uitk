@@ -77,7 +77,7 @@
   flex-grow: 1;
   font-weight: var(--uitkPill-fontWeight, var(--uitk-typography-weight-regular));
   overflow: hidden;
-  padding: var(--uitkPill-label-padding, 0px 0px 0px calc(var(--uitk-size-unit) * 0.75));
+  padding-left: var(--uitkPill-label-paddingLeft, calc(var(--uitk-size-unit) * 0.75));
   pointer-events: none;
   text-align: center;
   text-overflow: ellipsis;
@@ -92,7 +92,7 @@
 
 /* Style applied to Pill label when `deletable={false}` */
 .uitkPill:not(.uitkPill-deletable) .uitkPill-label {
-  padding: var(--uitkPill-label-padding, 0px calc(var(--uitk-size-unit) * 0.75) 0px 0px);
+  padding-right: var(--uitkPill-label-paddingRight, calc(var(--uitk-size-unit) * 0.75));
 }
 
 /* Style applied to Pill when `disabled={false}` on hover state if not active */
@@ -167,6 +167,7 @@
   left: var(--uitkPill-deleteButton-left, var(--pill-icon-offset));
   position: relative;
 }
+
 /* Style applied to Pill delete button icon if `disabled={false}` on active state  */
 .uitkPill:active:not(.uitkPill-deleteButton-disabled):not(.uitkPill-disabled):active .uitkPill-deleteIcon {
   --uitkIcon-color: var(--uitkPill-deleteButton-color-active, var(--pill-icon-color-active));
